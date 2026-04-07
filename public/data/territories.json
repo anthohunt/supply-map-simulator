@@ -1,5 +1,11 @@
 [
   {
+    "id": "atlanta-metro",
+    "name": "Atlanta Metro",
+    "type": "state",
+    "bbox": [-84.90, 33.40, -83.90, 34.20]
+  },
+  {
     "id": "us-southeast",
     "name": "US Southeast",
     "type": "megaregion",
