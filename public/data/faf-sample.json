@@ -1,0 +1,22 @@
+[
+  { "originFips": "13121", "destFips": "13089", "commodity": "Mixed Freight", "annualTons": 2450000, "mode": "Truck" },
+  { "originFips": "13121", "destFips": "12031", "commodity": "Cereal Grains", "annualTons": 1870000, "mode": "Truck" },
+  { "originFips": "12031", "destFips": "12057", "commodity": "Pharmaceuticals", "annualTons": 980000, "mode": "Truck" },
+  { "originFips": "12057", "destFips": "12086", "commodity": "Electronics", "annualTons": 1520000, "mode": "Rail" },
+  { "originFips": "12086", "destFips": "13121", "commodity": "Mixed Freight", "annualTons": 3100000, "mode": "Truck" },
+  { "originFips": "37119", "destFips": "37081", "commodity": "Furniture", "annualTons": 670000, "mode": "Truck" },
+  { "originFips": "37081", "destFips": "45079", "commodity": "Textiles", "annualTons": 420000, "mode": "Truck" },
+  { "originFips": "45079", "destFips": "13121", "commodity": "Plastics/Rubber", "annualTons": 890000, "mode": "Rail" },
+  { "originFips": "47037", "destFips": "47157", "commodity": "Chemicals", "annualTons": 1340000, "mode": "Truck" },
+  { "originFips": "47157", "destFips": "01073", "commodity": "Coal", "annualTons": 2780000, "mode": "Rail" },
+  { "originFips": "01073", "destFips": "28049", "commodity": "Petroleum", "annualTons": 4150000, "mode": "Pipeline" },
+  { "originFips": "28049", "destFips": "22071", "commodity": "Petroleum", "annualTons": 3620000, "mode": "Pipeline" },
+  { "originFips": "22071", "destFips": "12031", "commodity": "Chemicals", "annualTons": 1890000, "mode": "Rail" },
+  { "originFips": "13089", "destFips": "37119", "commodity": "Food Products", "annualTons": 1120000, "mode": "Truck" },
+  { "originFips": "12031", "destFips": "45079", "commodity": "Building Stone", "annualTons": 560000, "mode": "Truck" },
+  { "originFips": "47037", "destFips": "13121", "commodity": "Mixed Freight", "annualTons": 2890000, "mode": "Truck" },
+  { "originFips": "01073", "destFips": "47037", "commodity": "Iron/Steel", "annualTons": 1670000, "mode": "Rail" },
+  { "originFips": "22071", "destFips": "28049", "commodity": "Natural Gas", "annualTons": 5240000, "mode": "Pipeline" },
+  { "originFips": "37081", "destFips": "13089", "commodity": "Machinery", "annualTons": 340000, "mode": "Truck" },
+  { "originFips": "12086", "destFips": "12057", "commodity": "Food Products", "annualTons": 780000, "mode": "Truck" }
+]

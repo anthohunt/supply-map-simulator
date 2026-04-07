@@ -1,0 +1,24 @@
+.leaflet-container {
+  background-color: var(--bg);
+  font-family: var(--font-family);
+}
+
+.leaflet-control-zoom a {
+  background-color: var(--surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: var(--surface-elevated) !important;
+}
+
+.leaflet-control-attribution {
+  background-color: rgba(36, 39, 48, 0.8) !important;
+  color: var(--text-muted) !important;
+  font-size: var(--font-xs) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--text-secondary) !important;
+}

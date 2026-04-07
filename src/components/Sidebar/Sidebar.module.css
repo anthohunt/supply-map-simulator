@@ -1,0 +1,28 @@
+.sidebar {
+  width: 300px;
+  height: 100%;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.header {
+  padding: 12px var(--panel-padding);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-heading);
+  color: var(--accent);
+  letter-spacing: -0.3px;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}

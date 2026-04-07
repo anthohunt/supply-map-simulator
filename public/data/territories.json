@@ -1,0 +1,62 @@
+[
+  {
+    "id": "us-southeast",
+    "name": "US Southeast",
+    "type": "megaregion",
+    "bbox": [-91.66, 24.52, -75.46, 36.59]
+  },
+  {
+    "id": "us-northeast",
+    "name": "US Northeast",
+    "type": "megaregion",
+    "bbox": [-80.52, 38.79, -66.95, 47.46]
+  },
+  {
+    "id": "us-midwest",
+    "name": "US Midwest",
+    "type": "megaregion",
+    "bbox": [-97.24, 36.99, -80.52, 49.38]
+  },
+  {
+    "id": "us-texas-triangle",
+    "name": "Texas Triangle",
+    "type": "megaregion",
+    "bbox": [-106.65, 25.84, -93.51, 34.31]
+  },
+  {
+    "id": "us-california",
+    "name": "California",
+    "type": "state",
+    "bbox": [-124.41, 32.53, -114.13, 42.01]
+  },
+  {
+    "id": "south-korea",
+    "name": "South Korea",
+    "type": "country",
+    "bbox": [124.61, 33.11, 131.87, 38.62]
+  },
+  {
+    "id": "france",
+    "name": "France",
+    "type": "country",
+    "bbox": [-5.14, 41.33, 9.56, 51.09]
+  },
+  {
+    "id": "germany",
+    "name": "Germany",
+    "type": "country",
+    "bbox": [5.87, 47.27, 15.04, 55.06]
+  },
+  {
+    "id": "japan",
+    "name": "Japan",
+    "type": "country",
+    "bbox": [129.41, 30.98, 145.81, 45.52]
+  },
+  {
+    "id": "benelux",
+    "name": "Benelux",
+    "type": "megaregion",
+    "bbox": [2.55, 49.50, 7.22, 53.51]
+  }
+]

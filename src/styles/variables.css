@@ -1,0 +1,51 @@
+:root {
+  /* Palette */
+  --bg: #242730;
+  --surface: #29323C;
+  --surface-elevated: #3A4552;
+  --border: #3A4552;
+  --text-primary: #D3D8E0;
+  --text-secondary: #A0A7B4;
+  --text-muted: #6A7485;
+  --accent: #1FBAD6;
+  --accent-hover: #17A2BC;
+  --accent-subtle: rgba(31, 186, 214, 0.15);
+  --success: #4CAF50;
+  --warning: #F5A623;
+  --error: #EF5350;
+
+  /* Hub tier colors */
+  --hub-global: #F5A623;
+  --hub-regional: #EF5350;
+  --hub-gateway: #1FBAD6;
+  --hub-local: #AB47BC;
+  --hub-access: #66BB6A;
+
+  /* Edge colors */
+  --edge-global-regional: #F5A623;
+  --edge-regional: #EF5350;
+  --edge-gateway-local: #1FBAD6;
+  --edge-access: #66BB6A;
+
+  /* Typography */
+  --font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-weight-heading: 600;
+  --font-weight-body: 400;
+  --font-xs: 11px;
+  --font-sm: 12px;
+  --font-base: 13px;
+  --font-lg: 16px;
+  --font-xl: 20px;
+  --font-xxl: 28px;
+
+  /* Spacing */
+  --radius: 2px;
+  --radius-lg: 4px;
+  --panel-padding: 16px;
+  --gap: 8px;
+
+  /* Effects */
+  --shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+  --glow-hover: 0 0 8px rgba(31, 186, 214, 0.3);
+}
