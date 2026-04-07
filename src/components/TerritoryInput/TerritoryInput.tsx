@@ -11,6 +11,7 @@ interface TerritoryOption {
 }
 
 const TERRITORIES: TerritoryOption[] = [
+  { id: 'atlanta-metro', name: 'Atlanta Metro', type: 'state', bbox: [-84.90, 33.40, -83.90, 34.20] },
   { id: 'us-southeast', name: 'US Southeast', type: 'megaregion', bbox: [-91.66, 24.52, -75.46, 36.59] },
   { id: 'us-northeast', name: 'US Northeast', type: 'megaregion', bbox: [-80.52, 38.79, -66.95, 47.46] },
   { id: 'us-midwest', name: 'US Midwest', type: 'megaregion', bbox: [-97.24, 36.99, -80.52, 49.38] },
