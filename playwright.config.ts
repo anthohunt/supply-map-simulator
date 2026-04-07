@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   testMatch: '**/*.spec.ts',
-  timeout: 120000,
+  timeout: 180000, // 3 min — covers 90s Overpass sleep + buffer
   use: {
     headless: false,
     screenshot: 'only-on-failure',
