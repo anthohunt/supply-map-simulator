@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { loadFAFData, getByCommod, estimatePeakDaily, fetchFreightFlows } from './fafService'
 import type { Territory } from '@/types/index.ts'
 
