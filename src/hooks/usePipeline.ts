@@ -19,7 +19,7 @@ export function usePipeline() {
       try {
         const result = await loadFAFData((progress) => {
           setFAF({ progress })
-        })
+        }, selectedTerritory ?? undefined)
         setFAF({
           status: 'complete',
           progress: 100,
