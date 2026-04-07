@@ -5,6 +5,7 @@ export default defineConfig({
   testMatch: '**/*.spec.ts',
   timeout: 120000,
   use: {
+    headless: false,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
   },
