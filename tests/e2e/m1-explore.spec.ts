@@ -112,17 +112,30 @@ test.describe('US-1.2 — FAF Freight Data', () => {
 // ═══════════════════════════════════════════════════
 
 test.describe('US-1.3 — OSM Road/Rail', () => {
-  test('Happy path: separate Road/Rail progress, completes or errors', async ({ page }) => {
-    test.setTimeout(120000);
+  test('Happy path: separate Road/Rail progress, completes or shows error', async ({ page }) => {
+    // Observed during exploration: OSM takes 30-60s for Atlanta Metro, sometimes 504/429 after retries (~45s)
+    // Sleep 90s (observed worst case + buffer), then check final state
     await page.goto('/');
     await page.getByRole('combobox', { name: 'Search territories' }).pressSequentially('Atl', { delay: 100 });
     await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
     const osm = page.getByRole('region', { name: 'OSM road and rail data' });
     await expect(osm).toBeVisible({ timeout: 5000 });
+    // Verify Road/Rail labels visible immediately
     await expect(osm.getByText('Road', { exact: true })).toBeVisible();
     await expect(osm.getByText('Rail', { exact: true })).toBeVisible();
-    await expect(osm.getByText(/Complete|Error/)).toBeVisible({ timeout: 90000 });
+    // Sleep observed exploration time, then check result
+    await page.waitForTimeout(90000);
+    const text = await osm.textContent();
+    expect(text).toMatch(/Complete|Error/);
+    if (text?.includes('Complete')) {
+      expect(text).toMatch(/Interstates/);
+      expect(text).toMatch(/Highways/);
+      expect(text).toMatch(/Railroads/);
+    } else {
+      // Error is valid — Overpass was down. Verify retry button exists.
+      await expect(osm.getByRole('button', { name: /retry/i })).toBeVisible();
+    }
   });
 
   test('E1: forced 429 shows error + retry button', async ({ page }) => {
@@ -182,19 +195,24 @@ test.describe('US-1.3 — OSM Road/Rail', () => {
 // ═══════════════════════════════════════════════════
 
 test.describe('US-1.4 — Infrastructure Sites', () => {
-  test('Happy path: loads real sites with type breakdown', async ({ page }) => {
-    test.setTimeout(120000);
+  test('Happy path: loads sites with type breakdown or shows error', async ({ page }) => {
+    // Observed during exploration: Infra takes 20-40s for Atlanta Metro, sometimes 504 after retries
+    // Sleep 90s (same as OSM — they run in parallel), then check
     await page.goto('/');
     await page.getByRole('combobox', { name: 'Search territories' }).pressSequentially('Atl', { delay: 100 });
     await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
     const infra = page.getByRole('region', { name: 'Infrastructure sites' });
-    await expect(infra).toBeVisible({ timeout: 10000 });
-    await expect(infra.getByText(/Complete|Error/)).toBeVisible({ timeout: 90000 });
+    await expect(infra).toBeVisible({ timeout: 5000 });
+    // Sleep observed exploration time
+    await page.waitForTimeout(90000);
     const text = await infra.textContent();
-    if (!text?.includes('Error')) {
-      await expect(infra.getByText('Total Sites')).toBeVisible();
-      await expect(infra.getByText('Warehouses')).toBeVisible();
+    expect(text).toMatch(/Complete|Error/);
+    if (text?.includes('Complete')) {
+      expect(text).toMatch(/Total Sites/);
+      expect(text).toMatch(/Warehouses/);
+    } else {
+      await expect(infra.getByRole('button', { name: /retry/i })).toBeVisible();
     }
   });
 
@@ -264,19 +282,26 @@ test.describe('US-1.4 — Infrastructure Sites', () => {
 // ═══════════════════════════════════════════════════
 
 test.describe('Integration', () => {
-  test('Full flow: overall progress reaches completion', async ({ page }) => {
-    test.setTimeout(120000);
+  test('Full flow: all panels reach final state', async ({ page }) => {
+    // Observed: FAF <1s, OSM 30-90s, Infra 20-40s. All run in parallel.
+    // Sleep 90s for the slowest, then verify all panels reached a final state.
     await page.goto('/');
     await page.getByRole('combobox', { name: 'Search territories' }).pressSequentially('Atl', { delay: 100 });
     await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
-    // FAF completes fast
+    // FAF completes almost instantly
     const faf = page.getByRole('region', { name: 'FAF freight data' });
-    await expect(faf.getByText('Complete')).toBeVisible({ timeout: 15000 });
-    // Wait for all panels to reach final state
+    await expect(faf.getByText('Complete')).toBeVisible({ timeout: 5000 });
+    // Wait for OSM + Infra (real Overpass API)
+    await page.waitForTimeout(90000);
+    // All panels should be in a final state
     const osm = page.getByRole('region', { name: 'OSM road and rail data' });
-    await expect(osm.getByText(/Complete|Error/)).toBeVisible({ timeout: 90000 });
+    const osmText = await osm.textContent();
+    expect(osmText).toMatch(/Complete|Error/);
     const infra = page.getByRole('region', { name: 'Infrastructure sites' });
-    await expect(infra.getByText(/Complete|Error/)).toBeVisible({ timeout: 90000 });
+    const infraText = await infra.textContent();
+    expect(infraText).toMatch(/Complete|Error/);
+    // Take final screenshot as evidence
+    await page.screenshot({ path: 'tests/e2e/exploration/US-1.0-final-state.png' });
   });
 });
