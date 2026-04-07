@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
+import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { loadFAFData } from '@/services/fafService.ts'
 import { loadOSMData } from '@/services/osmService.ts'
 import { loadInfrastructureData } from '@/services/infrastructureService.ts'
@@ -7,6 +8,7 @@ import { loadInfrastructureData } from '@/services/infrastructureService.ts'
 export function usePipeline() {
   const { faf, osm, infra, overallProgress, setFAF, setOSM, setInfra, resetPipeline } =
     usePipelineStore()
+  const { selectedTerritory } = useTerritoryStore()
 
   const startPipeline = useCallback(async () => {
     resetPipeline()
@@ -25,6 +27,8 @@ export function usePipeline() {
           totalTonnage: result.totalTonnage,
           countyPairCount: result.countyPairCount,
           commodityTypes: result.commodityTypes,
+          skippedCount: result.skippedCount,
+          isOfflineFallback: result.isOfflineFallback,
         })
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Unknown error'
@@ -33,9 +37,14 @@ export function usePipeline() {
     })()
 
     const osmPromise = (async () => {
+      if (!selectedTerritory) {
+        setOSM({ status: 'error', errorMessage: 'No territory selected' })
+        return
+      }
       setOSM({ status: 'loading', roadProgress: 0, railProgress: 0 })
       try {
         const result = await loadOSMData(
+          selectedTerritory.bbox,
           (progress) => setOSM({ roadProgress: progress }),
           (progress) => setOSM({ railProgress: progress })
         )
@@ -49,6 +58,7 @@ export function usePipeline() {
           yardCount: result.yardCount,
           totalRoadKm: result.totalRoadKm,
           totalRailKm: result.totalRailKm,
+          skippedCount: result.skippedCount,
         })
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Unknown error'
@@ -57,11 +67,18 @@ export function usePipeline() {
     })()
 
     const infraPromise = (async () => {
+      if (!selectedTerritory) {
+        setInfra({ status: 'error', errorMessage: 'No territory selected' })
+        return
+      }
       setInfra({ status: 'loading', progress: 0 })
       try {
-        const result = await loadInfrastructureData((progress) => {
-          setInfra({ progress })
-        })
+        const result = await loadInfrastructureData(
+          selectedTerritory.bbox,
+          (progress) => {
+            setInfra({ progress })
+          }
+        )
         setInfra({
           status: 'complete',
           progress: 100,
@@ -72,6 +89,9 @@ export function usePipeline() {
           portCount: result.portCount,
           airportCount: result.airportCount,
           railYardCount: result.railYardCount,
+          skippedCount: result.skippedCount,
+          duplicatesRemoved: result.duplicatesRemoved,
+          fewSitesWarning: result.fewSitesWarning,
         })
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Unknown error'

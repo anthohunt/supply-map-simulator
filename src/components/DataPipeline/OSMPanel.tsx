@@ -13,6 +13,8 @@ interface OSMPanelProps {
   totalRoadKm: number
   totalRailKm: number
   errorMessage: string | null
+  skippedCount?: number
+  onRetry?: () => void
 }
 
 function statusLabel(status: DataSourceStatus): string {
@@ -46,6 +48,8 @@ export function OSMPanel({
   totalRoadKm,
   totalRailKm,
   errorMessage,
+  skippedCount = 0,
+  onRetry,
 }: OSMPanelProps) {
   return (
     <div className={styles.panel} role="region" aria-label="OSM road and rail data">
@@ -117,11 +121,30 @@ export function OSMPanel({
               {formatCount(totalRailKm)}
             </span>
           </div>
+          {skippedCount > 0 && (
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Skipped</span>
+              <span className={styles.statValue}>
+                {formatCount(skippedCount)}
+              </span>
+            </div>
+          )}
         </div>
       )}
 
       {status === 'error' && errorMessage && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
+        <div>
+          <p className={styles.errorMessage}>{errorMessage}</p>
+          {onRetry && (
+            <button
+              className={styles.retryButton}
+              onClick={onRetry}
+              type="button"
+            >
+              Retry
+            </button>
+          )}
+        </div>
       )}
     </div>
   )

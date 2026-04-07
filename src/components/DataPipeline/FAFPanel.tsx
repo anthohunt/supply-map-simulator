@@ -9,6 +9,9 @@ interface FAFPanelProps {
   countyPairCount: number
   commodityTypes: string[]
   errorMessage: string | null
+  skippedCount?: number
+  isOfflineFallback?: boolean
+  onRetry?: () => void
 }
 
 function statusLabel(status: DataSourceStatus): string {
@@ -38,6 +41,9 @@ export function FAFPanel({
   countyPairCount,
   commodityTypes,
   errorMessage,
+  skippedCount = 0,
+  isOfflineFallback = false,
+  onRetry,
 }: FAFPanelProps) {
   return (
     <div className={styles.panel} role="region" aria-label="FAF freight data">
@@ -57,7 +63,19 @@ export function FAFPanel({
         </div>
       )}
 
-      {status === 'complete' && (
+      {status === 'complete' && isOfflineFallback && (
+        <p className={styles.warningMessage}>
+          Using offline fallback data. Full SE USA dataset could not be loaded.
+        </p>
+      )}
+
+      {status === 'complete' && countyPairCount === 0 && (
+        <p className={styles.warningMessage}>
+          No freight data available for this territory. Offline data is only available for SE USA.
+        </p>
+      )}
+
+      {status === 'complete' && countyPairCount > 0 && (
         <div className={styles.stats}>
           <div className={styles.stat}>
             <span className={styles.statLabel}>Total Tonnage</span>
@@ -77,11 +95,30 @@ export function FAFPanel({
               {commodityTypes.length}
             </span>
           </div>
+          {skippedCount > 0 && (
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Skipped</span>
+              <span className={styles.statValue}>
+                {formatCount(skippedCount)}
+              </span>
+            </div>
+          )}
         </div>
       )}
 
       {status === 'error' && errorMessage && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
+        <div>
+          <p className={styles.errorMessage}>{errorMessage}</p>
+          {onRetry && (
+            <button
+              className={styles.retryButton}
+              onClick={onRetry}
+              type="button"
+            >
+              Retry
+            </button>
+          )}
+        </div>
       )}
     </div>
   )

@@ -62,6 +62,9 @@ export function DataPipelineDashboard() {
           countyPairCount={faf.countyPairCount}
           commodityTypes={faf.commodityTypes}
           errorMessage={faf.errorMessage}
+          skippedCount={faf.skippedCount}
+          isOfflineFallback={faf.isOfflineFallback}
+          onRetry={startPipeline}
         />
         <OSMPanel
           status={osm.status}
@@ -74,6 +77,8 @@ export function DataPipelineDashboard() {
           totalRoadKm={osm.totalRoadKm}
           totalRailKm={osm.totalRailKm}
           errorMessage={osm.errorMessage}
+          skippedCount={osm.skippedCount}
+          onRetry={startPipeline}
         />
         <InfraPanel
           status={infra.status}
@@ -85,6 +90,9 @@ export function DataPipelineDashboard() {
           airportCount={infra.airportCount}
           railYardCount={infra.railYardCount}
           totalSites={infra.sites.length}
+          skippedCount={infra.skippedCount}
+          duplicatesRemoved={infra.duplicatesRemoved}
+          fewSitesWarning={infra.fewSitesWarning}
           errorMessage={infra.errorMessage}
         />
       </div>

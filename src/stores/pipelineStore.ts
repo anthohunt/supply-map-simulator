@@ -12,6 +12,8 @@ interface FAFState {
   countyPairCount: number
   commodityTypes: string[]
   errorMessage: string | null
+  skippedCount: number
+  isOfflineFallback: boolean
 }
 
 interface OSMState {
@@ -25,6 +27,7 @@ interface OSMState {
   totalRoadKm: number
   totalRailKm: number
   errorMessage: string | null
+  skippedCount: number
 }
 
 interface InfraState {
@@ -37,6 +40,9 @@ interface InfraState {
   portCount: number
   airportCount: number
   railYardCount: number
+  skippedCount: number
+  duplicatesRemoved: number
+  fewSitesWarning: boolean
   errorMessage: string | null
 }
 
@@ -59,6 +65,8 @@ const initialFAF: FAFState = {
   countyPairCount: 0,
   commodityTypes: [],
   errorMessage: null,
+  skippedCount: 0,
+  isOfflineFallback: false,
 }
 
 const initialOSM: OSMState = {
@@ -72,6 +80,7 @@ const initialOSM: OSMState = {
   totalRoadKm: 0,
   totalRailKm: 0,
   errorMessage: null,
+  skippedCount: 0,
 }
 
 const initialInfra: InfraState = {
@@ -84,6 +93,9 @@ const initialInfra: InfraState = {
   portCount: 0,
   airportCount: 0,
   railYardCount: 0,
+  skippedCount: 0,
+  duplicatesRemoved: 0,
+  fewSitesWarning: false,
   errorMessage: null,
 }
 

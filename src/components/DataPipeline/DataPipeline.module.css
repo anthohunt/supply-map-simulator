@@ -144,6 +144,30 @@
   margin-top: 4px;
 }
 
+.warningMessage {
+  font-size: var(--font-sm);
+  color: var(--warning, #d4a017);
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.retryButton {
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.retryButton:hover {
+  background: var(--error);
+  color: var(--bg);
+}
+
 .subProgress {
   display: flex;
   flex-direction: column;

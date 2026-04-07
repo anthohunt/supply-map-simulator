@@ -12,6 +12,9 @@ interface InfraPanelProps {
   airportCount: number
   railYardCount: number
   totalSites: number
+  skippedCount: number
+  duplicatesRemoved: number
+  fewSitesWarning: boolean
   errorMessage: string | null
 }
 
@@ -45,6 +48,9 @@ export function InfraPanel({
   airportCount,
   railYardCount,
   totalSites,
+  skippedCount,
+  duplicatesRemoved,
+  fewSitesWarning,
   errorMessage,
 }: InfraPanelProps) {
   return (
@@ -110,6 +116,33 @@ export function InfraPanel({
             </span>
           </div>
         </div>
+      )}
+
+      {status === 'complete' && (skippedCount > 0 || duplicatesRemoved > 0) && (
+        <div className={styles.stats}>
+          {skippedCount > 0 && (
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Skipped</span>
+              <span className={styles.statValue}>
+                {formatCount(skippedCount)}
+              </span>
+            </div>
+          )}
+          {duplicatesRemoved > 0 && (
+            <div className={styles.stat}>
+              <span className={styles.statLabel}>Deduped</span>
+              <span className={styles.statValue}>
+                {formatCount(duplicatesRemoved)}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {status === 'complete' && fewSitesWarning && (
+        <p className={styles.errorMessage}>
+          Few sites found ({formatCount(totalSites)}). Try expanding the territory or lowering the sqft threshold.
+        </p>
       )}
 
       {status === 'error' && errorMessage && (
