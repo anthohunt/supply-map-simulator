@@ -50,10 +50,23 @@ function isValidRecord(record: unknown): record is FAFRecord {
 }
 
 /**
- * Checks if a territory is the SE USA megaregion (the one we have offline data for).
+ * SE USA bounding box — the region our FAF data covers.
+ * Any territory whose bbox overlaps with this region can use FAF data.
  */
-function isSEUSA(territory: Territory): boolean {
-  return territory.id === 'us-southeast'
+const SE_USA_BBOX = { west: -95, south: 24, east: -75, north: 37 }
+
+/**
+ * Checks if a territory overlaps with SE USA (the region we have FAF data for).
+ * Uses bbox overlap, not exact ID match — so Atlanta Metro, individual SE states, etc. all work.
+ */
+function isInSEUSA(territory: Territory): boolean {
+  const [west, south, east, north] = territory.bbox
+  return (
+    west < SE_USA_BBOX.east &&
+    east > SE_USA_BBOX.west &&
+    south < SE_USA_BBOX.north &&
+    north > SE_USA_BBOX.south
+  )
 }
 
 /**
@@ -83,7 +96,7 @@ export async function loadFAFData(
   territory?: Territory
 ): Promise<FAFLoadResult> {
   // For non-SE-USA territories, return empty with appropriate signal
-  if (territory && !isSEUSA(territory)) {
+  if (territory && !isInSEUSA(territory)) {
     onProgress(100)
     return {
       records: [],
@@ -163,7 +176,7 @@ export async function loadFAFData(
 export async function* fetchFreightFlows(
   territory: Territory
 ): AsyncGenerator<FAFRecord> {
-  if (!isSEUSA(territory)) {
+  if (!isInSEUSA(territory)) {
     return
   }
 
