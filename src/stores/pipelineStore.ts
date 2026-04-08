@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { FAFRecord } from '@/types/index.ts'
 import type { CandidateSite } from '@/types/site.ts'
+import type { RoadSegment, RailSegment } from '@/services/osmService.ts'
 
 export type DataSourceStatus = 'idle' | 'loading' | 'complete' | 'error'
 
@@ -36,6 +37,10 @@ interface OSMState {
   totalChunks: number
   /** Current chunk index being processed */
   currentChunk: number
+  /** Stored road segment geometries for infrastructure overlay */
+  roadSegments: RoadSegment[]
+  /** Stored rail segment geometries for infrastructure overlay */
+  railSegments: RailSegment[]
 }
 
 interface InfraState {
@@ -94,6 +99,8 @@ const initialOSM: OSMState = {
   skippedCount: 0,
   totalChunks: 1,
   currentChunk: 0,
+  roadSegments: [],
+  railSegments: [],
 }
 
 const initialInfra: InfraState = {

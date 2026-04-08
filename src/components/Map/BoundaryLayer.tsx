@@ -1,11 +1,23 @@
-import { GeoJSON, useMap } from 'react-leaflet'
-import { useEffect } from 'react'
+import { GeoJSON, Tooltip, useMap, useMapEvents } from 'react-leaflet'
+import { useEffect, useState } from 'react'
 import { useNetworkStore } from '@/stores/networkStore.ts'
+import { useLayerState } from '@/hooks/useLayerState.ts'
 import type { PathOptions } from 'leaflet'
 
+function ZoomTracker({ onZoomChange }: { onZoomChange: (zoom: number) => void }) {
+  useMapEvents({
+    zoomend: (e) => onZoomChange(e.target.getZoom()),
+  })
+  return null
+}
+
 export function BoundaryLayer() {
-  const { areas, regions, pixelizationStatus } = useNetworkStore()
+  const { counties, areas, regions, pixelizationStatus } = useNetworkStore()
+  const { boundaryLayers, boundaryOpacity } = useLayerState()
   const map = useMap()
+  const [zoom, setZoom] = useState(map.getZoom())
+
+  const opacity = boundaryOpacity / 100
 
   // Fit map to region bounds when pixelization completes
   useEffect(() => {
@@ -32,6 +44,13 @@ export function BoundaryLayer() {
   }, [pixelizationStatus, regions, map])
 
   if (pixelizationStatus !== 'complete') return null
+
+  const showRegions = boundaryLayers.regions
+  const showAreas = boundaryLayers.areas
+  const showCounties = boundaryLayers.counties
+
+  // If no boundary layers are toggled on, don't render anything
+  if (!showRegions && !showAreas && !showCounties) return null
 
   // Build GeoJSON FeatureCollections for areas and regions
   const areaFeatures: GeoJSON.FeatureCollection = {
@@ -65,15 +84,53 @@ export function BoundaryLayer() {
 
   const regionColorMap = new Map(regions.map((r) => [r.id, r.color]))
 
+  // Build county-to-region color map via areas
+  const countyRegionColorMap = new Map<string, string>()
+  for (const area of areas) {
+    const color = regionColorMap.get(area.regionId) ?? '#6A7485'
+    for (const fips of area.countyFips) {
+      countyRegionColorMap.set(fips, color)
+    }
+  }
+
+  // Build county GeoJSON FeatureCollection
+  const countyFeatures: GeoJSON.FeatureCollection = {
+    type: 'FeatureCollection',
+    features: counties.map((county) => ({
+      type: 'Feature' as const,
+      properties: {
+        fips: county.fips,
+        name: county.name,
+        state: county.state,
+        demandTons: county.demandTons,
+      },
+      geometry: county.boundary,
+    })),
+  }
+
+  const countyStyle = (feature: GeoJSON.Feature | undefined): PathOptions => {
+    const fips = feature?.properties?.fips as string | undefined
+    const color = fips ? countyRegionColorMap.get(fips) ?? '#6A7485' : '#6A7485'
+    return {
+      color,
+      weight: 0.5,
+      opacity: 0.5 * opacity,
+      fillColor: color,
+      fillOpacity: 0.08 * opacity,
+    }
+  }
+
+  const showCountyLabels = zoom >= 8
+
   const areaStyle = (feature: GeoJSON.Feature | undefined): PathOptions => {
     const regionId = feature?.properties?.regionId as string | undefined
     const color = regionId ? regionColorMap.get(regionId) : '#1FBAD6'
     return {
       color: color ?? '#1FBAD6',
       weight: 1,
-      opacity: 0.6,
+      opacity: 0.6 * opacity,
       fillColor: color ?? '#1FBAD6',
-      fillOpacity: 0.15,
+      fillOpacity: 0.15 * opacity,
     }
   }
 
@@ -82,25 +139,43 @@ export function BoundaryLayer() {
     return {
       color: color ?? '#F5A623',
       weight: 3,
-      opacity: 0.8,
+      opacity: 0.8 * opacity,
       fillColor: color ?? '#F5A623',
-      fillOpacity: 0.05,
+      fillOpacity: 0.05 * opacity,
       dashArray: '8 4',
     }
   }
 
   return (
     <>
-      <GeoJSON
-        key={`areas-${areas.length}`}
-        data={areaFeatures}
-        style={areaStyle}
-      />
-      <GeoJSON
-        key={`regions-${regions.length}`}
-        data={regionFeatures}
-        style={regionStyle}
-      />
+      <ZoomTracker onZoomChange={setZoom} />
+      {showCounties && counties.length > 0 && (
+        <GeoJSON
+          key={`counties-${counties.length}-${opacity}-${zoom >= 8 ? 'labels' : 'no'}`}
+          data={countyFeatures}
+          style={countyStyle}
+          onEachFeature={showCountyLabels ? (feature, layer) => {
+            const name = feature.properties?.name as string
+            if (name) {
+              layer.bindTooltip(name, { permanent: true, direction: 'center', className: 'county-label' })
+            }
+          } : undefined}
+        />
+      )}
+      {showAreas && (
+        <GeoJSON
+          key={`areas-${areas.length}-${opacity}`}
+          data={areaFeatures}
+          style={areaStyle}
+        />
+      )}
+      {showRegions && (
+        <GeoJSON
+          key={`regions-${regions.length}-${opacity}`}
+          data={regionFeatures}
+          style={regionStyle}
+        />
+      )}
     </>
   )
 }

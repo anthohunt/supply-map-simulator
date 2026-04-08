@@ -31,6 +31,8 @@ interface OSMLoadResult {
   totalRailKm: number
   skippedCount: number
   totalChunks: number
+  roadSegments: RoadSegment[]
+  railSegments: RailSegment[]
 }
 
 /** Export chunkBbox for testing/visibility */
@@ -317,6 +319,8 @@ export async function loadOSMData(
   let totalRoadKm = 0
   let totalRailKm = 0
   let skippedCount = 0
+  const roadSegments: RoadSegment[] = []
+  const railSegments: RailSegment[] = []
 
   // --- Roads ---
   let roadElementCount = 0
@@ -324,6 +328,7 @@ export async function loadOSMData(
     for await (const segment of fetchRoads(overpassBbox)) {
       roadElementCount++
       totalRoadKm += segment.lengthKm
+      roadSegments.push(segment)
 
       switch (segment.type) {
         case 'interstate':
@@ -358,6 +363,7 @@ export async function loadOSMData(
   try {
     for await (const segment of fetchRail(overpassBbox)) {
       railElementCount++
+      railSegments.push(segment)
 
       if (segment.type === 'railroad') {
         railroadCount++
@@ -387,6 +393,8 @@ export async function loadOSMData(
     totalRailKm: Math.round(totalRailKm),
     skippedCount,
     totalChunks: chunks.length,
+    roadSegments,
+    railSegments,
   }
 }
 

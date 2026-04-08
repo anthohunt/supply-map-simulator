@@ -70,6 +70,8 @@ export function usePipeline() {
         totalRailKm: osmResult.totalRailKm,
         skippedCount: osmResult.skippedCount,
         totalChunks: osmResult.totalChunks,
+        roadSegments: osmResult.roadSegments,
+        railSegments: osmResult.railSegments,
       })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error'

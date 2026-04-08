@@ -3,6 +3,7 @@ import { CircleMarker, Tooltip, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import L from 'leaflet'
 import { useNetworkStore } from '@/stores/networkStore.ts'
+import { useLayerState } from '@/hooks/useLayerState.ts'
 import type { Hub, HubTier } from '@/types/index.ts'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 
@@ -45,7 +46,7 @@ function createClusterIcon(cluster: { getChildCount(): number }) {
   })
 }
 
-function HubMarker({ hub, onSelect }: { hub: Hub; onSelect: (id: string) => void }) {
+function HubMarker({ hub, onSelect, opacity }: { hub: Hub; onSelect: (id: string) => void; opacity: number }) {
   const color = TIER_COLORS[hub.tier]
   const radius = TIER_RADIUS[hub.tier]
 
@@ -60,9 +61,9 @@ function HubMarker({ hub, onSelect }: { hub: Hub; onSelect: (id: string) => void
       pathOptions={{
         color,
         fillColor: color,
-        fillOpacity: 0.8,
+        fillOpacity: 0.8 * opacity,
         weight: 2,
-        opacity: 1,
+        opacity: opacity,
       }}
       bubblingMouseEvents={false}
       eventHandlers={{
@@ -93,8 +94,11 @@ function HubMarker({ hub, onSelect }: { hub: Hub; onSelect: (id: string) => void
 }
 
 export function HubMarkerLayer() {
-  const { hubs, networkStatus, visibleTiers, setSelectedHubId } = useNetworkStore()
+  const { hubs, networkStatus, setSelectedHubId } = useNetworkStore()
+  const { visibleTiers, hubOpacity } = useLayerState()
   const map = useMap()
+
+  const opacity = hubOpacity / 100
 
   const handleSelect = useCallback((id: string) => {
     setSelectedHubId(id)
@@ -117,7 +121,7 @@ export function HubMarkerLayer() {
       iconCreateFunction={createClusterIcon}
     >
       {visibleHubs.map((hub) => (
-        <HubMarker key={hub.id} hub={hub} onSelect={handleSelect} />
+        <HubMarker key={hub.id} hub={hub} onSelect={handleSelect} opacity={opacity} />
       ))}
     </MarkerClusterGroup>
   )
