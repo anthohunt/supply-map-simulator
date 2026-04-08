@@ -41,7 +41,7 @@ type OverpassBbox = [number, number, number, number]
 // ---------------------------------------------------------------------------
 
 /** Max bbox area (in degrees^2) before we chunk into sub-bboxes. */
-const MAX_BBOX_AREA = 25
+const MAX_BBOX_AREA = 10
 
 /**
  * Split a large bbox into sub-bboxes that each fit within MAX_BBOX_AREA.
@@ -88,9 +88,15 @@ function wayToLineString(
   geom: Array<{ lat: number; lon: number }> | undefined
 ): GeoJSON.LineString | null {
   if (!geom || geom.length < 2) return null
+  // Filter out null/undefined points — Overpass can return these for
+  // ways that partially intersect a bbox boundary
+  const validPoints = geom.filter(
+    (p) => p != null && typeof p.lon === 'number' && typeof p.lat === 'number'
+  )
+  if (validPoints.length < 2) return null
   return {
     type: 'LineString',
-    coordinates: geom.map((p) => [p.lon, p.lat]),
+    coordinates: validPoints.map((p) => [p.lon, p.lat]),
   }
 }
 
@@ -144,7 +150,7 @@ export async function* fetchRoads(
   way["highway"="motorway"](${bboxStr});
   way["highway"="trunk"](${bboxStr});
 );
-out geom;`
+out body geom;`
 
     const result = await queryOverpass(query)
 
@@ -182,7 +188,7 @@ export async function* fetchRail(
   way["railway"="rail"](${bboxStr});
   node["railway"="yard"](${bboxStr});
 );
-out geom;`
+out body geom;`
 
     const result = await queryOverpass(query)
 
