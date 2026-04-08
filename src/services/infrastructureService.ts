@@ -1,5 +1,7 @@
 import type { CandidateSite, SiteType } from '@/types/index.ts'
 import { haversine } from '@/utils/geo.ts'
+import { queryOverpass } from './overpassClient.ts'
+import type { OverpassElement } from './overpassClient.ts'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -18,72 +20,14 @@ export interface InfraLoadResult {
   fewSitesWarning: boolean
 }
 
-interface OverpassElement {
-  type: 'node' | 'way' | 'relation'
-  id: number
-  tags?: Record<string, string>
-  lat?: number
-  lon?: number
-  center?: { lat: number; lon: number }
-  geometry?: Array<{ lat: number; lon: number }>
-}
-
-interface OverpassResponse {
-  elements: OverpassElement[]
-}
-
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
-const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
-const MAX_RETRIES = 5
-const BASE_DELAY_MS = 2_000
 const SQ_METERS_TO_SQ_FEET = 10.764
 const DEFAULT_NODE_SQFT = 50_000
 const FEW_SITES_THRESHOLD = 10
 const DEDUP_RADIUS_KM = 0.5
-
-// ---------------------------------------------------------------------------
-// Overpass query helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Execute an Overpass QL query with exponential-backoff retry on 429/5xx.
- */
-async function queryOverpass(query: string): Promise<OverpassResponse> {
-  let attempt = 0
-
-  while (true) {
-    attempt++
-
-    const response = await fetch(OVERPASS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `data=${encodeURIComponent(query)}`,
-    })
-
-    if (response.ok) {
-      return (await response.json()) as OverpassResponse
-    }
-
-    if (response.status === 429 || response.status >= 500) {
-      if (attempt >= MAX_RETRIES) {
-        throw new Error(
-          `Overpass API error ${response.status} after ${MAX_RETRIES} retries`
-        )
-      }
-      const delayMs = BASE_DELAY_MS * Math.pow(2, attempt - 1)
-      await delay(delayMs)
-      continue
-    }
-
-    const text = await response.text().catch(() => '')
-    throw new Error(
-      `Overpass API error ${response.status}: ${text.slice(0, 200)}`
-    )
-  }
-}
 
 /**
  * Build the Overpass QL query for logistics facilities within a bbox.
@@ -370,12 +314,4 @@ export async function loadInfrastructureData(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
+// queryOverpass and delay now provided by overpassClient.ts

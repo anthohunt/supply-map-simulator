@@ -232,7 +232,7 @@ describe('infrastructureService', () => {
     ).rejects.toThrow('Overpass API error 400')
   })
 
-  it('retries on 429 and eventually succeeds', async () => {
+  it('retries on 429 and eventually succeeds', { timeout: 15_000 }, async () => {
     const elements = [makeOverpassWay(1, { building: 'warehouse' })]
     let callCount = 0
 

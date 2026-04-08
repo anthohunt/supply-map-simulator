@@ -1,5 +1,7 @@
 import type * as GeoJSON from 'geojson'
 import { haversine } from '@/utils/geo.ts'
+import { queryOverpass } from './overpassClient.ts'
+import type { OverpassElement } from './overpassClient.ts'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -38,68 +40,8 @@ type OverpassBbox = [number, number, number, number]
 // Constants
 // ---------------------------------------------------------------------------
 
-const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
-
 /** Max bbox area (in degrees^2) before we chunk into sub-bboxes. */
 const MAX_BBOX_AREA = 25
-
-const MAX_RETRIES = 5
-const BASE_DELAY_MS = 2_000
-
-// ---------------------------------------------------------------------------
-// Overpass helpers
-// ---------------------------------------------------------------------------
-
-interface OverpassElement {
-  type: 'node' | 'way' | 'relation'
-  id: number
-  tags?: Record<string, string>
-  lat?: number
-  lon?: number
-  geometry?: Array<{ lat: number; lon: number }>
-}
-
-interface OverpassResponse {
-  elements: OverpassElement[]
-}
-
-/**
- * Execute an Overpass QL query with exponential-backoff retry on 429/5xx.
- */
-async function queryOverpass(query: string): Promise<OverpassResponse> {
-  let attempt = 0
-
-  while (true) {
-    attempt++
-
-    const response = await fetch(OVERPASS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `data=${encodeURIComponent(query)}`,
-    })
-
-    if (response.ok) {
-      return (await response.json()) as OverpassResponse
-    }
-
-    if (response.status === 429 || response.status >= 500) {
-      if (attempt >= MAX_RETRIES) {
-        throw new Error(
-          `Overpass API error ${response.status} after ${MAX_RETRIES} retries`
-        )
-      }
-      const delayMs = BASE_DELAY_MS * Math.pow(2, attempt - 1)
-      await delay(delayMs)
-      continue
-    }
-
-    // 400 or other client error — no point retrying
-    const text = await response.text().catch(() => '')
-    throw new Error(
-      `Overpass API error ${response.status}: ${text.slice(0, 200)}`
-    )
-  }
-}
 
 /**
  * Split a large bbox into sub-bboxes that each fit within MAX_BBOX_AREA.
@@ -401,12 +343,4 @@ export async function loadOSMData(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
+// queryOverpass and delay now provided by overpassClient.ts
