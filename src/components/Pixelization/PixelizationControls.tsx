@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { usePixelization } from '@/hooks/usePixelization.ts'
+import { useNetworkStore } from '@/stores/networkStore.ts'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { formatTonnage } from '@/utils/format.ts'
 import styles from './PixelizationControls.module.css'
@@ -47,6 +48,15 @@ function StepIndicator({ state, label }: { state: StepState; label: string }) {
   )
 }
 
+function validateParams(targetRegions: number, weights: number[]): string | null {
+  if (targetRegions < 2) return 'Minimum 2 regions required'
+  if (targetRegions > 50) return 'Maximum 50 regions'
+  for (const w of weights) {
+    if (w < 0 || w > 1) return 'Weights must be between 0 and 1'
+  }
+  return null
+}
+
 export function PixelizationControls() {
   const {
     areas,
@@ -54,12 +64,15 @@ export function PixelizationControls() {
     pixelizationStatus,
     pixelizationProgress,
     pixelizationError,
+    params,
     runPixelization,
     cancelPixelization,
   } = usePixelization()
 
+  const { setParams } = useNetworkStore()
   const { setCurrentScreen } = useTerritoryStore()
   const hasAutoStarted = useRef(false)
+  const [validationError, setValidationError] = useState<string | null>(null)
 
   // Auto-start pixelization when entering this screen
   useEffect(() => {
@@ -161,6 +174,122 @@ export function PixelizationControls() {
         </div>
       )}
 
+      {(isComplete || isError) && (
+        <div className={styles.paramPanel}>
+          <h3 className={styles.paramTitle}>Parameters</h3>
+
+          <div className={styles.paramRow}>
+            <label className={styles.paramLabel} htmlFor="targetRegions">
+              Target Regions
+            </label>
+            <div className={styles.paramControl}>
+              <input
+                id="targetRegions"
+                type="range"
+                min={2}
+                max={20}
+                step={1}
+                value={params.targetRegions}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value, 10)
+                  setParams({ targetRegions: val })
+                  setValidationError(validateParams(val, [
+                    params.demandBalanceWeight,
+                    params.contiguityWeight,
+                    params.compactnessWeight,
+                  ]))
+                }}
+                className={styles.slider}
+                aria-label="Target regions"
+              />
+              <span className={styles.paramValue}>{params.targetRegions}</span>
+            </div>
+          </div>
+
+          <div className={styles.paramRow}>
+            <label className={styles.paramLabel} htmlFor="demandBalance">
+              Demand Balance
+            </label>
+            <div className={styles.paramControl}>
+              <input
+                id="demandBalance"
+                type="range"
+                min={0}
+                max={1}
+                step={0.1}
+                value={params.demandBalanceWeight}
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value)
+                  setParams({ demandBalanceWeight: val })
+                  setValidationError(validateParams(params.targetRegions, [
+                    val, params.contiguityWeight, params.compactnessWeight,
+                  ]))
+                }}
+                className={styles.slider}
+                aria-label="Demand balance weight"
+              />
+              <span className={styles.paramValue}>{params.demandBalanceWeight.toFixed(1)}</span>
+            </div>
+          </div>
+
+          <div className={styles.paramRow}>
+            <label className={styles.paramLabel} htmlFor="contiguity">
+              Contiguity
+            </label>
+            <div className={styles.paramControl}>
+              <input
+                id="contiguity"
+                type="range"
+                min={0}
+                max={1}
+                step={0.1}
+                value={params.contiguityWeight}
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value)
+                  setParams({ contiguityWeight: val })
+                  setValidationError(validateParams(params.targetRegions, [
+                    params.demandBalanceWeight, val, params.compactnessWeight,
+                  ]))
+                }}
+                className={styles.slider}
+                aria-label="Contiguity weight"
+              />
+              <span className={styles.paramValue}>{params.contiguityWeight.toFixed(1)}</span>
+            </div>
+          </div>
+
+          <div className={styles.paramRow}>
+            <label className={styles.paramLabel} htmlFor="compactness">
+              Compactness
+            </label>
+            <div className={styles.paramControl}>
+              <input
+                id="compactness"
+                type="range"
+                min={0}
+                max={1}
+                step={0.1}
+                value={params.compactnessWeight}
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value)
+                  setParams({ compactnessWeight: val })
+                  setValidationError(validateParams(params.targetRegions, [
+                    params.demandBalanceWeight, params.contiguityWeight, val,
+                  ]))
+                }}
+                className={styles.slider}
+                aria-label="Compactness weight"
+              />
+              <span className={styles.paramValue}>{params.compactnessWeight.toFixed(1)}</span>
+            </div>
+          </div>
+
+          {validationError && (
+            <div className={styles.warningMessage}>{validationError}</div>
+          )}
+        </div>
+      )}
+
       <div className={styles.actions}>
         {isRunning && (
           <button
@@ -176,6 +305,7 @@ export function PixelizationControls() {
           <button
             className={styles.runButton}
             onClick={runPixelization}
+            disabled={validationError !== null}
             aria-label="Re-run pixelization"
           >
             Re-run Pixelization
