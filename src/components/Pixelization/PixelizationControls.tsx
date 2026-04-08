@@ -48,8 +48,11 @@ function StepIndicator({ state, label }: { state: StepState; label: string }) {
   )
 }
 
-function validateParams(targetRegions: number, weights: number[]): string | null {
+function validateParams(targetRegions: number, weights: number[], countyCount?: number): string | null {
   if (targetRegions < 2) return 'Minimum 2 regions required'
+  if (countyCount && targetRegions > countyCount) {
+    return `Maximum ${countyCount} regions (limited by county count)`
+  }
   if (targetRegions > 50) return 'Maximum 50 regions'
   for (const w of weights) {
     if (w < 0 || w > 1) return 'Weights must be between 0 and 1'
@@ -65,6 +68,7 @@ export function PixelizationControls() {
     pixelizationProgress,
     pixelizationError,
     params,
+    countyCount,
     runPixelization,
     cancelPixelization,
   } = usePixelization()
@@ -74,13 +78,24 @@ export function PixelizationControls() {
   const hasAutoStarted = useRef(false)
   const [validationError, setValidationError] = useState<string | null>(null)
 
-  // Auto-start pixelization when entering this screen
+  // Sync validation with current params
   useEffect(() => {
-    if (!hasAutoStarted.current && pixelizationStatus === 'idle') {
+    setValidationError(validateParams(params.targetRegions, [
+      params.demandBalanceWeight,
+      params.contiguityWeight,
+      params.compactnessWeight,
+    ], countyCount > 0 ? countyCount : undefined))
+  }, [params.targetRegions, params.demandBalanceWeight, params.contiguityWeight, params.compactnessWeight, countyCount])
+
+  // Auto-start pixelization on mount when status is idle
+  useEffect(() => {
+    if (pixelizationStatus === 'idle') {
       hasAutoStarted.current = true
       runPixelization()
     }
-  }, [pixelizationStatus, runPixelization])
+    // Only run on mount, not on every status change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const isRunning = pixelizationStatus === 'running'
   const isComplete = pixelizationStatus === 'complete'
@@ -187,7 +202,7 @@ export function PixelizationControls() {
                 id="targetRegions"
                 type="range"
                 min={2}
-                max={20}
+                max={countyCount > 0 ? Math.min(countyCount, 50) : 20}
                 step={1}
                 value={params.targetRegions}
                 onChange={(e) => {
@@ -197,7 +212,7 @@ export function PixelizationControls() {
                     params.demandBalanceWeight,
                     params.contiguityWeight,
                     params.compactnessWeight,
-                  ]))
+                  ], countyCount > 0 ? countyCount : undefined))
                 }}
                 className={styles.slider}
                 aria-label="Target regions"
