@@ -1,16 +1,23 @@
 /**
- * Shared Overpass API client with serial queue.
+ * Shared Overpass API client with mirror rotation and serial queue.
  *
- * The public Overpass API allows ~2 concurrent requests per IP.
- * To avoid 429/504 errors, we serialize ALL Overpass requests through
- * a single queue — only 1 request in flight at a time, with a
- * mandatory cooldown between requests.
+ * Uses multiple public Overpass mirrors to avoid 429 rate limits.
+ * Primary: private.coffee (no rate limits). Fallbacks rotate on failure.
+ * All requests are serialized — only 1 in flight at a time.
  */
 
-const OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
+const OVERPASS_MIRRORS = [
+  'https://overpass.private.coffee/api/interpreter', // no rate limits
+  'https://overpass-api.de/api/interpreter',          // main (strict limits)
+  'https://overpass.maprva.org/api/interpreter',      // Virginia, USA
+]
+
 const MAX_RETRIES = 5
-const BASE_DELAY_MS = 5_000 // 5s base (was 2s — too aggressive)
-const COOLDOWN_MS = 1_500 // wait between consecutive requests
+const BASE_DELAY_MS = 3_000
+const COOLDOWN_MS = 1_000
+
+/** Track which mirror to try next on failure */
+let currentMirrorIndex = 0
 
 export interface OverpassElement {
   type: 'node' | 'way' | 'relation'
@@ -35,7 +42,6 @@ let pending: Promise<void> = Promise.resolve()
 function enqueue<T>(fn: () => Promise<T>): Promise<T> {
   const result = pending.then(() => fn()).then(
     (val) => {
-      // Cooldown after successful request
       return delay(COOLDOWN_MS).then(() => val)
     },
     (err) => {
@@ -43,14 +49,12 @@ function enqueue<T>(fn: () => Promise<T>): Promise<T> {
     }
   )
 
-  // Update pending chain (ignore errors so queue keeps moving)
   pending = result.then(() => {}, () => {})
-
   return result
 }
 
 // ---------------------------------------------------------------------------
-// Core query function (called inside the queue)
+// Core query function with mirror rotation
 // ---------------------------------------------------------------------------
 
 async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
@@ -58,12 +62,26 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
 
   while (true) {
     attempt++
+    const mirrorUrl = OVERPASS_MIRRORS[currentMirrorIndex]
 
-    const response = await fetch(OVERPASS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `data=${encodeURIComponent(query)}`,
-    })
+    let response: Response
+    try {
+      response = await fetch(mirrorUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `data=${encodeURIComponent(query)}`,
+      })
+    } catch (networkErr) {
+      // Network error (DNS, timeout, etc.) — rotate mirror and retry
+      if (attempt >= MAX_RETRIES) {
+        throw new Error(
+          `Overpass API network error after ${MAX_RETRIES} retries: ${networkErr instanceof Error ? networkErr.message : String(networkErr)}`
+        )
+      }
+      rotateMirror()
+      await delay(BASE_DELAY_MS)
+      continue
+    }
 
     if (response.ok) {
       return (await response.json()) as OverpassResponse
@@ -72,10 +90,14 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
     if (response.status === 429 || response.status >= 500) {
       if (attempt >= MAX_RETRIES) {
         throw new Error(
-          `Overpass API error ${response.status} after ${MAX_RETRIES} retries`
+          `Overpass API error ${response.status} after ${MAX_RETRIES} retries (tried ${OVERPASS_MIRRORS.length} mirrors)`
         )
       }
-      // Exponential backoff: 5s, 10s, 20s, 40s, 80s
+
+      // Rotate to next mirror immediately on 429
+      rotateMirror()
+
+      // Backoff: 3s, 6s, 12s, 24s, 48s
       const delayMs = BASE_DELAY_MS * Math.pow(2, attempt - 1)
       await delay(delayMs)
       continue
@@ -89,13 +111,17 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
   }
 }
 
+function rotateMirror(): void {
+  currentMirrorIndex = (currentMirrorIndex + 1) % OVERPASS_MIRRORS.length
+}
+
 // ---------------------------------------------------------------------------
-// Public API — all callers use this
+// Public API
 // ---------------------------------------------------------------------------
 
 /**
- * Execute an Overpass QL query. Requests are serialized — only 1 in flight
- * at a time with a cooldown between them.
+ * Execute an Overpass QL query. Serialized through a queue with mirror
+ * rotation on 429/5xx errors.
  */
 export function queryOverpass(query: string): Promise<OverpassResponse> {
   return enqueue(() => queryOverpassDirect(query))
