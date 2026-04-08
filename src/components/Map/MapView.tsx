@@ -1,4 +1,5 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
+import { BoundaryLayer } from './BoundaryLayer.tsx'
 import 'leaflet/dist/leaflet.css'
 import '@/styles/map.css'
 import styles from './Map.module.css'
@@ -21,6 +22,7 @@ export function MapView() {
         zoomControl={true}
       >
         <TileLayer url={DARK_TILE_URL} attribution={DARK_TILE_ATTRIBUTION} />
+        <BoundaryLayer />
       </MapContainer>
     </div>
   )

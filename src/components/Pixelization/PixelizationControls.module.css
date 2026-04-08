@@ -1,0 +1,247 @@
+.container {
+  padding: var(--panel-padding);
+}
+
+.title {
+  font-size: var(--font-xl);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.statusBar {
+  margin-bottom: 16px;
+}
+
+.statusLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius);
+  transition: width 0.3s ease;
+}
+
+.progressFillComplete {
+  background: var(--success);
+}
+
+.progressFillError {
+  background: var(--error);
+}
+
+.stepsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.stepActive {
+  border-color: var(--accent);
+}
+
+.stepComplete {
+  border-color: var(--success);
+}
+
+.stepIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xs);
+  flex-shrink: 0;
+}
+
+.stepIconPending {
+  background: var(--surface-elevated);
+  color: var(--text-muted);
+}
+
+.stepIconActive {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.stepIconComplete {
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--success);
+}
+
+.stepLabel {
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+}
+
+.stepLabelMuted {
+  color: var(--text-muted);
+}
+
+.results {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.resultsTitle {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabel {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+}
+
+.statValue {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.regionList {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.regionItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.regionDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.runButton {
+  width: 100%;
+  padding: 10px;
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-heading);
+  color: var(--bg);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.runButton:hover {
+  background: var(--accent-hover);
+}
+
+.runButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  width: 100%;
+  padding: 8px;
+  font-size: var(--font-sm);
+  color: var(--error);
+  background: transparent;
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelButton:hover {
+  background: rgba(239, 83, 80, 0.1);
+}
+
+.errorMessage {
+  font-size: var(--font-sm);
+  color: var(--error);
+  margin-bottom: 8px;
+  padding: 8px;
+  background: rgba(239, 83, 80, 0.1);
+  border-radius: var(--radius);
+}
+
+.warningMessage {
+  font-size: var(--font-sm);
+  color: var(--warning);
+  margin-bottom: 8px;
+}
+
+.backButton {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.backButton:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}

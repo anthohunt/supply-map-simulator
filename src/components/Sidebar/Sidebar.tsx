@@ -1,6 +1,7 @@
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { TerritoryInput } from '@/components/TerritoryInput/TerritoryInput.tsx'
 import { DataPipelineDashboard } from '@/components/DataPipeline/DataPipelineDashboard.tsx'
+import { PixelizationControls } from '@/components/Pixelization/PixelizationControls.tsx'
 import styles from './Sidebar.module.css'
 
 export function Sidebar() {
@@ -14,6 +15,7 @@ export function Sidebar() {
       <div className={styles.content}>
         {currentScreen === 'territory-search' && <TerritoryInput />}
         {currentScreen === 'data-pipeline' && <DataPipelineDashboard />}
+        {currentScreen === 'pixelization' && <PixelizationControls />}
       </div>
     </aside>
   )
