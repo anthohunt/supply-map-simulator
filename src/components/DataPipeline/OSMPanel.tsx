@@ -1,4 +1,5 @@
 import type { DataSourceStatus } from '@/stores/pipelineStore.ts'
+import { useElapsedTimer, formatElapsed } from '@/hooks/useElapsedTimer.ts'
 import { formatCount } from '@/utils/format.ts'
 import styles from './DataPipeline.module.css'
 
@@ -21,8 +22,8 @@ interface OSMPanelProps {
 
 function statusLabel(status: DataSourceStatus): string {
   const labels: Record<DataSourceStatus, string> = {
-    idle: 'Waiting',
-    loading: 'Loading',
+    idle: 'Queued',
+    loading: 'Fetching...',
     complete: 'Complete',
     error: 'Error',
   }
@@ -55,14 +56,42 @@ export function OSMPanel({
   currentChunk = 0,
   onRetry,
 }: OSMPanelProps) {
+  const elapsed = useElapsedTimer(status === 'loading')
+
   return (
     <div className={styles.panel} role="region" aria-label="OSM road and rail data">
       <div className={styles.panelHeader}>
-        <span className={styles.panelTitle}>OSM Road / Rail</span>
+        <span className={styles.panelTitle}>
+          Road &amp; Rail Network
+          <span className={styles.panelTitleHint} title="OpenStreetMap Overpass API provides real highway and railroad geometry for the selected territory">
+            ?
+          </span>
+        </span>
         <span className={`${styles.panelStatus} ${statusClass(status)}`}>
           {statusLabel(status)}
         </span>
       </div>
+
+      {status === 'idle' && (
+        <p className={styles.panelDescription}>
+          Will query OpenStreetMap for interstates, highways, and railroads after freight data loads.
+        </p>
+      )}
+
+      {status === 'loading' && (
+        <div
+          className={styles.panelDescription}
+          role="status"
+          aria-live="polite"
+          aria-label={`Loading road and rail network from OpenStreetMap, ${formatElapsed(elapsed)} elapsed, ${totalChunks > 1 ? `chunk ${currentChunk + 1} of ${totalChunks}` : 'processing'}`}
+        >
+          Loading road &amp; rail network from OpenStreetMap...
+          {totalChunks > 1
+            ? ' Large territories are split into chunks and may take 2–4 minutes.'
+            : ' This usually takes 30 seconds to 2 minutes.'}
+          <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
+        </div>
+      )}
 
       {status === 'loading' && totalChunks > 1 && (
         <div className={styles.chunkInfo} data-testid="chunk-progress">

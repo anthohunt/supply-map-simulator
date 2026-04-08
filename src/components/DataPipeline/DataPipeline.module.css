@@ -41,14 +41,17 @@
   background: var(--accent);
   border-radius: var(--radius);
   transition: width 0.3s ease;
+  animation: progressPulse 1.5s ease-in-out infinite;
 }
 
 .progressFillComplete {
   background: var(--success);
+  animation: none;
 }
 
 .progressFillError {
   background: var(--error);
+  animation: none;
 }
 
 .panels {
@@ -75,6 +78,45 @@
   font-size: var(--font-base);
   font-weight: var(--font-weight-heading);
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panelTitleHint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--surface-elevated);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: help;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.panelTitleHint:hover {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.panelDescription {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.elapsedTime {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--accent);
 }
 
 .panelStatus {
@@ -113,6 +155,12 @@
   background: var(--accent);
   border-radius: var(--radius);
   transition: width 0.2s ease;
+  animation: progressPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 .stats {
@@ -199,10 +247,30 @@
   height: 100%;
   background: var(--accent);
   transition: width 0.2s ease;
+  animation: progressPulse 1.5s ease-in-out infinite;
+}
+
+.progressHint {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.nextStepGuidance {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+}
+
+.nextStepText {
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  margin-bottom: 10px;
 }
 
 .nextStepButton {
-  margin-top: 16px;
   width: 100%;
   padding: 10px 12px;
   font-size: var(--font-base);

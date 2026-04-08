@@ -1,4 +1,5 @@
 import type { DataSourceStatus } from '@/stores/pipelineStore.ts'
+import { useElapsedTimer, formatElapsed } from '@/hooks/useElapsedTimer.ts'
 import { formatTonnage, formatCount } from '@/utils/format.ts'
 import styles from './DataPipeline.module.css'
 
@@ -19,8 +20,8 @@ interface FAFPanelProps {
 
 function statusLabel(status: DataSourceStatus): string {
   const labels: Record<DataSourceStatus, string> = {
-    idle: 'Waiting',
-    loading: 'Loading',
+    idle: 'Queued',
+    loading: 'Fetching...',
     complete: 'Complete',
     error: 'Error',
   }
@@ -53,14 +54,32 @@ export function FAFPanel({
 }: FAFPanelProps) {
   const hasFilter = disabledCommodities.size > 0
   const displayTonnage = hasFilter ? filteredTonnage : totalTonnage
+  const elapsed = useElapsedTimer(status === 'loading')
   return (
     <div className={styles.panel} role="region" aria-label="FAF freight data">
       <div className={styles.panelHeader}>
-        <span className={styles.panelTitle}>FAF Freight Data</span>
+        <span className={styles.panelTitle}>
+          FAF Freight Data
+          <span className={styles.panelTitleHint} title="Freight Analysis Framework — federal commodity flow data between county pairs">
+            ?
+          </span>
+        </span>
         <span className={`${styles.panelStatus} ${statusClass(status)}`}>
           {statusLabel(status)}
         </span>
       </div>
+
+      {status === 'loading' && (
+        <div
+          className={styles.panelDescription}
+          role="status"
+          aria-live="polite"
+          aria-label={`Loading freight commodity flow data, ${formatElapsed(elapsed)} elapsed`}
+        >
+          Loading county-to-county shipping volumes...
+          <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
+        </div>
+      )}
 
       {(status === 'loading' || status === 'complete') && (
         <div className={styles.panelProgressBar}>

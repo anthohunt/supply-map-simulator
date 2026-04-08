@@ -1,5 +1,6 @@
 import type { DataSourceStatus } from '@/stores/pipelineStore.ts'
 import type { CandidateSite } from '@/types/site.ts'
+import { useElapsedTimer, formatElapsed } from '@/hooks/useElapsedTimer.ts'
 import { formatCount } from '@/utils/format.ts'
 import styles from './DataPipeline.module.css'
 
@@ -24,8 +25,8 @@ interface InfraPanelProps {
 
 function statusLabel(status: DataSourceStatus): string {
   const labels: Record<DataSourceStatus, string> = {
-    idle: 'Waiting',
-    loading: 'Loading',
+    idle: 'Queued',
+    loading: 'Scanning...',
     complete: 'Complete',
     error: 'Error',
   }
@@ -60,14 +61,38 @@ export function InfraPanel({
   sites,
   onHoverSite,
 }: InfraPanelProps) {
+  const elapsed = useElapsedTimer(status === 'loading')
   return (
     <div className={styles.panel} role="region" aria-label="Infrastructure sites">
       <div className={styles.panelHeader}>
-        <span className={styles.panelTitle}>Infrastructure Sites</span>
+        <span className={styles.panelTitle}>
+          Infrastructure Sites
+          <span className={styles.panelTitleHint} title="Warehouses, terminals, ports, airports, and rail yards within the territory">
+            ?
+          </span>
+        </span>
         <span className={`${styles.panelStatus} ${statusClass(status)}`}>
           {statusLabel(status)}
         </span>
       </div>
+
+      {status === 'idle' && (
+        <p className={styles.panelDescription}>
+          Will locate warehouses, ports, airports, and rail yards after road/rail data loads.
+        </p>
+      )}
+
+      {status === 'loading' && (
+        <div
+          className={styles.panelDescription}
+          role="status"
+          aria-live="polite"
+          aria-label={`Scanning for infrastructure sites, ${formatElapsed(elapsed)} elapsed`}
+        >
+          Scanning for warehouses, ports, airports, and rail yards...
+          <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
+        </div>
+      )}
 
       {(status === 'loading' || status === 'complete') && (
         <div className={styles.panelProgressBar}>
