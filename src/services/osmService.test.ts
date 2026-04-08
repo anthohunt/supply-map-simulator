@@ -17,10 +17,13 @@ describe('osmService', () => {
   // Small bbox for testing (a few blocks in New Orleans)
   const testBbox: [number, number, number, number] = [-90.1, 29.9, -90.0, 30.0]
 
+  const jsonHeaders = { get: (key: string) => key === 'content-type' ? 'application/json; charset=utf-8' : null }
+
   function mockOverpassResponse(elements: unknown[]) {
     return {
       ok: true,
       status: 200,
+      headers: jsonHeaders,
       json: () => Promise.resolve({ elements }),
       text: () => Promise.resolve(''),
     }

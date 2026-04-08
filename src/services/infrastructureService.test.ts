@@ -34,9 +34,12 @@ function makeOverpassNode(
   }
 }
 
+const jsonHeaders = { get: (key: string) => key === 'content-type' ? 'application/json; charset=utf-8' : null }
+
 function mockFetchSuccess(elements: unknown[]) {
   return vi.fn().mockResolvedValue({
     ok: true,
+    headers: jsonHeaders,
     json: () => Promise.resolve({ elements }),
   })
 }
@@ -246,6 +249,7 @@ describe('infrastructureService', () => {
       }
       return Promise.resolve({
         ok: true,
+        headers: jsonHeaders,
         json: () => Promise.resolve({ elements }),
       })
     })

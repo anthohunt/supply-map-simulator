@@ -84,6 +84,19 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
     }
 
     if (response.ok) {
+      const contentType = response.headers.get('content-type') ?? ''
+      // Some mirrors return XML or HTML error pages with 200 status
+      if (!contentType.includes('json')) {
+        // Not JSON — treat as a bad mirror, rotate and retry
+        if (attempt >= MAX_RETRIES) {
+          throw new Error(
+            `Overpass mirror returned non-JSON (${contentType}) after ${MAX_RETRIES} retries`
+          )
+        }
+        rotateMirror()
+        await delay(BASE_DELAY_MS)
+        continue
+      }
       return (await response.json()) as OverpassResponse
     }
 
