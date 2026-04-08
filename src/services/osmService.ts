@@ -139,13 +139,12 @@ export async function* fetchRoads(
 
   for (const chunk of chunks) {
     const bboxStr = chunk.join(',')
-    const query = `[out:json][timeout:60];
+    const query = `[out:json][timeout:180];
 (
   way["highway"="motorway"](${bboxStr});
   way["highway"="trunk"](${bboxStr});
-  way["highway"="primary"](${bboxStr});
 );
-out body geom;`
+out geom;`
 
     const result = await queryOverpass(query)
 
@@ -178,12 +177,12 @@ export async function* fetchRail(
 
   for (const chunk of chunks) {
     const bboxStr = chunk.join(',')
-    const query = `[out:json][timeout:60];
+    const query = `[out:json][timeout:180];
 (
   way["railway"="rail"](${bboxStr});
   node["railway"="yard"](${bboxStr});
 );
-out body geom;`
+out geom;`
 
     const result = await queryOverpass(query)
 
