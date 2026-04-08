@@ -1,4 +1,7 @@
 import { HubTierToggles } from './HubTierToggles.tsx'
+import { InfrastructureToggles } from './InfrastructureToggles.tsx'
+import { BoundaryToggles } from './BoundaryToggles.tsx'
+import { OpacitySliders } from './OpacitySliders.tsx'
 import styles from './Layers.module.css'
 
 export function LayerControls() {
@@ -11,6 +14,12 @@ export function LayerControls() {
       </p>
       <div className={styles.divider} />
       <HubTierToggles />
+      <div className={styles.divider} />
+      <InfrastructureToggles />
+      <div className={styles.divider} />
+      <BoundaryToggles />
+      <div className={styles.divider} />
+      <OpacitySliders />
     </div>
   )
 }

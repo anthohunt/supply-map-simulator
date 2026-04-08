@@ -1,5 +1,6 @@
 import { Polyline, Tooltip } from 'react-leaflet'
 import { useNetworkStore } from '@/stores/networkStore.ts'
+import { useLayerState } from '@/hooks/useLayerState.ts'
 import type { Edge, HubTier } from '@/types/index.ts'
 import { formatDistance } from '@/utils/format.ts'
 
@@ -10,9 +11,10 @@ const EDGE_TIER_TO_HUB_TIERS: Record<string, HubTier[]> = {
   'access': ['access', 'local'],
 }
 
-function NetworkEdge({ edge, positions }: {
+function NetworkEdge({ edge, positions, opacity }: {
   edge: Edge
   positions: [[number, number], [number, number]]
+  opacity: number
 }) {
   return (
     <Polyline
@@ -20,7 +22,7 @@ function NetworkEdge({ edge, positions }: {
       pathOptions={{
         color: edge.color,
         weight: 2,
-        opacity: 0.6,
+        opacity: 0.6 * opacity,
         dashArray: edge.tier === 'gateway-local' ? '6 4' : undefined,
       }}
     >
@@ -34,7 +36,10 @@ function NetworkEdge({ edge, positions }: {
 }
 
 export function EdgeLayer() {
-  const { hubs, edges, networkStatus, visibleTiers } = useNetworkStore()
+  const { hubs, edges, networkStatus } = useNetworkStore()
+  const { visibleTiers, hubOpacity } = useLayerState()
+
+  const opacity = hubOpacity / 100
 
   if (networkStatus !== 'complete') return null
 
@@ -59,7 +64,7 @@ export function EdgeLayer() {
           [target.position[1], target.position[0]],
         ]
 
-        return <NetworkEdge key={edge.id} edge={edge} positions={positions} />
+        return <NetworkEdge key={edge.id} edge={edge} positions={positions} opacity={opacity} />
       })}
     </>
   )

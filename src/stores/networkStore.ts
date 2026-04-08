@@ -1,10 +1,11 @@
 import { create } from 'zustand'
-import type { Area, Region, ClusteringParams, Hub, Edge, HubTier } from '@/types/index.ts'
+import type { Area, Region, ClusteringParams, Hub, Edge, HubTier, County } from '@/types/index.ts'
 
 export type PixelizationStatus = 'idle' | 'running' | 'complete' | 'error' | 'cancelled'
 export type NetworkGenerationStatus = 'idle' | 'running' | 'complete' | 'error'
 
 interface NetworkState {
+  counties: County[]
   areas: Area[]
   regions: Region[]
   pixelizationStatus: PixelizationStatus
@@ -23,6 +24,7 @@ interface NetworkState {
   // Layer visibility
   visibleTiers: Set<HubTier>
 
+  setCounties: (counties: County[]) => void
   setAreas: (areas: Area[]) => void
   setRegions: (regions: Region[]) => void
   setPixelizationStatus: (status: PixelizationStatus) => void
@@ -54,6 +56,7 @@ const defaultParams: ClusteringParams = {
 const allTiers = new Set<HubTier>(['global', 'regional', 'gateway'])
 
 export const useNetworkStore = create<NetworkState>((set) => ({
+  counties: [],
   areas: [],
   regions: [],
   pixelizationStatus: 'idle',
@@ -69,6 +72,7 @@ export const useNetworkStore = create<NetworkState>((set) => ({
   selectedHubId: null,
   visibleTiers: new Set<HubTier>(allTiers),
 
+  setCounties: (counties) => set({ counties }),
   setAreas: (areas) => set({ areas }),
   setRegions: (regions) => set({ regions }),
   setPixelizationStatus: (pixelizationStatus) => set({ pixelizationStatus }),
@@ -78,6 +82,7 @@ export const useNetworkStore = create<NetworkState>((set) => ({
     set((state) => ({ params: { ...state.params, ...params } })),
   resetPixelization: () =>
     set({
+      counties: [],
       areas: [],
       regions: [],
       pixelizationStatus: 'idle',

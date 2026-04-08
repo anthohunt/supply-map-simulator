@@ -125,6 +125,7 @@ export function usePixelization() {
     pixelizationProgress,
     pixelizationError,
     params,
+    setCounties,
     setAreas,
     setRegions,
     setPixelizationStatus,
@@ -145,6 +146,7 @@ export function usePixelization() {
     try {
       // Build county data from FAF records (uses real centroids when available)
       const counties = await buildCountiesFromPipeline(faf.records)
+      setCounties(counties)
 
       if (counties.length < 3) {
         setPixelizationError(
@@ -197,7 +199,7 @@ export function usePixelization() {
         setPixelizationStatus('error')
       }
     }
-  }, [faf.records, params, setAreas, setRegions, setPixelizationStatus, setPixelizationProgress, setPixelizationError, resetPixelization])
+  }, [faf.records, params, setCounties, setAreas, setRegions, setPixelizationStatus, setPixelizationProgress, setPixelizationError, resetPixelization])
 
   const cancelPixelization = useCallback(() => {
     cancelledRef.current = true
