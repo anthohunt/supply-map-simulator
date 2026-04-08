@@ -1,14 +1,19 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { loadFAFData } from '@/services/fafService.ts'
-import { loadOSMData } from '@/services/osmService.ts'
+import { loadOSMData, estimateLoadingTime } from '@/services/osmService.ts'
 import { loadInfrastructureData } from '@/services/infrastructureService.ts'
 
 export function usePipeline() {
   const { faf, osm, infra, overallProgress, setFAF, setOSM, setInfra, resetPipeline } =
     usePipelineStore()
   const { selectedTerritory } = useTerritoryStore()
+
+  const loadingEstimate = useMemo(() => {
+    if (!selectedTerritory) return null
+    return estimateLoadingTime(selectedTerritory.bbox)
+  }, [selectedTerritory])
 
   const startPipeline = useCallback(async () => {
     resetPipeline()
@@ -105,6 +110,7 @@ export function usePipeline() {
     osm,
     infra,
     overallProgress,
+    loadingEstimate,
     startPipeline,
     resetPipeline,
   }
