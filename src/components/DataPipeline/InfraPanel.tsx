@@ -1,4 +1,5 @@
 import type { DataSourceStatus } from '@/stores/pipelineStore.ts'
+import type { CandidateSite } from '@/types/site.ts'
 import { formatCount } from '@/utils/format.ts'
 import styles from './DataPipeline.module.css'
 
@@ -12,10 +13,13 @@ interface InfraPanelProps {
   airportCount: number
   railYardCount: number
   totalSites: number
+  totalSqft: number
   skippedCount: number
   duplicatesRemoved: number
   fewSitesWarning: boolean
   errorMessage: string | null
+  sites: CandidateSite[]
+  onHoverSite?: (siteId: string | null) => void
 }
 
 function statusLabel(status: DataSourceStatus): string {
@@ -48,10 +52,13 @@ export function InfraPanel({
   airportCount,
   railYardCount,
   totalSites,
+  totalSqft,
   skippedCount,
   duplicatesRemoved,
   fewSitesWarning,
   errorMessage,
+  sites,
+  onHoverSite,
 }: InfraPanelProps) {
   return (
     <div className={styles.panel} role="region" aria-label="Infrastructure sites">
@@ -115,6 +122,12 @@ export function InfraPanel({
               {formatCount(railYardCount)}
             </span>
           </div>
+          <div className={`${styles.stat} ${styles.totalSqft}`}>
+            <span className={styles.statLabel}>Total sqft</span>
+            <span className={styles.statValue}>
+              {formatCount(totalSqft)}
+            </span>
+          </div>
         </div>
       )}
 
@@ -143,6 +156,24 @@ export function InfraPanel({
         <p className={styles.errorMessage}>
           Few sites found ({formatCount(totalSites)}). Try expanding the territory or lowering the sqft threshold.
         </p>
+      )}
+
+      {status === 'complete' && sites.length > 0 && (
+        <div className={styles.siteList} data-testid="site-list">
+          <span className={styles.siteListLabel}>Sites ({sites.length})</span>
+          {sites.slice(0, 20).map((site) => (
+            <div
+              key={site.id}
+              className={styles.siteListItem}
+              onMouseEnter={() => onHoverSite?.(site.id)}
+              onMouseLeave={() => onHoverSite?.(null)}
+              data-site-id={site.id}
+            >
+              <span className={styles.siteListItemName}>{site.name}</span>
+              <span className={styles.siteListItemType}>{site.type.replace('_', ' ')}</span>
+            </div>
+          ))}
+        </div>
       )}
 
       {status === 'error' && errorMessage && (

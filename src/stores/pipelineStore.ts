@@ -14,6 +14,10 @@ interface FAFState {
   errorMessage: string | null
   skippedCount: number
   isOfflineFallback: boolean
+  /** Set of disabled commodity types for filtering */
+  disabledCommodities: Set<string>
+  /** Filtered tonnage after applying commodity toggles */
+  filteredTonnage: number
 }
 
 interface OSMState {
@@ -28,6 +32,10 @@ interface OSMState {
   totalRailKm: number
   errorMessage: string | null
   skippedCount: number
+  /** Number of bbox chunks being processed (1 = no chunking) */
+  totalChunks: number
+  /** Current chunk index being processed */
+  currentChunk: number
 }
 
 interface InfraState {
@@ -54,6 +62,7 @@ interface PipelineState {
   setFAF: (update: Partial<FAFState>) => void
   setOSM: (update: Partial<OSMState>) => void
   setInfra: (update: Partial<InfraState>) => void
+  toggleCommodity: (commodity: string) => void
   resetPipeline: () => void
 }
 
@@ -67,6 +76,8 @@ const initialFAF: FAFState = {
   errorMessage: null,
   skippedCount: 0,
   isOfflineFallback: false,
+  disabledCommodities: new Set<string>(),
+  filteredTonnage: 0,
 }
 
 const initialOSM: OSMState = {
@@ -81,6 +92,8 @@ const initialOSM: OSMState = {
   totalRailKm: 0,
   errorMessage: null,
   skippedCount: 0,
+  totalChunks: 1,
+  currentChunk: 0,
 }
 
 const initialInfra: InfraState = {
@@ -126,6 +139,12 @@ export const usePipelineStore = create<PipelineState>((set) => ({
   setFAF: (update) => {
     set((state) => {
       const newFAF = { ...state.faf, ...update }
+      // If records or totalTonnage changed, recompute filteredTonnage
+      if (update.records || update.totalTonnage !== undefined) {
+        newFAF.filteredTonnage = newFAF.records
+          .filter((r) => !newFAF.disabledCommodities.has(r.commodity))
+          .reduce((sum, r) => sum + r.annualTons, 0)
+      }
       return {
         faf: newFAF,
         overallProgress: computeOverallProgress(newFAF, state.osm, state.infra),
@@ -147,6 +166,27 @@ export const usePipelineStore = create<PipelineState>((set) => ({
       return {
         infra: newInfra,
         overallProgress: computeOverallProgress(state.faf, state.osm, newInfra),
+      }
+    })
+  },
+  toggleCommodity: (commodity: string) => {
+    set((state) => {
+      const newDisabled = new Set(state.faf.disabledCommodities)
+      if (newDisabled.has(commodity)) {
+        newDisabled.delete(commodity)
+      } else {
+        newDisabled.add(commodity)
+      }
+      // Recompute filtered tonnage
+      const filteredTonnage = state.faf.records
+        .filter((r) => !newDisabled.has(r.commodity))
+        .reduce((sum, r) => sum + r.annualTons, 0)
+      return {
+        faf: {
+          ...state.faf,
+          disabledCommodities: newDisabled,
+          filteredTonnage,
+        },
       }
     })
   },
