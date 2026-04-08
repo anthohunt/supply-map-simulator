@@ -1,18 +1,27 @@
-import { MapContainer, TileLayer } from 'react-leaflet'
+import { MapContainer, useMapEvents } from 'react-leaflet'
 import { BoundaryLayer } from './BoundaryLayer.tsx'
 import { TerritoryBoundaryLayer } from './TerritoryBoundaryLayer.tsx'
 import { SiteMarkerLayer } from './SiteMarkerLayer.tsx'
+import { HubMarkerLayer } from './HubMarkerLayer.tsx'
+import { EdgeLayer } from './EdgeLayer.tsx'
+import { TileLayerSwitcher } from './TileLayerSwitcher.tsx'
+import { TileStylePicker } from './TileStylePicker.tsx'
+import { NetworkGenerationOverlay } from './NetworkGenerationOverlay.tsx'
+import { useNetworkStore } from '@/stores/networkStore.ts'
 import 'leaflet/dist/leaflet.css'
 import '@/styles/map.css'
 import styles from './Map.module.css'
 
-const DARK_TILE_URL =
-  'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-const DARK_TILE_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-
 const US_CENTER: [number, number] = [33.7, -84.4]
 const DEFAULT_ZOOM = 5
+
+function MapClickHandler() {
+  const { setSelectedHubId } = useNetworkStore()
+  useMapEvents({
+    click: () => setSelectedHubId(null),
+  })
+  return null
+}
 
 interface MapViewProps {
   hoveredSiteId?: string | null
@@ -27,11 +36,16 @@ export function MapView({ hoveredSiteId }: MapViewProps) {
         className={styles.map}
         zoomControl={true}
       >
-        <TileLayer url={DARK_TILE_URL} attribution={DARK_TILE_ATTRIBUTION} />
+        <TileLayerSwitcher />
         <TerritoryBoundaryLayer />
         <BoundaryLayer />
         <SiteMarkerLayer hoveredSiteId={hoveredSiteId} />
+        <EdgeLayer />
+        <HubMarkerLayer />
+        <MapClickHandler />
       </MapContainer>
+      <TileStylePicker />
+      <NetworkGenerationOverlay />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { TerritoryInput } from '@/components/TerritoryInput/TerritoryInput.tsx'
 import { DataPipelineDashboard } from '@/components/DataPipeline/DataPipelineDashboard.tsx'
 import { PixelizationControls } from '@/components/Pixelization/PixelizationControls.tsx'
+import { LayerControls } from '@/components/Layers/LayerControls.tsx'
 import styles from './Sidebar.module.css'
 
 interface SidebarProps {
@@ -20,6 +21,7 @@ export function Sidebar({ onHoverSite }: SidebarProps) {
         {currentScreen === 'territory-search' && <TerritoryInput />}
         {currentScreen === 'data-pipeline' && <DataPipelineDashboard onHoverSite={onHoverSite} />}
         {currentScreen === 'pixelization' && <PixelizationControls />}
+        {currentScreen === 'network-map' && <LayerControls />}
       </div>
     </aside>
   )

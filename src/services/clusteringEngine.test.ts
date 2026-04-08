@@ -4,7 +4,7 @@ import {
   clusterAreasToRegions,
   postProcess,
 } from './clusteringEngine'
-import type { County, Area, ClusteringParams } from '@/types/index.ts'
+import type { County, ClusteringParams } from '@/types/index.ts'
 
 function makeCounty(
   fips: string,

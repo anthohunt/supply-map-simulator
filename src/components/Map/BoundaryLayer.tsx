@@ -3,10 +3,6 @@ import { useEffect } from 'react'
 import { useNetworkStore } from '@/stores/networkStore.ts'
 import type { PathOptions } from 'leaflet'
 
-function swapCoords(coords: number[][]): [number, number][] {
-  return coords.map(([lng, lat]) => [lat, lng] as [number, number])
-}
-
 export function BoundaryLayer() {
   const { areas, regions, pixelizationStatus } = useNetworkStore()
   const map = useMap()

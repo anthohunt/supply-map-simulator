@@ -1,0 +1,174 @@
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+  overflow: hidden;
+}
+
+.panelHidden {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px var(--panel-padding);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.hubName {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  margin-right: var(--gap);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: var(--font-lg);
+  padding: 4px;
+  border-radius: var(--radius);
+  line-height: 1;
+}
+
+.closeBtn:hover {
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--panel-padding);
+}
+
+.tierBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-heading);
+  color: var(--bg);
+  margin-bottom: 12px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  margin-bottom: 16px;
+}
+
+.stat {
+  background: var(--surface);
+  padding: 10px;
+  border-radius: var(--radius-lg);
+}
+
+.statLabel {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.statValue {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  display: block;
+  margin-top: 2px;
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--gap);
+}
+
+.sectionNote {
+  font-size: var(--font-sm);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.connectedHub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+  font-size: var(--font-sm);
+  color: var(--accent);
+}
+
+.connectedHub:hover {
+  background: var(--surface);
+}
+
+.connectedDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.candidateItem {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    width: 100%;
+    height: 50%;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    transform: translateY(0);
+  }
+
+  .panelHidden {
+    transform: translateY(100%);
+  }
+}
