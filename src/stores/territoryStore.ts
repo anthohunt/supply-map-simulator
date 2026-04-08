@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { Territory } from '@/types/index.ts'
 
-export type AppScreen = 'territory-search' | 'data-pipeline' | 'network-map'
+export type AppScreen = 'territory-search' | 'data-pipeline' | 'pixelization' | 'network-map'
 
 interface TerritoryState {
   selectedTerritory: Territory | null

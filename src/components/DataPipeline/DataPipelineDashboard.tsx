@@ -97,6 +97,16 @@ export function DataPipelineDashboard() {
         />
       </div>
 
+      {allComplete && (
+        <button
+          className={styles.nextStepButton}
+          onClick={() => useTerritoryStore.getState().setCurrentScreen('pixelization')}
+          aria-label="Start pixelization"
+        >
+          Start Pixelization →
+        </button>
+      )}
+
       <button
         className={styles.changeTerritoryButton}
         onClick={clearTerritory}

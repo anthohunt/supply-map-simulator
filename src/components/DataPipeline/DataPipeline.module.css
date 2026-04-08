@@ -201,6 +201,24 @@
   transition: width 0.2s ease;
 }
 
+.nextStepButton {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-heading);
+  color: var(--bg);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nextStepButton:hover {
+  background: var(--accent-hover);
+}
+
 .changeTerritoryButton {
   margin-top: 16px;
   width: 100%;
