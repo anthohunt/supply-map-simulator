@@ -40,14 +40,22 @@
   background: var(--accent);
   border-radius: var(--radius);
   transition: width 0.3s ease;
+  animation: progressPulse 1.5s ease-in-out infinite;
 }
 
 .progressFillComplete {
   background: var(--success);
+  animation: none;
 }
 
 .progressFillError {
   background: var(--error);
+  animation: none;
+}
+
+@keyframes progressPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 .stepsContainer {
@@ -241,6 +249,20 @@
   color: var(--text-primary);
   min-width: 30px;
   text-align: right;
+}
+
+.nextStepGuidance {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+}
+
+.nextStepText {
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  line-height: 1.4;
 }
 
 .actions {

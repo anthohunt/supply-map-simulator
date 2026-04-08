@@ -116,23 +116,33 @@ export function PixelizationControls() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Space Pixelization</h2>
-      <p className={styles.subtitle}>Multi-tier clustering of freight demand</p>
+      <h2 className={styles.title}>Demand Clustering</h2>
+      <p className={styles.subtitle}>
+        Groups nearby counties into regions by freight volume,
+        so the network optimizer can place hubs efficiently.
+      </p>
 
-      <div className={styles.statusBar}>
+      <div className={styles.statusBar} role="status" aria-live="polite">
         <div className={styles.statusLabel}>
           <span>
             {isRunning
-              ? 'Clustering...'
+              ? 'Clustering counties by freight demand...'
               : isComplete
-                ? 'Complete'
+                ? 'Clustering complete'
                 : isError
-                  ? 'Error'
-                  : 'Ready'}
+                  ? 'Clustering error'
+                  : 'Ready to cluster'}
           </span>
           <span>{pixelizationProgress}%</span>
         </div>
-        <div className={styles.progressBar}>
+        <div
+          className={styles.progressBar}
+          role="progressbar"
+          aria-valuenow={pixelizationProgress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`Pixelization progress: ${pixelizationProgress}%`}
+        >
           <div
             className={progressFillClass}
             style={{ width: `${pixelizationProgress}%` }}
@@ -222,7 +232,7 @@ export function PixelizationControls() {
           </div>
 
           <div className={styles.paramRow}>
-            <label className={styles.paramLabel} htmlFor="demandBalance">
+            <label className={styles.paramLabel} htmlFor="demandBalance" title="How evenly freight volume should be distributed across regions. Higher = more equal regions.">
               Demand Balance
             </label>
             <div className={styles.paramControl}>
@@ -248,7 +258,7 @@ export function PixelizationControls() {
           </div>
 
           <div className={styles.paramRow}>
-            <label className={styles.paramLabel} htmlFor="contiguity">
+            <label className={styles.paramLabel} htmlFor="contiguity" title="Preference for geographically connected regions without gaps. Higher = fewer isolated patches.">
               Contiguity
             </label>
             <div className={styles.paramControl}>
@@ -274,7 +284,7 @@ export function PixelizationControls() {
           </div>
 
           <div className={styles.paramRow}>
-            <label className={styles.paramLabel} htmlFor="compactness">
+            <label className={styles.paramLabel} htmlFor="compactness" title="Preference for round, compact regions rather than long, narrow shapes. Higher = rounder clusters.">
               Compactness
             </label>
             <div className={styles.paramControl}>
@@ -305,12 +315,20 @@ export function PixelizationControls() {
         </div>
       )}
 
+      {isComplete && (
+        <div className={styles.nextStepGuidance} role="status" aria-live="polite">
+          <p className={styles.nextStepText}>
+            Regions ready. Click <strong>Generate Network</strong> on the map to place hubs and connect them.
+          </p>
+        </div>
+      )}
+
       <div className={styles.actions}>
         {isRunning && (
           <button
             className={styles.cancelButton}
             onClick={cancelPixelization}
-            aria-label="Cancel pixelization"
+            aria-label="Cancel clustering"
           >
             Cancel
           </button>
@@ -321,9 +339,9 @@ export function PixelizationControls() {
             className={styles.runButton}
             onClick={runPixelization}
             disabled={validationError !== null}
-            aria-label="Re-run pixelization"
+            aria-label="Re-run clustering with current parameters"
           >
-            Re-run Pixelization
+            Re-run Clustering
           </button>
         )}
 

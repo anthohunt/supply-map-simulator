@@ -31,23 +31,36 @@ export function NetworkGenerationOverlay() {
   return (
     <div className={styles.networkOverlay}>
       {showGenerateButton && (
-        <button
-          className={styles.generateBtn}
-          onClick={generateHubNetwork}
-          aria-label="Generate hub network"
-        >
-          Generate Network
-        </button>
+        <div className={styles.networkGenerateCard}>
+          <p className={styles.networkGenerateHint}>
+            Regions clustered. Generate a hub-and-spoke network from the demand data.
+          </p>
+          <button
+            className={styles.generateBtn}
+            onClick={generateHubNetwork}
+            aria-label="Generate hub-and-spoke freight network from clustered demand regions"
+          >
+            Generate Network
+          </button>
+        </div>
       )}
 
       {showProgress && (
-        <div className={styles.networkProgress}>
-          Generating network... {networkProgress}%
+        <div
+          className={styles.networkProgress}
+          role="status"
+          aria-live="polite"
+          aria-label={`Optimizing hub placement and connections, ${networkProgress}% complete`}
+        >
+          <span>Optimizing hub placement... {networkProgress}%</span>
+          <p className={styles.networkProgressHint}>
+            Placing hubs at high-demand sites and connecting them by tier.
+          </p>
         </div>
       )}
 
       {showError && (
-        <div className={styles.networkError}>
+        <div className={styles.networkError} role="alert">
           <div className={styles.networkErrorText}>
             {networkError ?? 'Network generation failed'}
           </div>

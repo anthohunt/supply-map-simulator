@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { usePipeline } from '@/hooks/usePipeline.ts'
@@ -34,6 +34,23 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
     osm.status === 'error' ||
     infra.status === 'error'
 
+  const isLoading = !allComplete && !hasError && hasStarted.current
+  const [elapsed, setElapsed] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    if (isLoading) {
+      setElapsed(0)
+      timerRef.current = setInterval(() => setElapsed((p) => p + 1), 1000)
+    } else {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+        timerRef.current = null
+      }
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [isLoading])
+
   const progressFillClass = allComplete
     ? `${styles.progressFill} ${styles.progressFillComplete}`
     : hasError
@@ -47,17 +64,30 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
         <p className={styles.territoryName}>{selectedTerritory.name}</p>
       )}
 
-      <div className={styles.overallProgress}>
+      <div className={styles.overallProgress} role="status" aria-live="polite">
         <div className={styles.overallLabel}>
           <span>Overall Progress</span>
           <span>{overallProgress}%</span>
         </div>
-        <div className={styles.progressBar}>
+        <div
+          className={styles.progressBar}
+          role="progressbar"
+          aria-valuenow={overallProgress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`Data pipeline progress: ${overallProgress}%`}
+        >
           <div
             className={progressFillClass}
             style={{ width: `${overallProgress}%` }}
           />
         </div>
+        {!allComplete && !hasError && (
+          <p className={styles.progressHint}>
+            Loading freight, road/rail, and infrastructure data.
+            {elapsed > 0 && ` ${elapsed < 60 ? `${elapsed}s` : `${Math.floor(elapsed / 60)}m ${elapsed % 60}s`} elapsed`}
+          </p>
+        )}
       </div>
 
       <div className={styles.panels}>
@@ -112,13 +142,18 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
       </div>
 
       {allComplete && (
-        <button
-          className={styles.nextStepButton}
-          onClick={() => useTerritoryStore.getState().setCurrentScreen('pixelization')}
-          aria-label="Start pixelization"
-        >
-          Start Pixelization →
-        </button>
+        <div className={styles.nextStepGuidance} role="status" aria-live="polite">
+          <p className={styles.nextStepText}>
+            All data loaded. Next, group counties into demand regions so the optimizer can place hubs.
+          </p>
+          <button
+            className={styles.nextStepButton}
+            onClick={() => useTerritoryStore.getState().setCurrentScreen('pixelization')}
+            aria-label="Proceed to demand clustering step to group counties into regions"
+          >
+            Next: Demand Clustering →
+          </button>
+        </div>
       )}
 
       <button
