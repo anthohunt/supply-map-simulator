@@ -34,7 +34,7 @@ const DEDUP_RADIUS_KM = 0.5
  * Bbox is in Overpass order: [south, west, north, east].
  */
 function buildInfraQuery(bboxStr: string): string {
-  return `[out:json][timeout:90];
+  return `[out:json][timeout:180];
 (
   way["building"="warehouse"](${bboxStr});
   way["building"="industrial"](${bboxStr});
