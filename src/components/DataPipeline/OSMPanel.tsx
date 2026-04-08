@@ -17,6 +17,7 @@ interface OSMPanelProps {
   skippedCount?: number
   totalChunks?: number
   currentChunk?: number
+  estimatedLabel?: string
   onRetry?: () => void
 }
 
@@ -54,6 +55,7 @@ export function OSMPanel({
   skippedCount = 0,
   totalChunks = 1,
   currentChunk = 0,
+  estimatedLabel,
   onRetry,
 }: OSMPanelProps) {
   const elapsed = useElapsedTimer(status === 'loading')
@@ -86,9 +88,11 @@ export function OSMPanel({
           aria-label={`Loading road and rail network from OpenStreetMap, ${formatElapsed(elapsed)} elapsed, ${totalChunks > 1 ? `chunk ${currentChunk + 1} of ${totalChunks}` : 'processing'}`}
         >
           Loading road &amp; rail network from OpenStreetMap...
-          {totalChunks > 1
-            ? ' Large territories are split into chunks and may take 2–4 minutes.'
-            : ' This usually takes 30 seconds to 2 minutes.'}
+          {estimatedLabel
+            ? ` Estimated time: ${estimatedLabel}.`
+            : totalChunks > 1
+              ? ' Large territories are split into chunks and may take 2–4 minutes.'
+              : ' This usually takes 30 seconds to 2 minutes.'}
           <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
         </div>
       )}

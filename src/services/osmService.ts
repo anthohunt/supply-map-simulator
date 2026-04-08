@@ -36,6 +36,38 @@ interface OSMLoadResult {
 /** Export chunkBbox for testing/visibility */
 export { chunkBbox }
 
+/**
+ * Estimate total loading time for OSM + Infrastructure based on territory bbox.
+ * Returns { chunks, queries, estimatedSeconds, estimatedLabel }.
+ * Bbox is GeoJSON order: [west, south, east, north].
+ */
+export function estimateLoadingTime(bbox: [number, number, number, number]): {
+  chunks: number
+  queries: number
+  estimatedSeconds: number
+  estimatedLabel: string
+} {
+  const [west, south, east, north] = bbox
+  const overpassBbox: OverpassBbox = [south, west, north, east]
+  const chunks = chunkBbox(overpassBbox).length
+  // Per chunk: 2 Overpass queries (roads + rail), ~15s each avg including cooldown
+  // Plus 1 infrastructure query at end (~30s avg)
+  const osmQueries = chunks * 2
+  const infraQueries = 1
+  const queries = osmQueries + infraQueries
+  const estimatedSeconds = osmQueries * 15 + infraQueries * 30
+
+  let estimatedLabel: string
+  if (estimatedSeconds <= 60) {
+    estimatedLabel = `~${estimatedSeconds}s`
+  } else {
+    const mins = Math.ceil(estimatedSeconds / 60)
+    estimatedLabel = `~${mins} min`
+  }
+
+  return { chunks, queries, estimatedSeconds, estimatedLabel }
+}
+
 /** Bbox in [south, west, north, east] order for Overpass QL. */
 type OverpassBbox = [number, number, number, number]
 

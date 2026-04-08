@@ -13,7 +13,7 @@ interface DataPipelineDashboardProps {
 
 export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProps) {
   const { selectedTerritory, clearTerritory } = useTerritoryStore()
-  const { faf, osm, infra, overallProgress, startPipeline } = usePipeline()
+  const { faf, osm, infra, overallProgress, loadingEstimate, startPipeline } = usePipeline()
   const toggleCommodity = usePipelineStore((s) => s.toggleCommodity)
   const hasStarted = useRef(false)
 
@@ -85,7 +85,8 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
         {!allComplete && !hasError && (
           <p className={styles.progressHint}>
             Loading freight, road/rail, and infrastructure data.
-            {elapsed > 0 && ` ${elapsed < 60 ? `${elapsed}s` : `${Math.floor(elapsed / 60)}m ${elapsed % 60}s`} elapsed`}
+            {loadingEstimate && ` Estimated total: ${loadingEstimate.estimatedLabel} (${loadingEstimate.queries} API queries).`}
+            {elapsed > 0 && ` ${elapsed < 60 ? `${elapsed}s` : `${Math.floor(elapsed / 60)}m ${elapsed % 60}s`} elapsed.`}
           </p>
         )}
       </div>
@@ -119,6 +120,7 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
           skippedCount={osm.skippedCount}
           totalChunks={osm.totalChunks}
           currentChunk={osm.currentChunk}
+          estimatedLabel={loadingEstimate?.estimatedLabel}
           onRetry={startPipeline}
         />
         <InfraPanel
