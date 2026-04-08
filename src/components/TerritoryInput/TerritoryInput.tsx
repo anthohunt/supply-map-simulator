@@ -22,6 +22,7 @@ const TERRITORIES: TerritoryOption[] = [
   { id: 'germany', name: 'Germany', type: 'country', bbox: [5.87, 47.27, 15.04, 55.06] },
   { id: 'japan', name: 'Japan', type: 'country', bbox: [129.41, 30.98, 145.81, 45.52] },
   { id: 'benelux', name: 'Benelux', type: 'megaregion', bbox: [2.55, 49.50, 7.22, 53.51] },
+  { id: 'rural-county', name: 'Rural County', type: 'state', bbox: [-84.5, 33.9, -84.4, 34.0] },
 ]
 
 function bboxToSimpleBoundary(bbox: [number, number, number, number]): GeoJSON.Polygon {
@@ -43,17 +44,25 @@ export function TerritoryInput() {
     useTerritoryStore()
   const [isOpen, setIsOpen] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [searchError, setSearchError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
   const filtered = useMemo(() => {
     if (searchQuery.length < 2) return []
-    const query = searchQuery.toLowerCase()
-    return TERRITORIES.filter(
-      (t) =>
-        t.name.toLowerCase().includes(query) ||
-        t.type.toLowerCase().includes(query)
-    )
+    try {
+      const query = searchQuery.toLowerCase()
+      const results = TERRITORIES.filter(
+        (t) =>
+          t.name.toLowerCase().includes(query) ||
+          t.type.toLowerCase().includes(query)
+      )
+      setSearchError(null)
+      return results
+    } catch (err) {
+      setSearchError(err instanceof Error ? err.message : 'Search failed. Please try again.')
+      return []
+    }
   }, [searchQuery])
 
   const handleInputChange = useCallback(
@@ -194,9 +203,25 @@ export function TerritoryInput() {
           </ul>
         )}
 
-        {isOpen && searchQuery.length >= 2 && filtered.length === 0 && (
+        {isOpen && searchQuery.length >= 2 && filtered.length === 0 && !searchError && (
           <div className={styles.noResults}>
             No territories found. Try &quot;Southeast&quot; or &quot;France&quot;.
+          </div>
+        )}
+
+        {searchError && (
+          <div className={styles.searchError} role="alert">
+            <span className={styles.searchErrorText}>{searchError}</span>
+            <button
+              type="button"
+              className={styles.searchRetryButton}
+              onClick={() => {
+                setSearchError(null)
+                setSearchQuery(searchQuery)
+              }}
+            >
+              Retry
+            </button>
           </div>
         )}
       </div>

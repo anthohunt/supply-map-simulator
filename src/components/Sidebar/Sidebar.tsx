@@ -4,7 +4,11 @@ import { DataPipelineDashboard } from '@/components/DataPipeline/DataPipelineDas
 import { PixelizationControls } from '@/components/Pixelization/PixelizationControls.tsx'
 import styles from './Sidebar.module.css'
 
-export function Sidebar() {
+interface SidebarProps {
+  onHoverSite?: (siteId: string | null) => void
+}
+
+export function Sidebar({ onHoverSite }: SidebarProps) {
   const { currentScreen } = useTerritoryStore()
 
   return (
@@ -14,7 +18,7 @@ export function Sidebar() {
       </div>
       <div className={styles.content}>
         {currentScreen === 'territory-search' && <TerritoryInput />}
-        {currentScreen === 'data-pipeline' && <DataPipelineDashboard />}
+        {currentScreen === 'data-pipeline' && <DataPipelineDashboard onHoverSite={onHoverSite} />}
         {currentScreen === 'pixelization' && <PixelizationControls />}
       </div>
     </aside>

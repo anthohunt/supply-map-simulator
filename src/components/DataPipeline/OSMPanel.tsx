@@ -14,6 +14,8 @@ interface OSMPanelProps {
   totalRailKm: number
   errorMessage: string | null
   skippedCount?: number
+  totalChunks?: number
+  currentChunk?: number
   onRetry?: () => void
 }
 
@@ -49,6 +51,8 @@ export function OSMPanel({
   totalRailKm,
   errorMessage,
   skippedCount = 0,
+  totalChunks = 1,
+  currentChunk = 0,
   onRetry,
 }: OSMPanelProps) {
   return (
@@ -59,6 +63,18 @@ export function OSMPanel({
           {statusLabel(status)}
         </span>
       </div>
+
+      {status === 'loading' && totalChunks > 1 && (
+        <div className={styles.chunkInfo} data-testid="chunk-progress">
+          Chunking: {currentChunk + 1} / {totalChunks} sub-regions
+        </div>
+      )}
+
+      {status === 'complete' && totalChunks > 1 && (
+        <div className={styles.chunkInfo} data-testid="chunk-complete">
+          Loaded from {totalChunks} sub-region chunks
+        </div>
+      )}
 
       {(status === 'loading' || status === 'complete') && (
         <div className={styles.subProgress}>

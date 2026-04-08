@@ -1,14 +1,20 @@
 import { useEffect, useRef } from 'react'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
+import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { usePipeline } from '@/hooks/usePipeline.ts'
 import { FAFPanel } from './FAFPanel.tsx'
 import { OSMPanel } from './OSMPanel.tsx'
 import { InfraPanel } from './InfraPanel.tsx'
 import styles from './DataPipeline.module.css'
 
-export function DataPipelineDashboard() {
+interface DataPipelineDashboardProps {
+  onHoverSite?: (siteId: string | null) => void
+}
+
+export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProps) {
   const { selectedTerritory, clearTerritory } = useTerritoryStore()
   const { faf, osm, infra, overallProgress, startPipeline } = usePipeline()
+  const toggleCommodity = usePipelineStore((s) => s.toggleCommodity)
   const hasStarted = useRef(false)
 
   useEffect(() => {
@@ -59,12 +65,15 @@ export function DataPipelineDashboard() {
           status={faf.status}
           progress={faf.progress}
           totalTonnage={faf.totalTonnage}
+          filteredTonnage={faf.filteredTonnage}
           countyPairCount={faf.countyPairCount}
           commodityTypes={faf.commodityTypes}
+          disabledCommodities={faf.disabledCommodities}
           errorMessage={faf.errorMessage}
           skippedCount={faf.skippedCount}
           isOfflineFallback={faf.isOfflineFallback}
           onRetry={startPipeline}
+          onToggleCommodity={toggleCommodity}
         />
         <OSMPanel
           status={osm.status}
@@ -78,6 +87,8 @@ export function DataPipelineDashboard() {
           totalRailKm={osm.totalRailKm}
           errorMessage={osm.errorMessage}
           skippedCount={osm.skippedCount}
+          totalChunks={osm.totalChunks}
+          currentChunk={osm.currentChunk}
           onRetry={startPipeline}
         />
         <InfraPanel
@@ -90,10 +101,13 @@ export function DataPipelineDashboard() {
           airportCount={infra.airportCount}
           railYardCount={infra.railYardCount}
           totalSites={infra.sites.length}
+          totalSqft={infra.sites.reduce((sum, s) => sum + s.sqft, 0)}
           skippedCount={infra.skippedCount}
           duplicatesRemoved={infra.duplicatesRemoved}
           fewSitesWarning={infra.fewSitesWarning}
           errorMessage={infra.errorMessage}
+          sites={infra.sites}
+          onHoverSite={onHoverSite}
         />
       </div>
 

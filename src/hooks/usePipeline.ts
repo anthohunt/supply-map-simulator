@@ -50,7 +50,8 @@ export function usePipeline() {
       const osmResult = await loadOSMData(
         selectedTerritory.bbox,
         (progress) => setOSM({ roadProgress: progress }),
-        (progress) => setOSM({ railProgress: progress })
+        (progress) => setOSM({ railProgress: progress }),
+        (totalChunks, currentChunk) => setOSM({ totalChunks, currentChunk })
       )
       setOSM({
         status: 'complete',
@@ -63,6 +64,7 @@ export function usePipeline() {
         totalRoadKm: osmResult.totalRoadKm,
         totalRailKm: osmResult.totalRailKm,
         skippedCount: osmResult.skippedCount,
+        totalChunks: osmResult.totalChunks,
       })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error'

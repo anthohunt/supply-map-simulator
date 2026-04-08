@@ -31,7 +31,11 @@ interface OSMLoadResult {
   totalRoadKm: number
   totalRailKm: number
   skippedCount: number
+  totalChunks: number
 }
+
+/** Export chunkBbox for testing/visibility */
+export { chunkBbox }
 
 /** Bbox in [south, west, north, east] order for Overpass QL. */
 type OverpassBbox = [number, number, number, number]
@@ -259,15 +263,21 @@ out body geom;`
  *             Converted internally to Overpass `[south, west, north, east]`.
  * @param onRoadProgress Callback with 0-100 progress for road loading.
  * @param onRailProgress Callback with 0-100 progress for rail loading.
+ * @param onChunkInfo Callback with total chunk count and current chunk index.
  */
 export async function loadOSMData(
   bbox: [number, number, number, number],
   onRoadProgress: (progress: number) => void,
-  onRailProgress: (progress: number) => void
+  onRailProgress: (progress: number) => void,
+  onChunkInfo?: (totalChunks: number, currentChunk: number) => void
 ): Promise<OSMLoadResult> {
   // Convert from GeoJSON bbox [west, south, east, north] to Overpass [south, west, north, east]
   const [west, south, east, north] = bbox
   const overpassBbox: OverpassBbox = [south, west, north, east]
+
+  // Report chunk info for large territories
+  const chunks = chunkBbox(overpassBbox)
+  onChunkInfo?.(chunks.length, 0)
 
   let interstateCount = 0
   let highwayCount = 0
@@ -345,6 +355,7 @@ export async function loadOSMData(
     totalRoadKm: Math.round(totalRoadKm),
     totalRailKm: Math.round(totalRailKm),
     skippedCount,
+    totalChunks: chunks.length,
   }
 }
 
