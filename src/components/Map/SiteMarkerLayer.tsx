@@ -1,4 +1,4 @@
-import { CircleMarker, Tooltip, useMap } from 'react-leaflet'
+import { CircleMarker, Tooltip } from 'react-leaflet'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import type { SiteType } from '@/types/site.ts'
 

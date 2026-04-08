@@ -1,7 +1,6 @@
 import type * as GeoJSON from 'geojson'
 import { haversine } from '@/utils/geo.ts'
 import { queryOverpass } from './overpassClient.ts'
-import type { OverpassElement } from './overpassClient.ts'
 
 // ---------------------------------------------------------------------------
 // Types

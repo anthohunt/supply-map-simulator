@@ -2,6 +2,7 @@ import { AppShell } from '@/components/AppShell/AppShell.tsx'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { useNetworkStore } from '@/stores/networkStore.ts'
+import { useMapStore } from '@/stores/mapStore.ts'
 
 // Expose stores on window in dev mode for Playwright testing
 if (import.meta.env.DEV) {
@@ -10,6 +11,7 @@ if (import.meta.env.DEV) {
       territory: useTerritoryStore,
       pipeline: usePipelineStore,
       network: useNetworkStore,
+      map: useMapStore,
     },
   })
 }

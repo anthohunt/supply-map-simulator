@@ -1,0 +1,77 @@
+.container {
+  padding: var(--panel-padding);
+}
+
+.sectionTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--gap);
+}
+
+.tierToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 6px 8px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+  font-size: var(--font-base);
+  color: var(--text-primary);
+}
+
+.tierToggle:hover {
+  background: var(--surface);
+}
+
+.tierToggleDisabled {
+  opacity: 0.4;
+}
+
+.colorDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tierLabel {
+  flex: 1;
+}
+
+.tierCount {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.checkMark {
+  font-size: var(--font-xs);
+  color: var(--accent);
+  width: 16px;
+  text-align: center;
+}
+
+.hint {
+  margin-top: var(--gap);
+  padding: 8px 12px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--font-sm);
+  text-align: center;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+}

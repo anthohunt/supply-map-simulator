@@ -7,9 +7,8 @@
  */
 
 const OVERPASS_MIRRORS = [
-  'https://overpass.private.coffee/api/interpreter', // no rate limits
-  'https://overpass-api.de/api/interpreter',          // main (strict limits)
-  'https://overpass.maprva.org/api/interpreter',      // Virginia, USA
+  'https://overpass-api.de/api/interpreter',          // main (global data)
+  'https://overpass.private.coffee/api/interpreter',   // global, no rate limits
 ]
 
 const MAX_RETRIES = 5

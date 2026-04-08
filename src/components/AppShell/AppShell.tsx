@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { Sidebar } from '@/components/Sidebar/Sidebar.tsx'
 import { MapView } from '@/components/Map/MapView.tsx'
+import { HubDetailPanel } from '@/components/HubDetail/HubDetailPanel.tsx'
 import styles from './AppShell.module.css'
 
 export function AppShell() {
@@ -15,6 +16,7 @@ export function AppShell() {
       <Sidebar onHoverSite={handleHoverSite} />
       <main className={styles.main}>
         <MapView hoveredSiteId={hoveredSiteId} />
+        <HubDetailPanel />
       </main>
     </div>
   )

@@ -352,8 +352,7 @@ export function postProcess(
 
     // Keep largest component, reassign others to nearest area
     components.sort((a, b) => b.length - a.length)
-    const mainComponent = new Set(components[0])
-
+    // Keep largest component (index 0 after sort), reassign rest
     for (let i = 1; i < components.length; i++) {
       for (const fips of components[i]) {
         // Remove from current area
