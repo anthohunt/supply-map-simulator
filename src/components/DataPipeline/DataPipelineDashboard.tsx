@@ -24,10 +24,8 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
     }
   }, [selectedTerritory, startPipeline])
 
-  const allComplete =
-    faf.status === 'complete' &&
-    osm.status === 'complete' &&
-    infra.status === 'complete'
+  const isDone = (s: string) => s === 'complete' || s === 'partial'
+  const allComplete = isDone(faf.status) && isDone(osm.status) && isDone(infra.status)
 
   const hasError =
     faf.status === 'error' ||
