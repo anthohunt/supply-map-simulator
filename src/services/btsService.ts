@@ -123,7 +123,7 @@ export async function fetchBTSHighways(
     BTS_HIGHWAYS_URL,
     "SIGNT1 IN ('I','U')",
     bbox,
-    'SIGNT1,SIGN1,SIGNN1,MILES,OBJECTID',
+    'SIGNT1,SIGN1,SIGNN1,Shape__Length,OBJECTID',
     onProgress
   )
 
@@ -145,12 +145,16 @@ export async function fetchBTSHighways(
 
       const sign = String(props.SIGN1 ?? '').trim()
 
+      // Shape__Length is in degrees — approximate km using 111km/degree
+      const lengthDegrees = Number(props.Shape__Length ?? 0)
+      const lengthKm = lengthDegrees * 111
+
       return {
         id: `bts-hw/${props.OBJECTID}`,
         type,
         geometry: { type: 'LineString' as const, coordinates: coords },
         ref: sign || `${signt}${props.SIGNN1 ?? ''}`,
-        lengthKm: Number(props.MILES ?? 0) * 1.60934,
+        lengthKm,
       }
     })
 }
