@@ -77,7 +77,17 @@ async function fetchAllFeatures(
       throw new Error(`BTS API error: ${response?.status ?? 'no response'}`)
     }
 
-    const data: GeoJSONFeatureCollection = await response.json()
+    const data = await response.json()
+
+    // ArcGIS sometimes returns 200 with a JSON error body
+    if (data.error) {
+      throw new Error(`BTS API query error: ${data.error.message || data.error.code || 'unknown'}`)
+    }
+
+    if (!data.features || !Array.isArray(data.features)) {
+      throw new Error('BTS API returned unexpected response format')
+    }
+
     allFeatures.push(...data.features)
     onProgress?.(allFeatures.length)
 
