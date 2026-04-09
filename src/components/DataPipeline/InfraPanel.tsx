@@ -28,6 +28,7 @@ function statusLabel(status: DataSourceStatus): string {
     idle: 'Queued',
     loading: 'Scanning...',
     complete: 'Complete',
+    partial: 'Partial Data',
     error: 'Error',
   }
   return labels[status]
@@ -38,6 +39,7 @@ function statusClass(status: DataSourceStatus): string {
     idle: styles.statusIdle,
     loading: styles.statusLoading,
     complete: styles.statusComplete,
+    partial: styles.statusWarning ?? styles.statusComplete,
     error: styles.statusError,
   }
   return classes[status]
