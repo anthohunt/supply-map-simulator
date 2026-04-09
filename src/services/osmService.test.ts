@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { loadOSMData } from './osmService'
 
-// Mock fetch to avoid real Overpass API calls in tests
+// Mock fetch to avoid real BTS API calls in tests
 const mockFetch = vi.fn()
 
-describe('osmService', () => {
+describe('osmService (BTS backend)', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', mockFetch)
     mockFetch.mockReset()
@@ -14,85 +14,83 @@ describe('osmService', () => {
     vi.unstubAllGlobals()
   })
 
-  // Small bbox for testing (a few blocks in New Orleans)
   const testBbox: [number, number, number, number] = [-90.1, 29.9, -90.0, 30.0]
 
-  const jsonHeaders = { get: (key: string) => key === 'content-type' ? 'application/json; charset=utf-8' : null }
-
-  function mockOverpassResponse(elements: unknown[]) {
+  function mockBTSResponse(features: unknown[]) {
     return {
       ok: true,
       status: 200,
-      headers: jsonHeaders,
-      json: () => Promise.resolve({ elements }),
-      text: () => Promise.resolve(''),
+      json: () => Promise.resolve({
+        type: 'FeatureCollection',
+        features,
+      }),
     }
   }
 
-  it('returns parsed road and rail data from Overpass responses', async () => {
-    const roadElements = [
-      {
-        type: 'way',
-        id: 1001,
-        tags: { highway: 'motorway', ref: 'I-10' },
-        geometry: [
-          { lat: 29.95, lon: -90.07 },
-          { lat: 29.96, lon: -90.06 },
-        ],
+  function makeHighwayFeature(id: number, signt: string, sign: string, miles: number) {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: [[-90.07, 29.95], [-90.06, 29.96]],
       },
-      {
-        type: 'way',
-        id: 1002,
-        tags: { highway: 'primary', ref: 'US 90' },
-        geometry: [
-          { lat: 29.94, lon: -90.08 },
-          { lat: 29.95, lon: -90.07 },
-        ],
-      },
-    ]
+      properties: { OBJECTID: id, SIGNT1: signt, SIGN1: sign, SIGNN1: sign.replace(/\D/g, ''), MILES: miles },
+    }
+  }
 
-    const railElements = [
-      {
-        type: 'way',
-        id: 2001,
-        tags: { railway: 'rail', operator: 'CSX' },
-        geometry: [
-          { lat: 29.93, lon: -90.09 },
-          { lat: 29.94, lon: -90.08 },
-        ],
+  function makeRailFeature(id: number, owner: string, km: number) {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: [[-90.09, 29.93], [-90.08, 29.94]],
       },
-      {
-        type: 'node',
-        id: 3001,
-        tags: { railway: 'yard', operator: 'NS' },
-        lat: 29.95,
-        lon: -90.05,
-      },
-    ]
+      properties: { OBJECTID: id, FRAARCID: id + 1000, RROWNER1: owner, KM: km },
+    }
+  }
 
-    // First call = roads query, second call = rail query
+  function makeYardFeature(id: number, name: string, owner: string) {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: [[-90.05, 29.95], [-90.04, 29.95]],
+      },
+      properties: { OBJECTID: id, YARDNAME: name, RROWNER1: owner, RROWNER1_NAME: `${owner} Transportation` },
+    }
+  }
+
+  it('returns parsed road and rail data from BTS responses', async () => {
+    // 3 parallel fetches: highways, rail lines, rail yards
     mockFetch
-      .mockResolvedValueOnce(mockOverpassResponse(roadElements))
-      .mockResolvedValueOnce(mockOverpassResponse(railElements))
+      .mockResolvedValueOnce(mockBTSResponse([
+        makeHighwayFeature(1, 'I', 'I10', 5.2),
+        makeHighwayFeature(2, 'U', 'U90', 3.1),
+      ]))
+      .mockResolvedValueOnce(mockBTSResponse([
+        makeRailFeature(1, 'CSX', 2.4),
+      ]))
+      .mockResolvedValueOnce(mockBTSResponse([
+        makeYardFeature(1, 'Gentilly Yard', 'NS'),
+      ]))
 
-    const onRoadProgress = vi.fn()
-    const onRailProgress = vi.fn()
-
-    const result = await loadOSMData(testBbox, onRoadProgress, onRailProgress)
+    const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
 
     expect(result.interstateCount).toBe(1)
     expect(result.highwayCount).toBe(1)
     expect(result.railroadCount).toBe(1)
     expect(result.yardCount).toBe(1)
     expect(result.totalRoadKm).toBeGreaterThan(0)
-    expect(result.totalRailKm).toBeGreaterThan(0)
+    expect(result.totalRailKm).toBe(2)
     expect(result.skippedCount).toBe(0)
+    expect(result.failedChunks).toBe(0)
   })
 
   it('calls progress callbacks reaching 100', async () => {
     mockFetch
-      .mockResolvedValueOnce(mockOverpassResponse([]))
-      .mockResolvedValueOnce(mockOverpassResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
 
     const onRoadProgress = vi.fn()
     const onRailProgress = vi.fn()
@@ -105,8 +103,9 @@ describe('osmService', () => {
 
   it('returns data with correct shape', async () => {
     mockFetch
-      .mockResolvedValueOnce(mockOverpassResponse([]))
-      .mockResolvedValueOnce(mockOverpassResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
 
     const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
 
@@ -117,71 +116,69 @@ describe('osmService', () => {
     expect(result).toHaveProperty('totalRoadKm')
     expect(result).toHaveProperty('totalRailKm')
     expect(result).toHaveProperty('skippedCount')
+    expect(result).toHaveProperty('failedChunks')
     expect(typeof result.interstateCount).toBe('number')
     expect(typeof result.totalRoadKm).toBe('number')
   })
 
-  it('classifies trunk roads correctly', async () => {
-    const roadElements = [
-      {
-        type: 'way',
-        id: 1003,
-        tags: { highway: 'trunk', ref: 'US 61' },
-        geometry: [
-          { lat: 29.95, lon: -90.07 },
-          { lat: 29.96, lon: -90.06 },
-        ],
-      },
-    ]
-
+  it('classifies US routes as highway type', async () => {
     mockFetch
-      .mockResolvedValueOnce(mockOverpassResponse(roadElements))
-      .mockResolvedValueOnce(mockOverpassResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([
+        makeHighwayFeature(1, 'U', 'U61', 4.0),
+      ]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
 
     const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
 
-    // Trunk roads counted under highwayCount for backward compat
     expect(result.highwayCount).toBe(1)
     expect(result.interstateCount).toBe(0)
   })
 
-  it('throws on persistent API errors', async () => {
-    mockFetch.mockResolvedValue({
-      ok: false,
-      status: 400,
-      json: () => Promise.resolve({}),
-      text: () => Promise.resolve('Bad request'),
-    })
-
-    await expect(
-      loadOSMData(testBbox, vi.fn(), vi.fn())
-    ).rejects.toThrow('Road data failed')
-  })
-
-  it('skips ways with malformed geometry', async () => {
-    const roadElements = [
-      {
-        type: 'way',
-        id: 1004,
-        tags: { highway: 'motorway', ref: 'I-55' },
-        geometry: [{ lat: 29.95, lon: -90.07 }], // Only 1 point — invalid
-      },
-      {
-        type: 'way',
-        id: 1005,
-        tags: { highway: 'motorway', ref: 'I-20' },
-        // No geometry at all
-      },
-    ]
-
-    mockFetch
-      .mockResolvedValueOnce(mockOverpassResponse(roadElements))
-      .mockResolvedValueOnce(mockOverpassResponse([]))
+  it('gracefully handles BTS API failures without throwing', { timeout: 30_000 }, async () => {
+    // All 3 fetches fail
+    mockFetch.mockRejectedValue(new Error('Network error'))
 
     const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
 
-    // Both malformed ways should be skipped
-    expect(result.interstateCount).toBe(0)
-    expect(result.totalRoadKm).toBe(0)
+    // Should NOT throw — returns empty with failedChunks
+    expect(result.roadSegments).toEqual([])
+    expect(result.railSegments).toEqual([])
+    expect(result.failedChunks).toBe(2)
+    expect(result.skippedCount).toBe(3)
+  })
+
+  it('handles partial failures — roads succeed, rail fails', { timeout: 30_000 }, async () => {
+    mockFetch
+      .mockResolvedValueOnce(mockBTSResponse([
+        makeHighwayFeature(1, 'I', 'I10', 5.0),
+      ]))
+      .mockRejectedValueOnce(new Error('Rail API down'))
+      .mockRejectedValueOnce(new Error('Yards API down'))
+
+    const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
+
+    expect(result.interstateCount).toBe(1)
+    expect(result.roadSegments.length).toBe(1)
+    expect(result.railroadCount).toBe(0)
+    expect(result.failedChunks).toBe(1)
+  })
+
+  it('handles BTS error response (200 with error body)', async () => {
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ error: { code: 400, message: 'Invalid query' } }),
+      })
+      .mockResolvedValueOnce(mockBTSResponse([]))
+      .mockResolvedValueOnce(mockBTSResponse([]))
+
+    const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
+
+    // Highway fetch failed but rail succeeded
+    expect(result.roadSegments).toEqual([])
+    expect(result.failedChunks).toBe(1)
+    expect(result.skippedCount).toBe(1)
   })
 })

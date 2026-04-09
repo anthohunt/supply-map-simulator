@@ -245,6 +245,7 @@ describe('infrastructureService', () => {
         return Promise.resolve({
           ok: false,
           status: 429,
+          headers: new Headers(),
         })
       }
       return Promise.resolve({
