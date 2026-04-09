@@ -15,8 +15,6 @@ interface OSMPanelProps {
   totalRailKm: number
   errorMessage: string | null
   skippedCount?: number
-  totalChunks?: number
-  currentChunk?: number
   estimatedLabel?: string
   onRetry?: () => void
 }
@@ -55,19 +53,17 @@ export function OSMPanel({
   totalRailKm,
   errorMessage,
   skippedCount = 0,
-  totalChunks = 1,
-  currentChunk = 0,
   estimatedLabel,
   onRetry,
 }: OSMPanelProps) {
   const elapsed = useElapsedTimer(status === 'loading')
 
   return (
-    <div className={styles.panel} role="region" aria-label="OSM road and rail data">
+    <div className={styles.panel} role="region" aria-label="Road and rail transportation data">
       <div className={styles.panelHeader}>
         <span className={styles.panelTitle}>
           Road &amp; Rail Network
-          <span className={styles.panelTitleHint} title="OpenStreetMap Overpass API provides real highway and railroad geometry for the selected territory">
+          <span className={styles.panelTitleHint} title="US DOT Bureau of Transportation Statistics provides official highway and railroad data for the selected territory">
             ?
           </span>
         </span>
@@ -78,7 +74,7 @@ export function OSMPanel({
 
       {status === 'idle' && (
         <p className={styles.panelDescription}>
-          Will query OpenStreetMap for interstates, highways, and railroads after freight data loads.
+          Will load interstates, US highways, and railroads from BTS after freight data loads.
         </p>
       )}
 
@@ -87,33 +83,13 @@ export function OSMPanel({
           className={styles.panelDescription}
           role="status"
           aria-live="polite"
-          aria-label={`Loading road and rail network from OpenStreetMap, ${formatElapsed(elapsed)} elapsed, ${totalChunks > 1 ? `chunk ${currentChunk + 1} of ${totalChunks}` : 'processing'}`}
+          aria-label={`Loading road and rail network from BTS, ${formatElapsed(elapsed)} elapsed`}
         >
-          Loading road &amp; rail network from OpenStreetMap...
+          Loading road &amp; rail network from BTS National Transportation Database...
           {estimatedLabel
-            ? ` Estimated time: ${estimatedLabel}.`
-            : totalChunks > 1
-              ? ' Large territories are split into chunks and may take 2–4 minutes.'
-              : ' This usually takes 30 seconds to 2 minutes.'}
+            ? ` Estimated: ${estimatedLabel}.`
+            : ' Usually completes in under 30 seconds.'}
           <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
-        </div>
-      )}
-
-      {status === 'loading' && totalChunks > 1 && (
-        <div className={styles.chunkInfo} data-testid="chunk-progress">
-          <div>Region {currentChunk} of {totalChunks} — loading roads &amp; rail</div>
-          <div className={styles.subProgressBarWrapper}>
-            <div
-              className={styles.subProgressFill}
-              style={{ width: `${Math.round((currentChunk / totalChunks) * 100)}%` }}
-            />
-          </div>
-        </div>
-      )}
-
-      {(status === 'complete' || status === 'partial') && totalChunks > 1 && (
-        <div className={styles.chunkInfo} data-testid="chunk-complete">
-          Loaded from {totalChunks} sub-region chunks
         </div>
       )}
 
