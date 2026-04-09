@@ -7,6 +7,7 @@ import styles from './Sidebar.module.css'
 
 interface SidebarProps {
   onHoverSite?: (siteId: string | null) => void
+  onExportClick?: () => void
 }
 
 const STEPS = [
@@ -23,7 +24,7 @@ const SCREEN_ORDER: Record<string, number> = {
   'network-map': 3,
 }
 
-export function Sidebar({ onHoverSite }: SidebarProps) {
+export function Sidebar({ onHoverSite, onExportClick }: SidebarProps) {
   const { currentScreen } = useTerritoryStore()
   const currentIndex = SCREEN_ORDER[currentScreen] ?? 0
 
@@ -51,7 +52,7 @@ export function Sidebar({ onHoverSite }: SidebarProps) {
         {currentScreen === 'territory-search' && <TerritoryInput />}
         {currentScreen === 'data-pipeline' && <DataPipelineDashboard onHoverSite={onHoverSite} />}
         {currentScreen === 'pixelization' && <PixelizationControls />}
-        {currentScreen === 'network-map' && <LayerControls />}
+        {currentScreen === 'network-map' && <LayerControls onExportClick={onExportClick} />}
       </div>
     </aside>
   )

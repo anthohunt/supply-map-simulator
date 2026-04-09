@@ -12,7 +12,11 @@ import flowStyles from '@/components/FlowAnalysis/FlowAnalysis.module.css'
 
 type Tab = 'layers' | 'flows' | 'stats'
 
-export function LayerControls() {
+interface LayerControlsProps {
+  onExportClick?: () => void
+}
+
+export function LayerControls({ onExportClick }: LayerControlsProps) {
   const [activeTab, setActiveTab] = useState<Tab>('layers')
 
   return (
@@ -55,6 +59,16 @@ export function LayerControls() {
           <BoundaryToggles />
           <div className={styles.divider} />
           <OpacitySliders />
+          <div className={styles.divider} />
+          {onExportClick && (
+            <button
+              className={styles.exportBtn}
+              onClick={onExportClick}
+              aria-label="Export network data"
+            >
+              Export Data
+            </button>
+          )}
         </>
       )}
 
