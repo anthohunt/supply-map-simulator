@@ -325,127 +325,65 @@ export async function loadOSMData(
 
   let failedChunks = 0
 
-  // --- Roads (per-chunk error tolerance) ---
-  let roadElementCount = 0
+  // --- Interleaved: road + rail per chunk ---
+  // Both progress bars advance together so the UI never looks stuck.
   let chunkIndex = 0
   for (const chunk of chunks) {
     chunkIndex++
     onChunkInfo?.(chunks.length, chunkIndex)
     const bboxStr = chunk.join(',')
-    const query = `[out:json][timeout:180];
-(
-  way["highway"="motorway"](${bboxStr});
-  way["highway"="trunk"](${bboxStr});
-);
-out body geom;`
 
+    // Road query for this chunk
     try {
-      const result = await queryOverpass(query)
+      const roadQuery = `[out:json][timeout:180];\n(\n  way["highway"="motorway"](${bboxStr});\n  way["highway"="trunk"](${bboxStr});\n);\nout body geom;`
+      const result = await queryOverpass(roadQuery)
 
       for (const el of result.elements) {
         if (el.type !== 'way') continue
         const line = wayToLineString(el.geometry)
         if (!line) continue
-
         const tags = el.tags ?? {}
         const roadType = classifyRoad(tags)
-        const segment: RoadSegment = {
-          id: `way/${el.id}`,
-          type: roadType,
-          geometry: line,
-          ref: tags.ref ?? '',
-          lengthKm: lineStringLengthKm(line),
-        }
-
-        roadElementCount++
-        totalRoadKm += segment.lengthKm
-        roadSegments.push(segment)
-
-        switch (segment.type) {
-          case 'interstate':
-            interstateCount++
-            break
-          case 'trunk':
-          case 'highway':
-            highwayCount++
-            break
-        }
-
-        if (roadElementCount % 50 === 0) {
-          const pct = Math.min(95, Math.round(50 * Math.log10(roadElementCount + 1)))
-          onRoadProgress(pct)
-        }
+        const km = lineStringLengthKm(line)
+        totalRoadKm += km
+        roadSegments.push({ id: `way/${el.id}`, type: roadType, geometry: line, ref: tags.ref ?? '', lengthKm: km })
+        if (roadType === 'interstate') interstateCount++
+        else highwayCount++
       }
     } catch (err) {
-      // Skip this chunk — continue with partial data
       failedChunks++
       skippedCount++
-      console.warn(
-        `Road chunk ${chunkIndex}/${chunks.length} failed, skipping: ${err instanceof Error ? err.message : String(err)}`
-      )
+      console.warn(`Road chunk ${chunkIndex}/${chunks.length} failed, skipping: ${err instanceof Error ? err.message : String(err)}`)
     }
-  }
-  onRoadProgress(100)
+    // Linear progress per chunk — predictable
+    onRoadProgress(Math.round((chunkIndex / chunks.length) * 100))
 
-  // --- Rail (per-chunk error tolerance) ---
-  let railElementCount = 0
-  chunkIndex = 0
-  for (const chunk of chunks) {
-    chunkIndex++
-    const bboxStr = chunk.join(',')
-    const query = `[out:json][timeout:180];
-(
-  way["railway"="rail"](${bboxStr});
-  node["railway"="yard"](${bboxStr});
-);
-out body geom;`
-
+    // Rail query for this chunk
     try {
-      const result = await queryOverpass(query)
+      const railQuery = `[out:json][timeout:180];\n(\n  way["railway"="rail"](${bboxStr});\n  node["railway"="yard"](${bboxStr});\n);\nout body geom;`
+      const result = await queryOverpass(railQuery)
 
       for (const el of result.elements) {
         const tags = el.tags ?? {}
-
         if (el.type === 'way') {
           const line = wayToLineString(el.geometry)
           if (!line) continue
-
-          railElementCount++
-          railSegments.push({
-            id: `way/${el.id}`,
-            type: 'railroad',
-            geometry: line,
-            operator: tags.operator ?? '',
-            lengthKm: lineStringLengthKm(line),
-          })
+          const km = lineStringLengthKm(line)
+          railSegments.push({ id: `way/${el.id}`, type: 'railroad', geometry: line, operator: tags.operator ?? '', lengthKm: km })
           railroadCount++
-          totalRailKm += lineStringLengthKm(line)
+          totalRailKm += km
         } else if (el.type === 'node' && el.lat != null && el.lon != null) {
-          railElementCount++
-          railSegments.push({
-            id: `node/${el.id}`,
-            type: 'rail_yard',
-            geometry: { type: 'Point', coordinates: [el.lon, el.lat] },
-            operator: tags.operator ?? '',
-            lengthKm: 0,
-          })
+          railSegments.push({ id: `node/${el.id}`, type: 'rail_yard', geometry: { type: 'Point', coordinates: [el.lon, el.lat] }, operator: tags.operator ?? '', lengthKm: 0 })
           yardCount++
-        }
-
-        if (railElementCount % 50 === 0) {
-          const pct = Math.min(95, Math.round(50 * Math.log10(railElementCount + 1)))
-          onRailProgress(pct)
         }
       }
     } catch (err) {
       failedChunks++
       skippedCount++
-      console.warn(
-        `Rail chunk ${chunkIndex}/${chunks.length} failed, skipping: ${err instanceof Error ? err.message : String(err)}`
-      )
+      console.warn(`Rail chunk ${chunkIndex}/${chunks.length} failed, skipping: ${err instanceof Error ? err.message : String(err)}`)
     }
+    onRailProgress(Math.round((chunkIndex / chunks.length) * 100))
   }
-  onRailProgress(100)
 
   return {
     interstateCount,

@@ -101,7 +101,13 @@ export function OSMPanel({
 
       {status === 'loading' && totalChunks > 1 && (
         <div className={styles.chunkInfo} data-testid="chunk-progress">
-          Chunking: {currentChunk + 1} / {totalChunks} sub-regions
+          <div>Region {currentChunk} of {totalChunks} — loading roads &amp; rail</div>
+          <div className={styles.subProgressBarWrapper}>
+            <div
+              className={styles.subProgressFill}
+              style={{ width: `${Math.round((currentChunk / totalChunks) * 100)}%` }}
+            />
+          </div>
         </div>
       )}
 
