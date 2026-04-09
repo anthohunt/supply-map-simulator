@@ -49,27 +49,25 @@ export function usePipeline() {
       return
     }
 
-    // --- OSM first (graceful degradation: partial data on chunk failures) ---
+    // --- Road & Rail from BTS (fast, parallel, no rate limits) ---
     setOSM({ status: 'loading', roadProgress: 0, railProgress: 0 })
     try {
       const osmResult = await loadOSMData(
         selectedTerritory.bbox,
         (progress) => setOSM({ roadProgress: progress }),
         (progress) => setOSM({ railProgress: progress }),
-        (totalChunks, currentChunk) => setOSM({ totalChunks, currentChunk })
       )
 
-      // Determine status: complete, partial (some chunks failed), or empty
       const hasData = osmResult.roadSegments.length > 0 || osmResult.railSegments.length > 0
       const hasFailures = osmResult.failedChunks > 0
       let status: 'complete' | 'partial' | 'error' = 'complete'
       let errorMessage: string | undefined
       if (hasFailures && hasData) {
         status = 'partial'
-        errorMessage = `${osmResult.failedChunks} of ${osmResult.totalChunks * 2} queries failed (Overpass API rate limited). Showing partial data — you can retry later for complete coverage.`
+        errorMessage = `Some BTS data queries failed. Showing partial road/rail data.`
       } else if (hasFailures && !hasData) {
         status = 'error'
-        errorMessage = `All Overpass API queries failed (rate limited). Try again in a few minutes.`
+        errorMessage = `BTS transportation data unavailable. Try again in a moment.`
       }
 
       setOSM({
@@ -84,7 +82,6 @@ export function usePipeline() {
         totalRoadKm: osmResult.totalRoadKm,
         totalRailKm: osmResult.totalRailKm,
         skippedCount: osmResult.skippedCount,
-        totalChunks: osmResult.totalChunks,
         roadSegments: osmResult.roadSegments,
         railSegments: osmResult.railSegments,
       })

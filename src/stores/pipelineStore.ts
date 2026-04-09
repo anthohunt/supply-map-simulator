@@ -33,10 +33,6 @@ interface OSMState {
   totalRailKm: number
   errorMessage: string | null
   skippedCount: number
-  /** Number of bbox chunks being processed (1 = no chunking) */
-  totalChunks: number
-  /** Current chunk index being processed */
-  currentChunk: number
   /** Stored road segment geometries for infrastructure overlay */
   roadSegments: RoadSegment[]
   /** Stored rail segment geometries for infrastructure overlay */
@@ -97,8 +93,6 @@ const initialOSM: OSMState = {
   totalRailKm: 0,
   errorMessage: null,
   skippedCount: 0,
-  totalChunks: 1,
-  currentChunk: 0,
   roadSegments: [],
   railSegments: [],
 }

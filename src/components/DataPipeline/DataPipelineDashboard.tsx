@@ -116,8 +116,6 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
           totalRailKm={osm.totalRailKm}
           errorMessage={osm.errorMessage}
           skippedCount={osm.skippedCount}
-          totalChunks={osm.totalChunks}
-          currentChunk={osm.currentChunk}
           estimatedLabel={loadingEstimate?.estimatedLabel}
           onRetry={startPipeline}
         />
