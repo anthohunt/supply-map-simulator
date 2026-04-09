@@ -5,6 +5,7 @@ import { TerritoryBoundaryLayer } from './TerritoryBoundaryLayer.tsx'
 import { SiteMarkerLayer } from './SiteMarkerLayer.tsx'
 import { HubMarkerLayer } from './HubMarkerLayer.tsx'
 import { EdgeLayer } from './EdgeLayer.tsx'
+import { FlowAnimationLayer } from './FlowAnimationLayer.tsx'
 import { InfrastructureLayer } from './InfrastructureLayer.tsx'
 import { TileLayerSwitcher } from './TileLayerSwitcher.tsx'
 import { TileStylePicker } from './TileStylePicker.tsx'
@@ -55,6 +56,7 @@ export function MapView({ hoveredSiteId }: MapViewProps) {
       <SiteMarkerLayer hoveredSiteId={hoveredSiteId} />
       <InfrastructureLayer />
       <EdgeLayer />
+      <FlowAnimationLayer />
       <HubMarkerLayer />
       <MapClickHandler />
       <ThreeDProjection />

@@ -1,0 +1,392 @@
+/* Flow Analysis shared styles */
+
+.sectionTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--gap);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+}
+
+/* Flow Filters */
+.filterContainer {
+  padding: var(--panel-padding);
+}
+
+.filterGroup {
+  margin-bottom: 10px;
+}
+
+.filterLabel {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family);
+  font-size: var(--font-sm);
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.filterSelect:focus {
+  border-color: var(--accent);
+}
+
+.filterSelect option {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.volumeSlider {
+  width: 100%;
+  height: 4px;
+  appearance: none;
+  background: var(--surface);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 4px rgba(31, 186, 214, 0.4);
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 4px rgba(31, 186, 214, 0.4);
+}
+
+.volumeValue {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-align: right;
+  margin-top: 2px;
+}
+
+.clearBtn {
+  width: 100%;
+  padding: 6px 12px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family);
+  font-size: var(--font-sm);
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.clearBtn:hover {
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+}
+
+.noMatchMessage {
+  padding: 12px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  font-size: var(--font-sm);
+  text-align: center;
+  margin-top: var(--gap);
+}
+
+/* Corridor Table */
+.corridorContainer {
+  padding: var(--panel-padding);
+}
+
+.corridorTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.corridorHeader {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  text-align: left;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+  font-weight: var(--font-weight-heading);
+}
+
+.corridorRow {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.corridorRow:hover {
+  background: var(--surface);
+}
+
+.corridorRowSelected {
+  background: var(--accent-subtle);
+}
+
+.corridorCell {
+  padding: 6px;
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(58, 69, 82, 0.4);
+}
+
+.corridorCellMuted {
+  composes: corridorCell;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+}
+
+.corridorDetails {
+  padding: 10px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  margin-top: var(--gap);
+}
+
+.corridorDetailsTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.corridorDetailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.corridorDetailLabel {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.corridorDetailValue {
+  font-size: var(--font-xs);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.emptyMessage {
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  font-size: var(--font-sm);
+  text-align: center;
+}
+
+.emptyLink {
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--font-sm);
+  padding: 0;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.emptyLink:hover {
+  text-decoration: underline;
+}
+
+/* Network Stats Panel */
+.statsContainer {
+  padding: var(--panel-padding);
+}
+
+.statsSummary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin-bottom: 12px;
+}
+
+.statCard {
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.statValue {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.statLabel {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.chartContainer {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.chartTitle {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-secondary);
+  margin-bottom: var(--gap);
+}
+
+.metricRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  margin-bottom: 6px;
+}
+
+.metricLabel {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.metricValue {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.metricWarning {
+  composes: metricRow;
+  border: 1px solid var(--warning);
+}
+
+.warningIcon {
+  color: var(--warning);
+  margin-right: 6px;
+}
+
+.warningHint {
+  font-size: var(--font-xs);
+  color: var(--warning);
+  margin-top: 4px;
+  padding: 0 8px;
+}
+
+.naText {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Flow toggle in LayerControls */
+.flowToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 6px 8px;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+  font-size: var(--font-base);
+  color: var(--text-primary);
+}
+
+.flowToggle:hover {
+  background: var(--surface);
+}
+
+.flowToggleActive {
+  background: var(--accent-subtle);
+}
+
+.flowDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--warning);
+}
+
+.flowLabel {
+  flex: 1;
+}
+
+.flowCount {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Sidebar tab switcher */
+.tabSwitcher {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--panel-padding);
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 4px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-family);
+  font-size: var(--font-sm);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  text-align: center;
+}
+
+.tab:hover {
+  color: var(--text-secondary);
+}
+
+.tabActive {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
