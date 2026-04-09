@@ -1,4 +1,4 @@
-import { GeoJSON, Tooltip, useMap, useMapEvents } from 'react-leaflet'
+import { GeoJSON, useMap, useMapEvents } from 'react-leaflet'
 import { useEffect, useState } from 'react'
 import { useNetworkStore } from '@/stores/networkStore.ts'
 import { useLayerState } from '@/hooks/useLayerState.ts'
