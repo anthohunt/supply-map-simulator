@@ -110,7 +110,7 @@ export function HubMarkerLayer() {
 
   if (networkStatus !== 'complete') return null
 
-  const visibleHubs = hubs.filter((h) => visibleTiers.has(h.tier))
+  const visibleHubs = hubs.filter((h) => visibleTiers.has(h.tier) && h.position && h.position.length >= 2)
 
   return (
     <MarkerClusterGroup
