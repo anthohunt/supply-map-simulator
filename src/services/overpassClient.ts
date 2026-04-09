@@ -1,21 +1,30 @@
 /**
- * Shared Overpass API client with mirror rotation and serial queue.
+ * Shared Overpass API client with mirror rotation, circuit breaker, and serial queue.
  *
- * Uses multiple public Overpass mirrors to avoid 429 rate limits.
- * Primary: private.coffee (no rate limits). Fallbacks rotate on failure.
- * All requests are serialized — only 1 in flight at a time.
+ * Resilience strategy:
+ * 1. Multiple mirrors — rotate on 429/5xx/network errors
+ * 2. Circuit breaker — mark dead mirrors with cooldown (don't re-hit for 5 min)
+ * 3. Retry-After header — respect server-requested wait times
+ * 4. Generous retries (10) with exponential backoff up to 60s
+ * 5. Serial queue — only 1 request in flight at a time to minimize rate limits
  */
 
 const OVERPASS_MIRRORS = [
-  'https://overpass-api.de/api/interpreter',          // main (global data)
-  'https://overpass.private.coffee/api/interpreter',   // global, no rate limits
+  'https://overpass.private.coffee/api/interpreter',   // primary — no rate limits
+  'https://overpass-api.de/api/interpreter',            // main (global, but rate-limited)
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter', // VK Maps (may be suspended)
 ]
 
-const MAX_RETRIES = 5
-const BASE_DELAY_MS = 3_000
-const COOLDOWN_MS = 1_000
+const MAX_RETRIES = 10
+const BASE_DELAY_MS = 5_000
+const MAX_DELAY_MS = 60_000
+const COOLDOWN_MS = 2_000
+const CIRCUIT_BREAKER_MS = 5 * 60_000 // 5 minutes
 
-/** Track which mirror to try next on failure */
+/** Circuit breaker: track when each mirror was marked dead */
+const mirrorDeadUntil: number[] = OVERPASS_MIRRORS.map(() => 0)
+
+/** Track which mirror to try next */
 let currentMirrorIndex = 0
 
 export interface OverpassElement {
@@ -53,14 +62,51 @@ function enqueue<T>(fn: () => Promise<T>): Promise<T> {
 }
 
 // ---------------------------------------------------------------------------
-// Core query function with mirror rotation
+// Mirror management with circuit breaker
+// ---------------------------------------------------------------------------
+
+/** Find the next alive mirror, or the least-dead one if all are dead */
+function findAliveMirror(): number {
+  const now = Date.now()
+  // First pass: find an alive mirror starting from current
+  for (let i = 0; i < OVERPASS_MIRRORS.length; i++) {
+    const idx = (currentMirrorIndex + i) % OVERPASS_MIRRORS.length
+    if (mirrorDeadUntil[idx] <= now) return idx
+  }
+  // All dead — pick the one that will recover soonest
+  let soonestIdx = 0
+  let soonestTime = mirrorDeadUntil[0]
+  for (let i = 1; i < mirrorDeadUntil.length; i++) {
+    if (mirrorDeadUntil[i] < soonestTime) {
+      soonestTime = mirrorDeadUntil[i]
+      soonestIdx = i
+    }
+  }
+  return soonestIdx
+}
+
+function markMirrorDead(idx: number): void {
+  mirrorDeadUntil[idx] = Date.now() + CIRCUIT_BREAKER_MS
+}
+
+function rotateMirror(): void {
+  const next = (currentMirrorIndex + 1) % OVERPASS_MIRRORS.length
+  currentMirrorIndex = findAliveMirror()
+  if (currentMirrorIndex === next) return // already rotated
+  currentMirrorIndex = next
+}
+
+// ---------------------------------------------------------------------------
+// Core query function with mirror rotation + circuit breaker
 // ---------------------------------------------------------------------------
 
 async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
   let attempt = 0
+  let consecutiveFailures = 0
 
   while (true) {
     attempt++
+    currentMirrorIndex = findAliveMirror()
     const mirrorUrl = OVERPASS_MIRRORS[currentMirrorIndex]
 
     let response: Response
@@ -71,22 +117,23 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
         body: `data=${encodeURIComponent(query)}`,
       })
     } catch (networkErr) {
-      // Network error (DNS, timeout, etc.) — rotate mirror and retry
+      consecutiveFailures++
+      markMirrorDead(currentMirrorIndex)
       if (attempt >= MAX_RETRIES) {
         throw new Error(
           `Overpass API network error after ${MAX_RETRIES} retries: ${networkErr instanceof Error ? networkErr.message : String(networkErr)}`
         )
       }
       rotateMirror()
-      await delay(BASE_DELAY_MS)
+      await delay(Math.min(BASE_DELAY_MS * Math.pow(2, consecutiveFailures - 1), MAX_DELAY_MS))
       continue
     }
 
     if (response.ok) {
       const contentType = response.headers.get('content-type') ?? ''
-      // Some mirrors return XML or HTML error pages with 200 status
       if (!contentType.includes('json')) {
-        // Not JSON — treat as a bad mirror, rotate and retry
+        consecutiveFailures++
+        markMirrorDead(currentMirrorIndex)
         if (attempt >= MAX_RETRIES) {
           throw new Error(
             `Overpass mirror returned non-JSON (${contentType}) after ${MAX_RETRIES} retries`
@@ -96,21 +143,33 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
         await delay(BASE_DELAY_MS)
         continue
       }
+      // Success — reset consecutive failures
+      consecutiveFailures = 0
       return (await response.json()) as OverpassResponse
     }
 
     if (response.status === 429 || response.status >= 500) {
+      consecutiveFailures++
+      markMirrorDead(currentMirrorIndex)
+
       if (attempt >= MAX_RETRIES) {
         throw new Error(
           `Overpass API error ${response.status} after ${MAX_RETRIES} retries (tried ${OVERPASS_MIRRORS.length} mirrors)`
         )
       }
 
-      // Rotate to next mirror immediately on 429
       rotateMirror()
 
-      // Backoff: 3s, 6s, 12s, 24s, 48s
-      const delayMs = BASE_DELAY_MS * Math.pow(2, attempt - 1)
+      // Respect Retry-After header if present
+      const retryAfter = response.headers.get('retry-after')
+      let delayMs: number
+      if (retryAfter) {
+        const retrySeconds = parseInt(retryAfter, 10)
+        delayMs = (isNaN(retrySeconds) ? BASE_DELAY_MS : retrySeconds * 1000)
+      } else {
+        // Exponential backoff: 5s, 10s, 20s, 40s, 60s (capped)
+        delayMs = Math.min(BASE_DELAY_MS * Math.pow(2, consecutiveFailures - 1), MAX_DELAY_MS)
+      }
       await delay(delayMs)
       continue
     }
@@ -123,17 +182,13 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
   }
 }
 
-function rotateMirror(): void {
-  currentMirrorIndex = (currentMirrorIndex + 1) % OVERPASS_MIRRORS.length
-}
-
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
 
 /**
  * Execute an Overpass QL query. Serialized through a queue with mirror
- * rotation on 429/5xx errors.
+ * rotation and circuit breaker on 429/5xx errors.
  */
 export function queryOverpass(query: string): Promise<OverpassResponse> {
   return enqueue(() => queryOverpassDirect(query))

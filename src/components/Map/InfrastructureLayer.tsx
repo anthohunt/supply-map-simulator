@@ -83,7 +83,7 @@ export function InfrastructureLayer() {
   const { osm, infra } = usePipelineStore()
   const { infraLayers, infraOpacity } = useLayerState()
 
-  if (osm.status !== 'complete') return null
+  if (osm.status !== 'complete' && osm.status !== 'partial') return null
 
   const opacity = infraOpacity / 100
 

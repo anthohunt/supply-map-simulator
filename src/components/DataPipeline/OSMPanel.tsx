@@ -26,6 +26,7 @@ function statusLabel(status: DataSourceStatus): string {
     idle: 'Queued',
     loading: 'Fetching...',
     complete: 'Complete',
+    partial: 'Partial Data',
     error: 'Error',
   }
   return labels[status]
@@ -36,6 +37,7 @@ function statusClass(status: DataSourceStatus): string {
     idle: styles.statusIdle,
     loading: styles.statusLoading,
     complete: styles.statusComplete,
+    partial: styles.statusWarning ?? styles.statusComplete,
     error: styles.statusError,
   }
   return classes[status]
@@ -103,13 +105,19 @@ export function OSMPanel({
         </div>
       )}
 
-      {status === 'complete' && totalChunks > 1 && (
+      {(status === 'complete' || status === 'partial') && totalChunks > 1 && (
         <div className={styles.chunkInfo} data-testid="chunk-complete">
           Loaded from {totalChunks} sub-region chunks
         </div>
       )}
 
-      {(status === 'loading' || status === 'complete') && (
+      {status === 'partial' && errorMessage && (
+        <div className={styles.warningMessage} role="alert">
+          {errorMessage}
+        </div>
+      )}
+
+      {(status === 'loading' || status === 'complete' || status === 'partial') && (
         <div className={styles.subProgress}>
           <div className={styles.subProgressRow}>
             <span className={styles.subProgressLabel}>Road</span>
@@ -132,7 +140,7 @@ export function OSMPanel({
         </div>
       )}
 
-      {status === 'complete' && (
+      {(status === 'complete' || status === 'partial') && (
         <div className={styles.stats}>
           <div className={styles.stat}>
             <span className={styles.statLabel}>Interstates</span>

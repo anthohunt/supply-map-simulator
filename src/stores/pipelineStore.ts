@@ -3,7 +3,7 @@ import type { FAFRecord } from '@/types/index.ts'
 import type { CandidateSite } from '@/types/site.ts'
 import type { RoadSegment, RailSegment } from '@/services/osmService.ts'
 
-export type DataSourceStatus = 'idle' | 'loading' | 'complete' | 'error'
+export type DataSourceStatus = 'idle' | 'loading' | 'complete' | 'partial' | 'error'
 
 interface FAFState {
   status: DataSourceStatus
@@ -124,12 +124,12 @@ function computeOverallProgress(faf: FAFState, osm: OSMState, infra: InfraState)
   const osmWeight = 0.35
   const infraWeight = 0.25
 
-  const fafProgress = faf.status === 'complete' ? 100 : faf.progress
+  const fafProgress = faf.status === 'complete' || faf.status === 'partial' ? 100 : faf.progress
   const osmProgress =
-    osm.status === 'complete'
+    osm.status === 'complete' || osm.status === 'partial'
       ? 100
       : (osm.roadProgress + osm.railProgress) / 2
-  const infraProgress = infra.status === 'complete' ? 100 : infra.progress
+  const infraProgress = infra.status === 'complete' || infra.status === 'partial' ? 100 : infra.progress
 
   return Math.round(
     fafProgress * fafWeight +

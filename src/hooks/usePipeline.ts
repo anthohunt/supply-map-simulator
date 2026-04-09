@@ -49,7 +49,7 @@ export function usePipeline() {
       return
     }
 
-    // --- OSM first ---
+    // --- OSM first (graceful degradation: partial data on chunk failures) ---
     setOSM({ status: 'loading', roadProgress: 0, railProgress: 0 })
     try {
       const osmResult = await loadOSMData(
@@ -58,8 +58,23 @@ export function usePipeline() {
         (progress) => setOSM({ railProgress: progress }),
         (totalChunks, currentChunk) => setOSM({ totalChunks, currentChunk })
       )
+
+      // Determine status: complete, partial (some chunks failed), or empty
+      const hasData = osmResult.roadSegments.length > 0 || osmResult.railSegments.length > 0
+      const hasFailures = osmResult.failedChunks > 0
+      let status: 'complete' | 'partial' | 'error' = 'complete'
+      let errorMessage: string | undefined
+      if (hasFailures && hasData) {
+        status = 'partial'
+        errorMessage = `${osmResult.failedChunks} of ${osmResult.totalChunks * 2} queries failed (Overpass API rate limited). Showing partial data — you can retry later for complete coverage.`
+      } else if (hasFailures && !hasData) {
+        status = 'error'
+        errorMessage = `All Overpass API queries failed (rate limited). Try again in a few minutes.`
+      }
+
       setOSM({
-        status: 'complete',
+        status,
+        errorMessage,
         roadProgress: 100,
         railProgress: 100,
         interstateCount: osmResult.interstateCount,

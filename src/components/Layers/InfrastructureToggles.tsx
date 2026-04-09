@@ -13,7 +13,7 @@ export function InfrastructureToggles() {
   const { infraLayers, toggleInfraLayer } = useMapStore()
   const { osm, infra } = usePipelineStore()
 
-  if (osm.status !== 'complete') return null
+  if (osm.status !== 'complete' && osm.status !== 'partial') return null
 
   const hasData: Record<InfraLayerKey, boolean> = {
     highways: osm.roadSegments.length > 0,

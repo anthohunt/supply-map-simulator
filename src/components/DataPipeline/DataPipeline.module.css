@@ -137,6 +137,10 @@
   color: var(--success);
 }
 
+.statusWarning {
+  color: var(--warning);
+}
+
 .statusError {
   color: var(--error);
 }
