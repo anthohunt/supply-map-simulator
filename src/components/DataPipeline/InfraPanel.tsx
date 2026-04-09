@@ -96,7 +96,7 @@ export function InfraPanel({
         </div>
       )}
 
-      {(status === 'loading' || status === 'complete') && (
+      {(status === 'loading' || status === 'complete' || status === 'partial') && (
         <div className={styles.panelProgressBar}>
           <div
             className={styles.panelProgressFill}
@@ -105,7 +105,13 @@ export function InfraPanel({
         </div>
       )}
 
-      {status === 'complete' && (
+      {status === 'partial' && errorMessage && (
+        <div className={styles.warningMessage} role="alert">
+          {errorMessage}
+        </div>
+      )}
+
+      {(status === 'complete' || status === 'partial') && (
         <div className={styles.stats}>
           <div className={styles.stat}>
             <span className={styles.statLabel}>Total Sites</span>
