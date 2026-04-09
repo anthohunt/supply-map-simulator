@@ -62,36 +62,42 @@ async function fetchAllFeatures(
       resultOffset: String(offset),
     })
 
-    let response: Response | null = null
+    let data: Record<string, unknown> | null = null
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
-        response = await fetch(`${baseUrl}?${params}`)
-        if (response.ok) break
-      } catch {
-        if (attempt === MAX_RETRIES) throw new Error(`BTS API unreachable after ${MAX_RETRIES} retries`)
+        const response = await fetch(`${baseUrl}?${params}`)
+        if (!response.ok) {
+          if (attempt === MAX_RETRIES) throw new Error(`BTS API HTTP ${response.status}`)
+          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt))
+          continue
+        }
+        data = await response.json()
+
+        // ArcGIS sometimes returns 200 with a JSON error body — retry these
+        if (data && (data as { error?: unknown }).error) {
+          const err = (data as { error: { message?: string; code?: number } }).error
+          if (attempt === MAX_RETRIES) {
+            throw new Error(`BTS API query error: ${err.message || err.code || 'unknown'}`)
+          }
+          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt))
+          continue
+        }
+        break // success
+      } catch (e) {
+        if (attempt === MAX_RETRIES) throw e instanceof Error ? e : new Error(`BTS API unreachable after ${MAX_RETRIES} retries`)
         await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt))
       }
     }
 
-    if (!response || !response.ok) {
-      throw new Error(`BTS API error: ${response?.status ?? 'no response'}`)
-    }
-
-    const data = await response.json()
-
-    // ArcGIS sometimes returns 200 with a JSON error body
-    if (data.error) {
-      throw new Error(`BTS API query error: ${data.error.message || data.error.code || 'unknown'}`)
-    }
-
-    if (!data.features || !Array.isArray(data.features)) {
+    if (!data || !Array.isArray((data as unknown as GeoJSONFeatureCollection).features)) {
       throw new Error('BTS API returned unexpected response format')
     }
 
-    allFeatures.push(...data.features)
+    const fc = data as unknown as GeoJSONFeatureCollection
+    allFeatures.push(...fc.features)
     onProgress?.(allFeatures.length)
 
-    if (data.properties?.exceededTransferLimit && data.features.length === PAGE_SIZE) {
+    if (fc.properties?.exceededTransferLimit && fc.features.length === PAGE_SIZE) {
       offset += PAGE_SIZE
     } else {
       hasMore = false

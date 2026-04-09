@@ -164,19 +164,21 @@ describe('osmService (BTS backend)', () => {
     expect(result.failedChunks).toBe(1)
   })
 
-  it('handles BTS error response (200 with error body)', async () => {
-    mockFetch
-      .mockResolvedValueOnce({
-        ok: true,
-        status: 200,
-        json: () => Promise.resolve({ error: { code: 400, message: 'Invalid query' } }),
-      })
-      .mockResolvedValueOnce(mockBTSResponse([]))
-      .mockResolvedValueOnce(mockBTSResponse([]))
+  it('handles BTS error response (200 with error body) — retries then fails', { timeout: 30_000 }, async () => {
+    // Route mocks by URL: highways always error, rail/yards succeed
+    mockFetch.mockImplementation((url: string) => {
+      if (url.includes('NTAD_National_Network')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ error: { code: 400, message: 'Invalid query' } }),
+        })
+      }
+      return Promise.resolve(mockBTSResponse([]))
+    })
 
     const result = await loadOSMData(testBbox, vi.fn(), vi.fn())
 
-    // Highway fetch failed but rail succeeded
     expect(result.roadSegments).toEqual([])
     expect(result.failedChunks).toBe(1)
     expect(result.skippedCount).toBe(1)
