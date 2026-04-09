@@ -1,4 +1,4 @@
-import type { Hub, HubTier, Edge, EdgeTier, CandidateSite, Region, Area } from '@/types/index.ts'
+import type { Hub, HubTier, Edge, EdgeTier, CandidateSite, Region, Area, FreightFlow, FAFRecord } from '@/types/index.ts'
 import { haversine } from '@/utils/geo.ts'
 
 // ---------------------------------------------------------------------------
@@ -332,4 +332,128 @@ export function generateNetwork(
   onProgress?.(100)
 
   return { hubs: allHubs, edges }
+}
+
+// ---------------------------------------------------------------------------
+// Route Flows — shortest-path through the hub network (BFS)
+// ---------------------------------------------------------------------------
+
+let flowIdCounter = 0
+
+function buildAdjacency(hubs: Hub[], edges: Edge[]): Map<string, string[]> {
+  const adj = new Map<string, string[]>()
+  for (const hub of hubs) {
+    adj.set(hub.id, [])
+  }
+  for (const edge of edges) {
+    adj.get(edge.sourceHubId)?.push(edge.targetHubId)
+    adj.get(edge.targetHubId)?.push(edge.sourceHubId)
+  }
+  return adj
+}
+
+function bfsPath(adj: Map<string, string[]>, start: string, end: string): string[] | null {
+  if (start === end) return [start]
+  const visited = new Set<string>([start])
+  const queue: Array<{ node: string; path: string[] }> = [{ node: start, path: [start] }]
+
+  while (queue.length > 0) {
+    const current = queue.shift()!
+    const neighbors = adj.get(current.node) ?? []
+    for (const neighbor of neighbors) {
+      if (visited.has(neighbor)) continue
+      const newPath = [...current.path, neighbor]
+      if (neighbor === end) return newPath
+      visited.add(neighbor)
+      queue.push({ node: neighbor, path: newPath })
+    }
+  }
+  return null
+}
+
+function findNearestHub(hubs: Hub[], position: [number, number]): Hub | null {
+  let best: Hub | null = null
+  let bestDist = Infinity
+  for (const hub of hubs) {
+    const dist = haversine(hub.position, position)
+    if (dist < bestDist) {
+      bestDist = dist
+      best = hub
+    }
+  }
+  return best
+}
+
+export function routeFlows(
+  fafRecords: FAFRecord[],
+  hubs: Hub[],
+  edges: Edge[],
+  countyPositions?: Map<string, [number, number]>
+): FreightFlow[] {
+  flowIdCounter = 0
+  if (hubs.length === 0 || edges.length === 0) return []
+
+  const adj = buildAdjacency(hubs, edges)
+
+  // Build county-to-hub mapping: for each FAF origin/dest FIPS,
+  // find the nearest gateway (preferred) or any hub
+  const gatewayHubs = hubs.filter((h) => h.tier === 'gateway')
+  const lookupHubs = gatewayHubs.length > 0 ? gatewayHubs : hubs
+
+  const fipsToHub = new Map<string, string>()
+
+  function resolveHub(fips: string): string | null {
+    if (fipsToHub.has(fips)) return fipsToHub.get(fips)!
+    const pos = countyPositions?.get(fips)
+    if (!pos) {
+      // Fallback: assign to a random gateway hub for demonstration
+      const fallback = lookupHubs[Math.abs(hashCode(fips)) % lookupHubs.length]
+      if (fallback) {
+        fipsToHub.set(fips, fallback.id)
+        return fallback.id
+      }
+      return null
+    }
+    const nearest = findNearestHub(lookupHubs, pos)
+    if (nearest) {
+      fipsToHub.set(fips, nearest.id)
+      return nearest.id
+    }
+    return null
+  }
+
+  const flows: FreightFlow[] = []
+
+  for (const record of fafRecords) {
+    if (record.annualTons <= 0) continue
+
+    const originHubId = resolveHub(record.originFips)
+    const destHubId = resolveHub(record.destFips)
+    if (!originHubId || !destHubId) continue
+    if (originHubId === destHubId) continue
+
+    const route = bfsPath(adj, originHubId, destHubId)
+    if (!route) continue
+
+    flows.push({
+      id: `flow-${++flowIdCounter}`,
+      originHubId,
+      destinationHubId: destHubId,
+      commodity: record.commodity,
+      volumeTons: record.annualTons,
+      routeHubIds: route,
+    })
+  }
+
+  return flows
+}
+
+function hashCode(str: string): number {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash |= 0
+  }
+  return hash
 }
