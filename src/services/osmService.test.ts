@@ -27,14 +27,14 @@ describe('osmService (BTS backend)', () => {
     }
   }
 
-  function makeHighwayFeature(id: number, signt: string, sign: string, miles: number) {
+  function makeHighwayFeature(id: number, signt: string, sign: string, shapeLenDeg: number) {
     return {
       type: 'Feature',
       geometry: {
         type: 'LineString',
         coordinates: [[-90.07, 29.95], [-90.06, 29.96]],
       },
-      properties: { OBJECTID: id, SIGNT1: signt, SIGN1: sign, SIGNN1: sign.replace(/\D/g, ''), MILES: miles },
+      properties: { OBJECTID: id, SIGNT1: signt, SIGN1: sign, SIGNN1: sign.replace(/\D/g, ''), Shape__Length: shapeLenDeg },
     }
   }
 
