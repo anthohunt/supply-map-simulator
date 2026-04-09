@@ -148,7 +148,7 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
       return (await response.json()) as OverpassResponse
     }
 
-    if (response.status === 429 || response.status >= 500) {
+    if (response.status === 403 || response.status === 429 || response.status >= 500) {
       consecutiveFailures++
       markMirrorDead(currentMirrorIndex)
 

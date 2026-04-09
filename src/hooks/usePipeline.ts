@@ -93,7 +93,7 @@ export function usePipeline() {
       setOSM({ status: 'error', errorMessage: message })
     }
 
-    // --- Infrastructure after OSM ---
+    // --- Infrastructure after OSM (graceful: skip on total failure, proceed to clustering) ---
     setInfra({ status: 'loading', progress: 0 })
     try {
       const infraResult = await loadInfrastructureData(
@@ -118,7 +118,22 @@ export function usePipeline() {
       })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error'
-      setInfra({ status: 'error', errorMessage: message })
+      // Graceful: mark as partial with empty sites so pipeline can continue
+      setInfra({
+        status: 'partial',
+        progress: 100,
+        errorMessage: `Infrastructure query failed (${message}). Proceeding without infrastructure sites — hub placement will use clustering only.`,
+        sites: [],
+        warehouseCount: 0,
+        terminalCount: 0,
+        dcCount: 0,
+        portCount: 0,
+        airportCount: 0,
+        railYardCount: 0,
+        skippedCount: 0,
+        duplicatesRemoved: 0,
+        fewSitesWarning: true,
+      })
     }
   }, [setFAF, setOSM, setInfra, resetPipeline, selectedTerritory])
 
