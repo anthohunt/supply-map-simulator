@@ -3,7 +3,15 @@ import { useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { useLayerState } from '@/hooks/useLayerState.ts'
-import type { RoadSegment, RailSegment } from '@/services/osmService.ts'
+import type { RoadSegment } from '@/services/osmService.ts'
+
+// @types/leaflet's GeoJSONOptions doesn't expose `renderer` even though Leaflet
+// accepts it at runtime (it's a valid PathOption). Augment the type here.
+declare module 'leaflet' {
+  interface GeoJSONOptions<P = any, G extends GeoJSON.GeometryObject = GeoJSON.GeometryObject> {
+    renderer?: Renderer
+  }
+}
 
 const ROAD_COLORS: Record<RoadSegment['type'], string> = {
   interstate: '#F5A623',
@@ -56,7 +64,7 @@ export function InfrastructureLayer() {
       }))
 
       const roadLayer = L.geoJSON(
-        { type: 'FeatureCollection', features: roadFeatures },
+        { type: 'FeatureCollection', features: roadFeatures } as GeoJSON.FeatureCollection,
         {
           renderer: canvasRenderer,
           style: (feature) => {
@@ -99,7 +107,7 @@ export function InfrastructureLayer() {
 
       if (railLineFeatures.length > 0) {
         const railLineLayer = L.geoJSON(
-          { type: 'FeatureCollection', features: railLineFeatures },
+          { type: 'FeatureCollection', features: railLineFeatures } as GeoJSON.FeatureCollection,
           {
             renderer: canvasRenderer,
             style: () => ({
@@ -122,7 +130,7 @@ export function InfrastructureLayer() {
 
       if (railYardFeatures.length > 0) {
         const yardLayer = L.geoJSON(
-          { type: 'FeatureCollection', features: railYardFeatures },
+          { type: 'FeatureCollection', features: railYardFeatures } as GeoJSON.FeatureCollection,
           {
             renderer: canvasRenderer,
             pointToLayer: (_feature, latlng) =>
@@ -153,7 +161,7 @@ export function InfrastructureLayer() {
         properties: { name: site.name },
       }))
       const portLayer = L.geoJSON(
-        { type: 'FeatureCollection', features: portFeatures },
+        { type: 'FeatureCollection', features: portFeatures } as GeoJSON.FeatureCollection,
         {
           renderer: canvasRenderer,
           pointToLayer: (_feature, latlng) =>
@@ -182,7 +190,7 @@ export function InfrastructureLayer() {
         properties: { name: site.name },
       }))
       const airportLayer = L.geoJSON(
-        { type: 'FeatureCollection', features: airportFeatures },
+        { type: 'FeatureCollection', features: airportFeatures } as GeoJSON.FeatureCollection,
         {
           renderer: canvasRenderer,
           pointToLayer: (_feature, latlng) =>

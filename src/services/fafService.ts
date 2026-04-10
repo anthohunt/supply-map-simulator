@@ -96,16 +96,6 @@ async function fetchJSON(url: string): Promise<unknown[]> {
  * Loaded lazily from the FAF records themselves — we average origin/dest positions
  * from records that share a FIPS code.
  */
-let fipsCoordCache: Map<string, [number, number]> | null = null
-
-function buildFipsCoordCache(records: FAFRecord[]): Map<string, [number, number]> {
-  if (fipsCoordCache) return fipsCoordCache
-  // We don't have explicit lat/lng per FIPS in the bundled data,
-  // so we skip bbox filtering when coords aren't available.
-  fipsCoordCache = new Map()
-  return fipsCoordCache
-}
-
 /**
  * Filter records to those relevant to the territory bbox.
  * Since FAF records don't carry lat/lng, we check if origin or dest FIPS
