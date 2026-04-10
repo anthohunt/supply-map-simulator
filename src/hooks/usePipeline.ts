@@ -1,21 +1,58 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { loadFAFData } from '@/services/fafService.ts'
 import { loadOSMData, estimateLoadingTime } from '@/services/osmService.ts'
 import { loadInfrastructureData } from '@/services/infrastructureService.ts'
+import { onRateLimit } from '@/services/overpassClient.ts'
 
 export function usePipeline() {
   const { faf, osm, infra, overallProgress, setFAF, setOSM, setInfra, resetPipeline } =
     usePipelineStore()
   const { selectedTerritory } = useTerritoryStore()
+  const abortControllerRef = useRef<AbortController | null>(null)
+
+  // Subscribe to Overpass rate-limit events and surface in store
+  useEffect(() => {
+    onRateLimit((event) => {
+      if (event) {
+        setInfra({
+          rateLimitInfo: {
+            startedAt: event.startedAt,
+            delayMs: event.delayMs,
+            attempt: event.attempt,
+            maxAttempts: event.maxAttempts,
+          },
+        })
+      } else {
+        setInfra({ rateLimitInfo: null })
+      }
+    })
+    return () => { onRateLimit(null) }
+  }, [setInfra])
 
   const loadingEstimate = useMemo(() => {
     if (!selectedTerritory) return null
     return estimateLoadingTime(selectedTerritory.bbox)
   }, [selectedTerritory])
 
+  const cancelPipeline = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      abortControllerRef.current = null
+    }
+    resetPipeline()
+  }, [resetPipeline])
+
   const startPipeline = useCallback(async () => {
+    // Abort any in-flight pipeline
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+    const controller = new AbortController()
+    abortControllerRef.current = controller
+    const signal = controller.signal
+
     resetPipeline()
 
     // FAF uses bundled data (no Overpass) — runs first, fast
@@ -38,6 +75,8 @@ export function usePipeline() {
       const message = err instanceof Error ? err.message : 'Unknown error'
       setFAF({ status: 'error', errorMessage: message })
     }
+
+    if (signal.aborted) return
 
     // OSM and Infra both use Overpass API — run SEQUENTIALLY to avoid 429s.
     // The shared overpassClient queue serializes individual requests, but
@@ -89,6 +128,8 @@ export function usePipeline() {
       const message = err instanceof Error ? err.message : 'Unknown error'
       setOSM({ status: 'error', errorMessage: message })
     }
+
+    if (signal.aborted) return
 
     // --- Infrastructure after OSM (graceful: skip on total failure, proceed to clustering) ---
     setInfra({ status: 'loading', progress: 0 })
@@ -142,5 +183,6 @@ export function usePipeline() {
     loadingEstimate,
     startPipeline,
     resetPipeline,
+    cancelPipeline,
   }
 }

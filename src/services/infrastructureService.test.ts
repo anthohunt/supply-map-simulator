@@ -223,16 +223,16 @@ describe('infrastructureService', () => {
     expect(result.fewSitesWarning).toBe(false)
   })
 
-  it('throws on non-retryable HTTP errors', async () => {
+  it('returns empty results when all sub-queries fail with non-retryable errors', async () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 400,
       text: () => Promise.resolve('Bad request'),
     })
 
-    await expect(
-      loadInfrastructureData(testBbox, vi.fn())
-    ).rejects.toThrow('Overpass API error 400')
+    const result = await loadInfrastructureData(testBbox, vi.fn())
+    expect(result.sites).toHaveLength(0)
+    expect(result.fewSitesWarning).toBe(true)
   })
 
   it('retries on 429 and eventually succeeds', { timeout: 15_000 }, async () => {

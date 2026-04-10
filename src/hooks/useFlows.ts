@@ -6,7 +6,7 @@ import { routeFlows } from '@/services/networkOptimizer.ts'
 import type { FreightFlow } from '@/types/index.ts'
 
 export function useFlows() {
-  const { flows, flowsEnabled, filters, corridors, selectedCorridorId, setFlows, setCorridors } = useFlowStore()
+  const { flows, flowsEnabled, filters, corridors, selectedCorridorId, flowsCleared, setFlows, setCorridors } = useFlowStore()
   const { hubs, edges, networkStatus, counties } = useNetworkStore()
   const fafRecords = usePipelineStore((s) => s.faf.records)
 
@@ -64,12 +64,12 @@ export function useFlows() {
     setCorridors(computedCorridors)
   }, [networkStatus, hubs, edges, counties, fafRecords, setFlows, setCorridors])
 
-  // Auto-compute when network completes
+  // Auto-compute when network completes (skip if flows were explicitly cleared)
   useEffect(() => {
-    if (networkStatus === 'complete' && flows.length === 0 && hubs.length > 0) {
+    if (networkStatus === 'complete' && flows.length === 0 && hubs.length > 0 && !flowsCleared) {
       computeFlows()
     }
-  }, [networkStatus, flows.length, hubs.length, computeFlows])
+  }, [networkStatus, flows.length, hubs.length, flowsCleared, computeFlows])
 
   // Apply filters
   const filteredFlows = useMemo(() => {

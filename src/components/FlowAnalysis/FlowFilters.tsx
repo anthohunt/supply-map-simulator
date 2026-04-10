@@ -7,8 +7,8 @@ import styles from './FlowAnalysis.module.css'
 
 export function FlowFilters() {
   const { setFilter, clearFilters } = useFlowStore()
-  const { hubs } = useNetworkStore()
-  const { filters, uniqueOrigins, uniqueDestinations, uniqueCommodities, maxVolume, filteredFlows } = useFlows()
+  const { hubs, networkStatus } = useNetworkStore()
+  const { flows, filters, uniqueOrigins, uniqueDestinations, uniqueCommodities, maxVolume, filteredFlows } = useFlows()
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const hubMap = new Map(hubs.map((h) => [h.id, h]))
@@ -25,6 +25,37 @@ export function FlowFilters() {
     filters.destinationHubId !== null ||
     filters.commodity !== null ||
     filters.minVolume > 0
+
+  if (networkStatus !== 'complete') {
+    return (
+      <div className={styles.filterContainer}>
+        <h3 className={styles.sectionTitle}>Flow Filters</h3>
+        <div className={styles.noMatchMessage} data-testid="flows-empty">
+          <p>Run network generation first to enable flow analysis.</p>
+          <button
+            className={styles.emptyLink}
+            onClick={() => {
+              const el = document.querySelector('[aria-label="Control sidebar"]')
+              if (el) el.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+          >
+            Go to Pipeline
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (flows.length === 0) {
+    return (
+      <div className={styles.filterContainer}>
+        <h3 className={styles.sectionTitle}>Flow Filters</h3>
+        <div className={styles.noMatchMessage} data-testid="flows-empty">
+          No flows available for this network.
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.filterContainer}>

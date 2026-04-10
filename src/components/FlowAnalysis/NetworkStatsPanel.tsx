@@ -35,7 +35,7 @@ export function NetworkStatsPanel() {
     const tierThroughput: Record<string, number> = {}
     for (const hub of hubs) {
       tierCounts[hub.tier] = (tierCounts[hub.tier] ?? 0) + 1
-      tierThroughput[hub.tier] = (tierThroughput[hub.tier] ?? 0) + hub.throughputTons
+      tierThroughput[hub.tier] = (tierThroughput[hub.tier] ?? 0) + (hub.throughputTons ?? 0)
     }
 
     // Bar chart data
@@ -52,7 +52,7 @@ export function NetworkStatsPanel() {
     const regionalHubs = hubs.filter((h) => h.tier === 'regional')
     let demandBalance = 100
     if (regionalHubs.length > 1) {
-      const throughputs = regionalHubs.map((h) => h.throughputTons)
+      const throughputs = regionalHubs.map((h) => h.throughputTons ?? 0)
       const mean = throughputs.reduce((a, b) => a + b, 0) / throughputs.length
       const variance = throughputs.reduce((sum, t) => sum + (t - mean) ** 2, 0) / throughputs.length
       const cv = mean > 0 ? Math.sqrt(variance) / mean : 0

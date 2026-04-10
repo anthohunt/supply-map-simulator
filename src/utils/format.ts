@@ -1,17 +1,18 @@
 /**
  * Format tonnage value with appropriate suffix (K, M, B).
  */
-export function formatTonnage(tons: number): string {
-  if (tons >= 1_000_000_000) {
-    return `${(tons / 1_000_000_000).toFixed(1)}B tons`
+export function formatTonnage(tons: number | null | undefined): string {
+  const value = tons ?? 0
+  if (value >= 1_000_000_000) {
+    return `${(value / 1_000_000_000).toFixed(1)}B tons`
   }
-  if (tons >= 1_000_000) {
-    return `${(tons / 1_000_000).toFixed(1)}M tons`
+  if (value >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(1)}M tons`
   }
-  if (tons >= 1_000) {
-    return `${(tons / 1_000).toFixed(1)}K tons`
+  if (value >= 1_000) {
+    return `${(value / 1_000).toFixed(1)}K tons`
   }
-  return `${tons.toFixed(0)} tons`
+  return `${value.toFixed(0)} tons`
 }
 
 /**

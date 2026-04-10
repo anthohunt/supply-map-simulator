@@ -89,7 +89,7 @@ export function JSONExport() {
         </div>
       </div>
 
-      <div className={styles.preview} aria-label="JSON preview">
+      <div className={styles.preview} aria-label="JSON preview" data-testid="json-preview">
         {previewText}
       </div>
 

@@ -103,7 +103,7 @@ export function HubMarkerLayer() {
   const handleSelect = useCallback((id: string) => {
     setSelectedHubId(id)
     const hub = hubs.find((h) => h.id === id)
-    if (hub) {
+    if (hub?.position?.length >= 2) {
       map.panTo([hub.position[1], hub.position[0]])
     }
   }, [hubs, setSelectedHubId, map])

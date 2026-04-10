@@ -1,0 +1,4106 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src\\App.tsx",
+      "source_location": "L1",
+      "id": "app",
+      "community": 25
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src\\App.tsx",
+      "source_location": "L21",
+      "id": "app_app",
+      "community": 25
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "src\\main.tsx",
+      "source_location": "L1",
+      "id": "main",
+      "community": 50
+    },
+    {
+      "label": "skmeans.d.ts",
+      "file_type": "code",
+      "source_file": "src\\skmeans.d.ts",
+      "source_location": "L1",
+      "id": "skmeans_d",
+      "community": 51
+    },
+    {
+      "label": "test-setup.ts",
+      "file_type": "code",
+      "source_file": "src\\test-setup.ts",
+      "source_location": "L1",
+      "id": "test_setup",
+      "community": 52
+    },
+    {
+      "label": "ErrorBoundary.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L1",
+      "id": "errorboundary",
+      "community": 15
+    },
+    {
+      "label": "getDerivedStateFromError()",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L16",
+      "id": "errorboundary_getderivedstatefromerror",
+      "community": 15
+    },
+    {
+      "label": "componentDidCatch()",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L20",
+      "id": "errorboundary_componentdidcatch",
+      "community": 15
+    },
+    {
+      "label": "AppShell.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\AppShell\\AppShell.tsx",
+      "source_location": "L1",
+      "id": "appshell",
+      "community": 26
+    },
+    {
+      "label": "handleResize()",
+      "file_type": "code",
+      "source_file": "src\\components\\AppShell\\AppShell.tsx",
+      "source_location": "L16",
+      "id": "appshell_handleresize",
+      "community": 26
+    },
+    {
+      "label": "DataPipelineDashboard.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\DataPipelineDashboard.tsx",
+      "source_location": "L1",
+      "id": "datapipelinedashboard",
+      "community": 27
+    },
+    {
+      "label": "isDone()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\DataPipelineDashboard.tsx",
+      "source_location": "L34",
+      "id": "datapipelinedashboard_isdone",
+      "community": 27
+    },
+    {
+      "label": "FAFPanel.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\FAFPanel.tsx",
+      "source_location": "L1",
+      "id": "fafpanel",
+      "community": 16
+    },
+    {
+      "label": "statusLabel()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\FAFPanel.tsx",
+      "source_location": "L21",
+      "id": "fafpanel_statuslabel",
+      "community": 16
+    },
+    {
+      "label": "statusClass()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\FAFPanel.tsx",
+      "source_location": "L32",
+      "id": "fafpanel_statusclass",
+      "community": 16
+    },
+    {
+      "label": "InfraPanel.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L1",
+      "id": "infrapanel",
+      "community": 12
+    },
+    {
+      "label": "RateLimitCountdown()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L8",
+      "id": "infrapanel_ratelimitcountdown",
+      "community": 12
+    },
+    {
+      "label": "statusLabel()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L52",
+      "id": "infrapanel_statuslabel",
+      "community": 12
+    },
+    {
+      "label": "statusClass()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L63",
+      "id": "infrapanel_statusclass",
+      "community": 12
+    },
+    {
+      "label": "OSMPanel.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L1",
+      "id": "osmpanel",
+      "community": 13
+    },
+    {
+      "label": "statusLabel()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L22",
+      "id": "osmpanel_statuslabel",
+      "community": 13
+    },
+    {
+      "label": "statusClass()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L33",
+      "id": "osmpanel_statusclass",
+      "community": 13
+    },
+    {
+      "label": "OSMPanel()",
+      "file_type": "code",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L44",
+      "id": "osmpanel_osmpanel",
+      "community": 13
+    },
+    {
+      "label": "CSVExport.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\CSVExport.tsx",
+      "source_location": "L1",
+      "id": "csvexport",
+      "community": 53
+    },
+    {
+      "label": "ExportModal.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\ExportModal.tsx",
+      "source_location": "L1",
+      "id": "exportmodal",
+      "community": 28
+    },
+    {
+      "label": "handler()",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\ExportModal.tsx",
+      "source_location": "L44",
+      "id": "exportmodal_handler",
+      "community": 28
+    },
+    {
+      "label": "GeoJSONExport.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\GeoJSONExport.tsx",
+      "source_location": "L1",
+      "id": "geojsonexport",
+      "community": 29
+    },
+    {
+      "label": "handleDownload()",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\GeoJSONExport.tsx",
+      "source_location": "L71",
+      "id": "geojsonexport_handledownload",
+      "community": 29
+    },
+    {
+      "label": "JSONExport.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\JSONExport.tsx",
+      "source_location": "L1",
+      "id": "jsonexport",
+      "community": 17
+    },
+    {
+      "label": "toggleTier()",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\JSONExport.tsx",
+      "source_location": "L20",
+      "id": "jsonexport_toggletier",
+      "community": 17
+    },
+    {
+      "label": "handleDownload()",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\JSONExport.tsx",
+      "source_location": "L52",
+      "id": "jsonexport_handledownload",
+      "community": 17
+    },
+    {
+      "label": "PNGExport.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Export\\PNGExport.tsx",
+      "source_location": "L1",
+      "id": "pngexport",
+      "community": 54
+    },
+    {
+      "label": "CorridorTable.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\FlowAnalysis\\CorridorTable.tsx",
+      "source_location": "L1",
+      "id": "corridortable",
+      "community": 55
+    },
+    {
+      "label": "FlowFilters.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\FlowAnalysis\\FlowFilters.tsx",
+      "source_location": "L1",
+      "id": "flowfilters",
+      "community": 30
+    },
+    {
+      "label": "FlowFilters()",
+      "file_type": "code",
+      "source_file": "src\\components\\FlowAnalysis\\FlowFilters.tsx",
+      "source_location": "L8",
+      "id": "flowfilters_flowfilters",
+      "community": 30
+    },
+    {
+      "label": "NetworkStatsPanel.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\FlowAnalysis\\NetworkStatsPanel.tsx",
+      "source_location": "L1",
+      "id": "networkstatspanel",
+      "community": 56
+    },
+    {
+      "label": "HubDetailPanel.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\HubDetail\\HubDetailPanel.tsx",
+      "source_location": "L1",
+      "id": "hubdetailpanel",
+      "community": 31
+    },
+    {
+      "label": "HubDetailPanel()",
+      "file_type": "code",
+      "source_file": "src\\components\\HubDetail\\HubDetailPanel.tsx",
+      "source_location": "L24",
+      "id": "hubdetailpanel_hubdetailpanel",
+      "community": 31
+    },
+    {
+      "label": "BoundaryToggles.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\BoundaryToggles.tsx",
+      "source_location": "L1",
+      "id": "boundarytoggles",
+      "community": 57
+    },
+    {
+      "label": "FlowToggle.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\FlowToggle.tsx",
+      "source_location": "L1",
+      "id": "flowtoggle",
+      "community": 32
+    },
+    {
+      "label": "FlowToggle()",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\FlowToggle.tsx",
+      "source_location": "L5",
+      "id": "flowtoggle_flowtoggle",
+      "community": 32
+    },
+    {
+      "label": "HubTierToggles.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\HubTierToggles.tsx",
+      "source_location": "L1",
+      "id": "hubtiertoggles",
+      "community": 33
+    },
+    {
+      "label": "HubTierToggles()",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\HubTierToggles.tsx",
+      "source_location": "L11",
+      "id": "hubtiertoggles_hubtiertoggles",
+      "community": 33
+    },
+    {
+      "label": "InfrastructureToggles.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\InfrastructureToggles.tsx",
+      "source_location": "L1",
+      "id": "infrastructuretoggles",
+      "community": 58
+    },
+    {
+      "label": "LayerControls.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\LayerControls.tsx",
+      "source_location": "L1",
+      "id": "layercontrols",
+      "community": 59
+    },
+    {
+      "label": "OpacitySliders.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Layers\\OpacitySliders.tsx",
+      "source_location": "L1",
+      "id": "opacitysliders",
+      "community": 60
+    },
+    {
+      "label": "BoundaryLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\BoundaryLayer.tsx",
+      "source_location": "L1",
+      "id": "boundarylayer",
+      "community": 18
+    },
+    {
+      "label": "ZoomTracker()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\BoundaryLayer.tsx",
+      "source_location": "L7",
+      "id": "boundarylayer_zoomtracker",
+      "community": 18
+    },
+    {
+      "label": "BoundaryLayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\BoundaryLayer.tsx",
+      "source_location": "L14",
+      "id": "boundarylayer_boundarylayer",
+      "community": 18
+    },
+    {
+      "label": "EdgeLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\EdgeLayer.tsx",
+      "source_location": "L1",
+      "id": "edgelayer",
+      "community": 34
+    },
+    {
+      "label": "NetworkEdge()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\EdgeLayer.tsx",
+      "source_location": "L14",
+      "id": "edgelayer_networkedge",
+      "community": 34
+    },
+    {
+      "label": "FlowAnimationLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L1",
+      "id": "flowanimationlayer",
+      "community": 7
+    },
+    {
+      "label": "aggregateFlowEdges()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L19",
+      "id": "flowanimationlayer_aggregateflowedges",
+      "community": 7
+    },
+    {
+      "label": "volumeToWeight()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L48",
+      "id": "flowanimationlayer_volumetoweight",
+      "community": 7
+    },
+    {
+      "label": "volumeToColor()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L54",
+      "id": "flowanimationlayer_volumetocolor",
+      "community": 7
+    },
+    {
+      "label": "buildCorridorEdgeKeys()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L64",
+      "id": "flowanimationlayer_buildcorridoredgekeys",
+      "community": 7
+    },
+    {
+      "label": "FlowAnimationLayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L79",
+      "id": "flowanimationlayer_flowanimationlayer",
+      "community": 7
+    },
+    {
+      "label": "HubMarkerLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\HubMarkerLayer.tsx",
+      "source_location": "L1",
+      "id": "hubmarkerlayer",
+      "community": 35
+    },
+    {
+      "label": "createClusterIcon()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\HubMarkerLayer.tsx",
+      "source_location": "L26",
+      "id": "hubmarkerlayer_createclustericon",
+      "community": 35
+    },
+    {
+      "label": "InfrastructureLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\InfrastructureLayer.tsx",
+      "source_location": "L1",
+      "id": "infrastructurelayer",
+      "community": 36
+    },
+    {
+      "label": "InfrastructureLayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\InfrastructureLayer.tsx",
+      "source_location": "L22",
+      "id": "infrastructurelayer_infrastructurelayer",
+      "community": 36
+    },
+    {
+      "label": "MapView.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\MapView.tsx",
+      "source_location": "L1",
+      "id": "mapview",
+      "community": 19
+    },
+    {
+      "label": "MapClickHandler()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\MapView.tsx",
+      "source_location": "L25",
+      "id": "mapview_mapclickhandler",
+      "community": 19
+    },
+    {
+      "label": "handleResize()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\MapView.tsx",
+      "source_location": "L55",
+      "id": "mapview_handleresize",
+      "community": 19
+    },
+    {
+      "label": "NetworkGenerationOverlay.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\NetworkGenerationOverlay.tsx",
+      "source_location": "L1",
+      "id": "networkgenerationoverlay",
+      "community": 61
+    },
+    {
+      "label": "SiteMarkerLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SiteMarkerLayer.tsx",
+      "source_location": "L1",
+      "id": "sitemarkerlayer",
+      "community": 37
+    },
+    {
+      "label": "SiteMarkerLayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SiteMarkerLayer.tsx",
+      "source_location": "L27",
+      "id": "sitemarkerlayer_sitemarkerlayer",
+      "community": 37
+    },
+    {
+      "label": "SplitMapView.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L1",
+      "id": "splitmapview",
+      "community": 8
+    },
+    {
+      "label": "SyncToLeft()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L17",
+      "id": "splitmapview_synctoleft",
+      "community": 8
+    },
+    {
+      "label": "RightMapClickHandler()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L43",
+      "id": "splitmapview_rightmapclickhandler",
+      "community": 8
+    },
+    {
+      "label": "RightTileLayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L71",
+      "id": "splitmapview_righttilelayer",
+      "community": 8
+    },
+    {
+      "label": "RightPanelControls()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L85",
+      "id": "splitmapview_rightpanelcontrols",
+      "community": 8
+    },
+    {
+      "label": "handleResize()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L145",
+      "id": "splitmapview_handleresize",
+      "community": 8
+    },
+    {
+      "label": "TerritoryBoundaryLayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\TerritoryBoundaryLayer.tsx",
+      "source_location": "L1",
+      "id": "territoryboundarylayer",
+      "community": 38
+    },
+    {
+      "label": "TerritoryBoundaryLayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\TerritoryBoundaryLayer.tsx",
+      "source_location": "L15",
+      "id": "territoryboundarylayer_territoryboundarylayer",
+      "community": 38
+    },
+    {
+      "label": "ThreeDProjection.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\ThreeDProjection.tsx",
+      "source_location": "L1",
+      "id": "threedprojection",
+      "community": 20
+    },
+    {
+      "label": "hasWebGL()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\ThreeDProjection.tsx",
+      "source_location": "L24",
+      "id": "threedprojection_haswebgl",
+      "community": 20
+    },
+    {
+      "label": "ThreeDProjection()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\ThreeDProjection.tsx",
+      "source_location": "L35",
+      "id": "threedprojection_threedprojection",
+      "community": 20
+    },
+    {
+      "label": "TileLayerSwitcher.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\TileLayerSwitcher.tsx",
+      "source_location": "L1",
+      "id": "tilelayerswitcher",
+      "community": 39
+    },
+    {
+      "label": "TileLayerSwitcher()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\TileLayerSwitcher.tsx",
+      "source_location": "L26",
+      "id": "tilelayerswitcher_tilelayerswitcher",
+      "community": 39
+    },
+    {
+      "label": "TileStylePicker.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\TileStylePicker.tsx",
+      "source_location": "L1",
+      "id": "tilestylepicker",
+      "community": 40
+    },
+    {
+      "label": "TileStylePicker()",
+      "file_type": "code",
+      "source_file": "src\\components\\Map\\TileStylePicker.tsx",
+      "source_location": "L20",
+      "id": "tilestylepicker_tilestylepicker",
+      "community": 40
+    },
+    {
+      "label": "PixelizationControls.test.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.test.tsx",
+      "source_location": "L1",
+      "id": "pixelizationcontrols_test",
+      "community": 41
+    },
+    {
+      "label": "validateParams()",
+      "file_type": "code",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.test.tsx",
+      "source_location": "L70",
+      "id": "pixelizationcontrols_test_validateparams",
+      "community": 41
+    },
+    {
+      "label": "PixelizationControls.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L1",
+      "id": "pixelizationcontrols",
+      "community": 14
+    },
+    {
+      "label": "getStepStates()",
+      "file_type": "code",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L10",
+      "id": "pixelizationcontrols_getstepstates",
+      "community": 14
+    },
+    {
+      "label": "StepIndicator()",
+      "file_type": "code",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L24",
+      "id": "pixelizationcontrols_stepindicator",
+      "community": 14
+    },
+    {
+      "label": "validateParams()",
+      "file_type": "code",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L56",
+      "id": "pixelizationcontrols_validateparams",
+      "community": 14
+    },
+    {
+      "label": "Sidebar.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\Sidebar\\Sidebar.tsx",
+      "source_location": "L1",
+      "id": "sidebar",
+      "community": 42
+    },
+    {
+      "label": "Sidebar()",
+      "file_type": "code",
+      "source_file": "src\\components\\Sidebar\\Sidebar.tsx",
+      "source_location": "L28",
+      "id": "sidebar_sidebar",
+      "community": 42
+    },
+    {
+      "label": "TerritoryInput.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\TerritoryInput\\TerritoryInput.tsx",
+      "source_location": "L1",
+      "id": "territoryinput",
+      "community": 21
+    },
+    {
+      "label": "bboxToSimpleBoundary()",
+      "file_type": "code",
+      "source_file": "src\\components\\TerritoryInput\\TerritoryInput.tsx",
+      "source_location": "L28",
+      "id": "territoryinput_bboxtosimpleboundary",
+      "community": 21
+    },
+    {
+      "label": "typeLabel()",
+      "file_type": "code",
+      "source_file": "src\\components\\TerritoryInput\\TerritoryInput.tsx",
+      "source_location": "L137",
+      "id": "territoryinput_typelabel",
+      "community": 21
+    },
+    {
+      "label": "SplitPanelContext.tsx",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SplitPanelContext.tsx",
+      "source_location": "L1",
+      "id": "splitpanelcontext",
+      "community": 22
+    },
+    {
+      "label": "useSplitPanelContext()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SplitPanelContext.tsx",
+      "source_location": "L19",
+      "id": "splitpanelcontext_usesplitpanelcontext",
+      "community": 22
+    },
+    {
+      "label": "SplitPanelProvider()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SplitPanelContext.tsx",
+      "source_location": "L25",
+      "id": "splitpanelcontext_splitpanelprovider",
+      "community": 22
+    },
+    {
+      "label": "useElapsedTimer.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useElapsedTimer.ts",
+      "source_location": "L1",
+      "id": "useelapsedtimer",
+      "community": 23
+    },
+    {
+      "label": "formatElapsed()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useElapsedTimer.ts",
+      "source_location": "L3",
+      "id": "useelapsedtimer_formatelapsed",
+      "community": 23
+    },
+    {
+      "label": "useElapsedTimer()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useElapsedTimer.ts",
+      "source_location": "L10",
+      "id": "useelapsedtimer_useelapsedtimer",
+      "community": 23
+    },
+    {
+      "label": "useExport.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useExport.ts",
+      "source_location": "L1",
+      "id": "useexport",
+      "community": 43
+    },
+    {
+      "label": "useExport()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useExport.ts",
+      "source_location": "L5",
+      "id": "useexport_useexport",
+      "community": 43
+    },
+    {
+      "label": "useFlows.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useFlows.ts",
+      "source_location": "L1",
+      "id": "useflows",
+      "community": 44
+    },
+    {
+      "label": "useFlows()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useFlows.ts",
+      "source_location": "L8",
+      "id": "useflows_useflows",
+      "community": 44
+    },
+    {
+      "label": "useLayerState.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useLayerState.ts",
+      "source_location": "L1",
+      "id": "uselayerstate",
+      "community": 45
+    },
+    {
+      "label": "useLayerState()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useLayerState.ts",
+      "source_location": "L10",
+      "id": "uselayerstate_uselayerstate",
+      "community": 45
+    },
+    {
+      "label": "useNetworkGeneration.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useNetworkGeneration.ts",
+      "source_location": "L1",
+      "id": "usenetworkgeneration",
+      "community": 46
+    },
+    {
+      "label": "useNetworkGeneration()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useNetworkGeneration.ts",
+      "source_location": "L6",
+      "id": "usenetworkgeneration_usenetworkgeneration",
+      "community": 46
+    },
+    {
+      "label": "usePipeline.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\usePipeline.ts",
+      "source_location": "L1",
+      "id": "usepipeline",
+      "community": 47
+    },
+    {
+      "label": "usePipeline()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\usePipeline.ts",
+      "source_location": "L9",
+      "id": "usepipeline_usepipeline",
+      "community": 47
+    },
+    {
+      "label": "usePixelization.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L1",
+      "id": "usepixelization",
+      "community": 0
+    },
+    {
+      "label": "loadCountyRef()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L14",
+      "id": "usepixelization_loadcountyref",
+      "community": 0
+    },
+    {
+      "label": "buildCountiesFromPipeline()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L41",
+      "id": "usepixelization_buildcountiesfrompipeline",
+      "community": 0
+    },
+    {
+      "label": "usePixelization()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L120",
+      "id": "usepixelization_usepixelization",
+      "community": 0
+    },
+    {
+      "label": "btsService.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L1",
+      "id": "btsservice",
+      "community": 11
+    },
+    {
+      "label": "fetchAllFeatures()",
+      "file_type": "code",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L41",
+      "id": "btsservice_fetchallfeatures",
+      "community": 11
+    },
+    {
+      "label": "fetchBTSHighways()",
+      "file_type": "code",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L118",
+      "id": "btsservice_fetchbtshighways",
+      "community": 11
+    },
+    {
+      "label": "fetchBTSRailLines()",
+      "file_type": "code",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L165",
+      "id": "btsservice_fetchbtsraillines",
+      "community": 11
+    },
+    {
+      "label": "fetchBTSRailYards()",
+      "file_type": "code",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L199",
+      "id": "btsservice_fetchbtsrailyards",
+      "community": 11
+    },
+    {
+      "label": "clusteringEngine.test.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.test.ts",
+      "source_location": "L1",
+      "id": "clusteringengine_test",
+      "community": 0
+    },
+    {
+      "label": "makeCounty()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.test.ts",
+      "source_location": "L9",
+      "id": "clusteringengine_test_makecounty",
+      "community": 0
+    },
+    {
+      "label": "clusteringEngine.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L1",
+      "id": "clusteringengine",
+      "community": 0
+    },
+    {
+      "label": "mergedBoundary()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L14",
+      "id": "clusteringengine_mergedboundary",
+      "community": 0
+    },
+    {
+      "label": "convexHull()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L35",
+      "id": "clusteringengine_convexhull",
+      "community": 0
+    },
+    {
+      "label": "areAdjacent()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L81",
+      "id": "clusteringengine_areadjacent",
+      "community": 0
+    },
+    {
+      "label": "buildAdjacencyMap()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L93",
+      "id": "clusteringengine_buildadjacencymap",
+      "community": 0
+    },
+    {
+      "label": "isContiguous()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L112",
+      "id": "clusteringengine_iscontiguous",
+      "community": 0
+    },
+    {
+      "label": "clusterCountiesToAreas()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L138",
+      "id": "clusteringengine_clustercountiestoareas",
+      "community": 0
+    },
+    {
+      "label": "clusterAreasToRegions()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L211",
+      "id": "clusteringengine_clusterareastoregions",
+      "community": 0
+    },
+    {
+      "label": "postProcess()",
+      "file_type": "code",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L292",
+      "id": "clusteringengine_postprocess",
+      "community": 0
+    },
+    {
+      "label": "exportService.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L1",
+      "id": "exportservice",
+      "community": 6
+    },
+    {
+      "label": "buildGeoJSON()",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L36",
+      "id": "exportservice_buildgeojson",
+      "community": 6
+    },
+    {
+      "label": "buildHubJSON()",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L136",
+      "id": "exportservice_buildhubjson",
+      "community": 6
+    },
+    {
+      "label": "buildFlowCSV()",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L162",
+      "id": "exportservice_buildflowcsv",
+      "community": 6
+    },
+    {
+      "label": "csvQuote()",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L189",
+      "id": "exportservice_csvquote",
+      "community": 6
+    },
+    {
+      "label": "downloadFile()",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L199",
+      "id": "exportservice_downloadfile",
+      "community": 6
+    },
+    {
+      "label": "captureMapAsPNG()",
+      "file_type": "code",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L215",
+      "id": "exportservice_capturemapaspng",
+      "community": 6
+    },
+    {
+      "label": "fafService.test.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.test.ts",
+      "source_location": "L1",
+      "id": "fafservice_test",
+      "community": 3
+    },
+    {
+      "label": "fafService.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L1",
+      "id": "fafservice",
+      "community": 3
+    },
+    {
+      "label": "isValidRecord()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L38",
+      "id": "fafservice_isvalidrecord",
+      "community": 3
+    },
+    {
+      "label": "isInSEUSA()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L62",
+      "id": "fafservice_isinseusa",
+      "community": 3
+    },
+    {
+      "label": "fetchJSON()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L75",
+      "id": "fafservice_fetchjson",
+      "community": 3
+    },
+    {
+      "label": "buildFipsCoordCache()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L101",
+      "id": "fafservice_buildfipscoordcache",
+      "community": 3
+    },
+    {
+      "label": "filterByTerritoryBbox()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L114",
+      "id": "fafservice_filterbyterritorybbox",
+      "community": 3
+    },
+    {
+      "label": "loadFAFData()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L155",
+      "id": "fafservice_loadfafdata",
+      "community": 3
+    },
+    {
+      "label": "getByCommod()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L271",
+      "id": "fafservice_getbycommod",
+      "community": 3
+    },
+    {
+      "label": "estimatePeakDaily()",
+      "file_type": "code",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L284",
+      "id": "fafservice_estimatepeakdaily",
+      "community": 3
+    },
+    {
+      "label": "infrastructureService.test.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L1",
+      "id": "infrastructureservice_test",
+      "community": 1
+    },
+    {
+      "label": "makeOverpassWay()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L9",
+      "id": "infrastructureservice_test_makeoverpassway",
+      "community": 1
+    },
+    {
+      "label": "makeOverpassNode()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L22",
+      "id": "infrastructureservice_test_makeoverpassnode",
+      "community": 1
+    },
+    {
+      "label": "mockFetchSuccess()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L39",
+      "id": "infrastructureservice_test_mockfetchsuccess",
+      "community": 1
+    },
+    {
+      "label": "makeSite()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L291",
+      "id": "infrastructureservice_test_makesite",
+      "community": 1
+    },
+    {
+      "label": "infrastructureService.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L1",
+      "id": "infrastructureservice",
+      "community": 1
+    },
+    {
+      "label": "buildInfraQuery()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L36",
+      "id": "infrastructureservice_buildinfraquery",
+      "community": 1
+    },
+    {
+      "label": "classifySiteType()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L57",
+      "id": "infrastructureservice_classifysitetype",
+      "community": 1
+    },
+    {
+      "label": "estimateWayAreaSqft()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L77",
+      "id": "infrastructureservice_estimatewayareasqft",
+      "community": 1
+    },
+    {
+      "label": "generateSiteName()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L114",
+      "id": "infrastructureservice_generatesitename",
+      "community": 1
+    },
+    {
+      "label": "elementToSite()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L140",
+      "id": "infrastructureservice_elementtosite",
+      "community": 1
+    },
+    {
+      "label": "deduplicateSites()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L197",
+      "id": "infrastructureservice_deduplicatesites",
+      "community": 1
+    },
+    {
+      "label": "splitBbox()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L233",
+      "id": "infrastructureservice_splitbbox",
+      "community": 1
+    },
+    {
+      "label": "findCandidateSites()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L272",
+      "id": "infrastructureservice_findcandidatesites",
+      "community": 1
+    },
+    {
+      "label": "loadInfrastructureData()",
+      "file_type": "code",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L341",
+      "id": "infrastructureservice_loadinfrastructuredata",
+      "community": 1
+    },
+    {
+      "label": "networkOptimizer.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L1",
+      "id": "networkoptimizer",
+      "community": 2
+    },
+    {
+      "label": "nextHubId()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L24",
+      "id": "networkoptimizer_nexthubid",
+      "community": 2
+    },
+    {
+      "label": "resetIdCounter()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L28",
+      "id": "networkoptimizer_resetidcounter",
+      "community": 2
+    },
+    {
+      "label": "placeGlobalHubs()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L36",
+      "id": "networkoptimizer_placeglobalhubs",
+      "community": 2
+    },
+    {
+      "label": "placeRegionalHubs()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L59",
+      "id": "networkoptimizer_placeregionalhubs",
+      "community": 2
+    },
+    {
+      "label": "placeGatewayHubs()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L118",
+      "id": "networkoptimizer_placegatewayhubs",
+      "community": 2
+    },
+    {
+      "label": "edgeTierFor()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L178",
+      "id": "networkoptimizer_edgetierfor",
+      "community": 2
+    },
+    {
+      "label": "nextEdgeId()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L186",
+      "id": "networkoptimizer_nextedgeid",
+      "community": 2
+    },
+    {
+      "label": "generateEdges()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L190",
+      "id": "networkoptimizer_generateedges",
+      "community": 2
+    },
+    {
+      "label": "generateNetwork()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L307",
+      "id": "networkoptimizer_generatenetwork",
+      "community": 2
+    },
+    {
+      "label": "buildAdjacency()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L343",
+      "id": "networkoptimizer_buildadjacency",
+      "community": 2
+    },
+    {
+      "label": "bfsPath()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L355",
+      "id": "networkoptimizer_bfspath",
+      "community": 2
+    },
+    {
+      "label": "findNearestHub()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L374",
+      "id": "networkoptimizer_findnearesthub",
+      "community": 2
+    },
+    {
+      "label": "routeFlows()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L387",
+      "id": "networkoptimizer_routeflows",
+      "community": 2
+    },
+    {
+      "label": "hashCode()",
+      "file_type": "code",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L451",
+      "id": "networkoptimizer_hashcode",
+      "community": 2
+    },
+    {
+      "label": "osmService.test.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L1",
+      "id": "osmservice_test",
+      "community": 5
+    },
+    {
+      "label": "mockBTSResponse()",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L19",
+      "id": "osmservice_test_mockbtsresponse",
+      "community": 5
+    },
+    {
+      "label": "makeHighwayFeature()",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L30",
+      "id": "osmservice_test_makehighwayfeature",
+      "community": 5
+    },
+    {
+      "label": "makeRailFeature()",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L41",
+      "id": "osmservice_test_makerailfeature",
+      "community": 5
+    },
+    {
+      "label": "makeYardFeature()",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L52",
+      "id": "osmservice_test_makeyardfeature",
+      "community": 5
+    },
+    {
+      "label": "osmService.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.ts",
+      "source_location": "L1",
+      "id": "osmservice",
+      "community": 5
+    },
+    {
+      "label": "estimateLoadingTime()",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.ts",
+      "source_location": "L52",
+      "id": "osmservice_estimateloadingtime",
+      "community": 5
+    },
+    {
+      "label": "loadOSMData()",
+      "file_type": "code",
+      "source_file": "src\\services\\osmService.ts",
+      "source_location": "L77",
+      "id": "osmservice_loadosmdata",
+      "community": 5
+    },
+    {
+      "label": "overpassClient.ts",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L1",
+      "id": "overpassclient",
+      "community": 4
+    },
+    {
+      "label": "onRateLimit()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L42",
+      "id": "overpassclient_onratelimit",
+      "community": 4
+    },
+    {
+      "label": "enqueue()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L72",
+      "id": "overpassclient_enqueue",
+      "community": 4
+    },
+    {
+      "label": "findAliveMirror()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L91",
+      "id": "overpassclient_findalivemirror",
+      "community": 4
+    },
+    {
+      "label": "markMirrorDead()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L110",
+      "id": "overpassclient_markmirrordead",
+      "community": 4
+    },
+    {
+      "label": "rotateMirror()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L114",
+      "id": "overpassclient_rotatemirror",
+      "community": 4
+    },
+    {
+      "label": "queryOverpassDirect()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L125",
+      "id": "overpassclient_queryoverpassdirect",
+      "community": 4
+    },
+    {
+      "label": "queryOverpass()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L224",
+      "id": "overpassclient_queryoverpass",
+      "community": 4
+    },
+    {
+      "label": "delay()",
+      "file_type": "code",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L232",
+      "id": "overpassclient_delay",
+      "community": 4
+    },
+    {
+      "label": "flowStore.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\flowStore.ts",
+      "source_location": "L1",
+      "id": "flowstore",
+      "community": 62
+    },
+    {
+      "label": "mapStore.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\mapStore.ts",
+      "source_location": "L1",
+      "id": "mapstore",
+      "community": 48
+    },
+    {
+      "label": "loadPersistedTileStyle()",
+      "file_type": "code",
+      "source_file": "src\\stores\\mapStore.ts",
+      "source_location": "L37",
+      "id": "mapstore_loadpersistedtilestyle",
+      "community": 48
+    },
+    {
+      "label": "networkStore.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\networkStore.ts",
+      "source_location": "L1",
+      "id": "networkstore",
+      "community": 63
+    },
+    {
+      "label": "pipelineStore.test.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\pipelineStore.test.ts",
+      "source_location": "L1",
+      "id": "pipelinestore_test",
+      "community": 24
+    },
+    {
+      "label": "pipelineStore.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\pipelineStore.ts",
+      "source_location": "L1",
+      "id": "pipelinestore",
+      "community": 24
+    },
+    {
+      "label": "computeOverallProgress()",
+      "file_type": "code",
+      "source_file": "src\\stores\\pipelineStore.ts",
+      "source_location": "L128",
+      "id": "pipelinestore_computeoverallprogress",
+      "community": 24
+    },
+    {
+      "label": "territoryStore.test.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\territoryStore.test.ts",
+      "source_location": "L1",
+      "id": "territorystore_test",
+      "community": 49
+    },
+    {
+      "label": "territoryStore.ts",
+      "file_type": "code",
+      "source_file": "src\\stores\\territoryStore.ts",
+      "source_location": "L1",
+      "id": "territorystore",
+      "community": 49
+    },
+    {
+      "label": "area.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\area.ts",
+      "source_location": "L1",
+      "id": "area",
+      "community": 64
+    },
+    {
+      "label": "clustering.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\clustering.ts",
+      "source_location": "L1",
+      "id": "clustering",
+      "community": 65
+    },
+    {
+      "label": "county.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\county.ts",
+      "source_location": "L1",
+      "id": "county",
+      "community": 66
+    },
+    {
+      "label": "edge.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\edge.ts",
+      "source_location": "L1",
+      "id": "edge",
+      "community": 67
+    },
+    {
+      "label": "flow.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\flow.ts",
+      "source_location": "L1",
+      "id": "flow",
+      "community": 68
+    },
+    {
+      "label": "hub.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\hub.ts",
+      "source_location": "L1",
+      "id": "hub",
+      "community": 69
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\index.ts",
+      "source_location": "L1",
+      "id": "index",
+      "community": 70
+    },
+    {
+      "label": "region.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\region.ts",
+      "source_location": "L1",
+      "id": "region",
+      "community": 71
+    },
+    {
+      "label": "site.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\site.ts",
+      "source_location": "L1",
+      "id": "site",
+      "community": 72
+    },
+    {
+      "label": "territory.ts",
+      "file_type": "code",
+      "source_file": "src\\types\\territory.ts",
+      "source_location": "L1",
+      "id": "territory",
+      "community": 73
+    },
+    {
+      "label": "format.test.ts",
+      "file_type": "code",
+      "source_file": "src\\utils\\format.test.ts",
+      "source_location": "L1",
+      "id": "format_test",
+      "community": 9
+    },
+    {
+      "label": "format.ts",
+      "file_type": "code",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L1",
+      "id": "format",
+      "community": 9
+    },
+    {
+      "label": "formatTonnage()",
+      "file_type": "code",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L4",
+      "id": "format_formattonnage",
+      "community": 9
+    },
+    {
+      "label": "formatDistance()",
+      "file_type": "code",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L20",
+      "id": "format_formatdistance",
+      "community": 9
+    },
+    {
+      "label": "formatPercent()",
+      "file_type": "code",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L33",
+      "id": "format_formatpercent",
+      "community": 9
+    },
+    {
+      "label": "formatCount()",
+      "file_type": "code",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L40",
+      "id": "format_formatcount",
+      "community": 9
+    },
+    {
+      "label": "geo.test.ts",
+      "file_type": "code",
+      "source_file": "src\\utils\\geo.test.ts",
+      "source_location": "L1",
+      "id": "geo_test",
+      "community": 10
+    },
+    {
+      "label": "geo.ts",
+      "file_type": "code",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L1",
+      "id": "geo",
+      "community": 10
+    },
+    {
+      "label": "toRadians()",
+      "file_type": "code",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L3",
+      "id": "geo_toradians",
+      "community": 10
+    },
+    {
+      "label": "haversine()",
+      "file_type": "code",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L10",
+      "id": "geo_haversine",
+      "community": 10
+    },
+    {
+      "label": "bboxFromCoordinates()",
+      "file_type": "code",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L34",
+      "id": "geo_bboxfromcoordinates",
+      "community": 10
+    },
+    {
+      "label": "centroid()",
+      "file_type": "code",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L55",
+      "id": "geo_centroid",
+      "community": 10
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\App.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "app",
+      "_tgt": "app_app",
+      "source": "app",
+      "target": "app_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "errorboundary",
+      "_tgt": "errorboundary_getderivedstatefromerror",
+      "source": "errorboundary",
+      "target": "errorboundary_getderivedstatefromerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "errorboundary",
+      "_tgt": "errorboundary_componentdidcatch",
+      "source": "errorboundary",
+      "target": "errorboundary_componentdidcatch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\AppShell\\AppShell.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "appshell",
+      "_tgt": "appshell_handleresize",
+      "source": "appshell",
+      "target": "appshell_handleresize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\DataPipelineDashboard.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "datapipelinedashboard",
+      "_tgt": "datapipelinedashboard_isdone",
+      "source": "datapipelinedashboard",
+      "target": "datapipelinedashboard_isdone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\FAFPanel.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "fafpanel",
+      "_tgt": "fafpanel_statuslabel",
+      "source": "fafpanel",
+      "target": "fafpanel_statuslabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\FAFPanel.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_src": "fafpanel",
+      "_tgt": "fafpanel_statusclass",
+      "source": "fafpanel",
+      "target": "fafpanel_statusclass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "infrapanel",
+      "_tgt": "infrapanel_ratelimitcountdown",
+      "source": "infrapanel",
+      "target": "infrapanel_ratelimitcountdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "infrapanel",
+      "_tgt": "infrapanel_statuslabel",
+      "source": "infrapanel",
+      "target": "infrapanel_statuslabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\InfraPanel.tsx",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_src": "infrapanel",
+      "_tgt": "infrapanel_statusclass",
+      "source": "infrapanel",
+      "target": "infrapanel_statusclass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "osmpanel",
+      "_tgt": "osmpanel_statuslabel",
+      "source": "osmpanel",
+      "target": "osmpanel_statuslabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "osmpanel",
+      "_tgt": "osmpanel_statusclass",
+      "source": "osmpanel",
+      "target": "osmpanel_statusclass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\DataPipeline\\OSMPanel.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_src": "osmpanel",
+      "_tgt": "osmpanel_osmpanel",
+      "source": "osmpanel",
+      "target": "osmpanel_osmpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Export\\ExportModal.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_src": "exportmodal",
+      "_tgt": "exportmodal_handler",
+      "source": "exportmodal",
+      "target": "exportmodal_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Export\\GeoJSONExport.tsx",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "geojsonexport",
+      "_tgt": "geojsonexport_handledownload",
+      "source": "geojsonexport",
+      "target": "geojsonexport_handledownload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Export\\JSONExport.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "jsonexport",
+      "_tgt": "jsonexport_toggletier",
+      "source": "jsonexport",
+      "target": "jsonexport_toggletier",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Export\\JSONExport.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "jsonexport",
+      "_tgt": "jsonexport_handledownload",
+      "source": "jsonexport",
+      "target": "jsonexport_handledownload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\FlowAnalysis\\FlowFilters.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "flowfilters",
+      "_tgt": "flowfilters_flowfilters",
+      "source": "flowfilters",
+      "target": "flowfilters_flowfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\HubDetail\\HubDetailPanel.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "hubdetailpanel",
+      "_tgt": "hubdetailpanel_hubdetailpanel",
+      "source": "hubdetailpanel",
+      "target": "hubdetailpanel_hubdetailpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layers\\FlowToggle.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "flowtoggle",
+      "_tgt": "flowtoggle_flowtoggle",
+      "source": "flowtoggle",
+      "target": "flowtoggle_flowtoggle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Layers\\HubTierToggles.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "hubtiertoggles",
+      "_tgt": "hubtiertoggles_hubtiertoggles",
+      "source": "hubtiertoggles",
+      "target": "hubtiertoggles_hubtiertoggles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\BoundaryLayer.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "boundarylayer",
+      "_tgt": "boundarylayer_zoomtracker",
+      "source": "boundarylayer",
+      "target": "boundarylayer_zoomtracker",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\BoundaryLayer.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "boundarylayer",
+      "_tgt": "boundarylayer_boundarylayer",
+      "source": "boundarylayer",
+      "target": "boundarylayer_boundarylayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\EdgeLayer.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "edgelayer",
+      "_tgt": "edgelayer_networkedge",
+      "source": "edgelayer",
+      "target": "edgelayer_networkedge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "flowanimationlayer",
+      "_tgt": "flowanimationlayer_aggregateflowedges",
+      "source": "flowanimationlayer",
+      "target": "flowanimationlayer_aggregateflowedges",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_src": "flowanimationlayer",
+      "_tgt": "flowanimationlayer_volumetoweight",
+      "source": "flowanimationlayer",
+      "target": "flowanimationlayer_volumetoweight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "flowanimationlayer",
+      "_tgt": "flowanimationlayer_volumetocolor",
+      "source": "flowanimationlayer",
+      "target": "flowanimationlayer_volumetocolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_src": "flowanimationlayer",
+      "_tgt": "flowanimationlayer_buildcorridoredgekeys",
+      "source": "flowanimationlayer",
+      "target": "flowanimationlayer_buildcorridoredgekeys",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\FlowAnimationLayer.tsx",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_src": "flowanimationlayer",
+      "_tgt": "flowanimationlayer_flowanimationlayer",
+      "source": "flowanimationlayer",
+      "target": "flowanimationlayer_flowanimationlayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\HubMarkerLayer.tsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "hubmarkerlayer",
+      "_tgt": "hubmarkerlayer_createclustericon",
+      "source": "hubmarkerlayer",
+      "target": "hubmarkerlayer_createclustericon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\InfrastructureLayer.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "infrastructurelayer",
+      "_tgt": "infrastructurelayer_infrastructurelayer",
+      "source": "infrastructurelayer",
+      "target": "infrastructurelayer_infrastructurelayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\MapView.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "mapview",
+      "_tgt": "mapview_mapclickhandler",
+      "source": "mapview",
+      "target": "mapview_mapclickhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\MapView.tsx",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "mapview",
+      "_tgt": "mapview_handleresize",
+      "source": "mapview",
+      "target": "mapview_handleresize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\SiteMarkerLayer.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "sitemarkerlayer",
+      "_tgt": "sitemarkerlayer_sitemarkerlayer",
+      "source": "sitemarkerlayer",
+      "target": "sitemarkerlayer_sitemarkerlayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "splitmapview",
+      "_tgt": "splitmapview_synctoleft",
+      "source": "splitmapview",
+      "target": "splitmapview_synctoleft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_src": "splitmapview",
+      "_tgt": "splitmapview_rightmapclickhandler",
+      "source": "splitmapview",
+      "target": "splitmapview_rightmapclickhandler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "splitmapview",
+      "_tgt": "splitmapview_righttilelayer",
+      "source": "splitmapview",
+      "target": "splitmapview_righttilelayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_src": "splitmapview",
+      "_tgt": "splitmapview_rightpanelcontrols",
+      "source": "splitmapview",
+      "target": "splitmapview_rightpanelcontrols",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\SplitMapView.tsx",
+      "source_location": "L145",
+      "weight": 1.0,
+      "_src": "splitmapview",
+      "_tgt": "splitmapview_handleresize",
+      "source": "splitmapview",
+      "target": "splitmapview_handleresize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\TerritoryBoundaryLayer.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "territoryboundarylayer",
+      "_tgt": "territoryboundarylayer_territoryboundarylayer",
+      "source": "territoryboundarylayer",
+      "target": "territoryboundarylayer_territoryboundarylayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\ThreeDProjection.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "threedprojection",
+      "_tgt": "threedprojection_haswebgl",
+      "source": "threedprojection",
+      "target": "threedprojection_haswebgl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\ThreeDProjection.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_src": "threedprojection",
+      "_tgt": "threedprojection_threedprojection",
+      "source": "threedprojection",
+      "target": "threedprojection_threedprojection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\TileLayerSwitcher.tsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "tilelayerswitcher",
+      "_tgt": "tilelayerswitcher_tilelayerswitcher",
+      "source": "tilelayerswitcher",
+      "target": "tilelayerswitcher_tilelayerswitcher",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Map\\TileStylePicker.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "tilestylepicker",
+      "_tgt": "tilestylepicker_tilestylepicker",
+      "source": "tilestylepicker",
+      "target": "tilestylepicker_tilestylepicker",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.test.tsx",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "pixelizationcontrols_test",
+      "_tgt": "pixelizationcontrols_test_validateparams",
+      "source": "pixelizationcontrols_test",
+      "target": "pixelizationcontrols_test_validateparams",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "pixelizationcontrols",
+      "_tgt": "pixelizationcontrols_getstepstates",
+      "source": "pixelizationcontrols",
+      "target": "pixelizationcontrols_getstepstates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "pixelizationcontrols",
+      "_tgt": "pixelizationcontrols_stepindicator",
+      "source": "pixelizationcontrols",
+      "target": "pixelizationcontrols_stepindicator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Pixelization\\PixelizationControls.tsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "pixelizationcontrols",
+      "_tgt": "pixelizationcontrols_validateparams",
+      "source": "pixelizationcontrols",
+      "target": "pixelizationcontrols_validateparams",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\Sidebar\\Sidebar.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "sidebar",
+      "_tgt": "sidebar_sidebar",
+      "source": "sidebar",
+      "target": "sidebar_sidebar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TerritoryInput\\TerritoryInput.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "territoryinput",
+      "_tgt": "territoryinput_bboxtosimpleboundary",
+      "source": "territoryinput",
+      "target": "territoryinput_bboxtosimpleboundary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\TerritoryInput\\TerritoryInput.tsx",
+      "source_location": "L137",
+      "weight": 1.0,
+      "_src": "territoryinput",
+      "_tgt": "territoryinput_typelabel",
+      "source": "territoryinput",
+      "target": "territoryinput_typelabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SplitPanelContext.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "splitpanelcontext",
+      "_tgt": "splitpanelcontext_usesplitpanelcontext",
+      "source": "splitpanelcontext",
+      "target": "splitpanelcontext_usesplitpanelcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SplitPanelContext.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "splitpanelcontext",
+      "_tgt": "splitpanelcontext_splitpanelprovider",
+      "source": "splitpanelcontext",
+      "target": "splitpanelcontext_splitpanelprovider",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useElapsedTimer.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "useelapsedtimer",
+      "_tgt": "useelapsedtimer_formatelapsed",
+      "source": "useelapsedtimer",
+      "target": "useelapsedtimer_formatelapsed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useElapsedTimer.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "useelapsedtimer",
+      "_tgt": "useelapsedtimer_useelapsedtimer",
+      "source": "useelapsedtimer",
+      "target": "useelapsedtimer_useelapsedtimer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useExport.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "useexport",
+      "_tgt": "useexport_useexport",
+      "source": "useexport",
+      "target": "useexport_useexport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useFlows.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "useflows",
+      "_tgt": "useflows_useflows",
+      "source": "useflows",
+      "target": "useflows_useflows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useLayerState.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "uselayerstate",
+      "_tgt": "uselayerstate_uselayerstate",
+      "source": "uselayerstate",
+      "target": "uselayerstate_uselayerstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useNetworkGeneration.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "usenetworkgeneration",
+      "_tgt": "usenetworkgeneration_usenetworkgeneration",
+      "source": "usenetworkgeneration",
+      "target": "usenetworkgeneration_usenetworkgeneration",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\usePipeline.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "usepipeline",
+      "_tgt": "usepipeline_usepipeline",
+      "source": "usepipeline",
+      "target": "usepipeline_usepipeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "usepixelization",
+      "_tgt": "clusteringengine",
+      "source": "usepixelization",
+      "target": "clusteringengine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "usepixelization",
+      "_tgt": "usepixelization_loadcountyref",
+      "source": "usepixelization",
+      "target": "usepixelization_loadcountyref",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "usepixelization",
+      "_tgt": "usepixelization_buildcountiesfrompipeline",
+      "source": "usepixelization",
+      "target": "usepixelization_buildcountiesfrompipeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_src": "usepixelization",
+      "_tgt": "usepixelization_usepixelization",
+      "source": "usepixelization",
+      "target": "usepixelization_usepixelization",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\usePixelization.ts",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "usepixelization_buildcountiesfrompipeline",
+      "_tgt": "usepixelization_loadcountyref",
+      "source": "usepixelization_loadcountyref",
+      "target": "usepixelization_buildcountiesfrompipeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "btsservice",
+      "_tgt": "btsservice_fetchallfeatures",
+      "source": "btsservice",
+      "target": "btsservice_fetchallfeatures",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L118",
+      "weight": 1.0,
+      "_src": "btsservice",
+      "_tgt": "btsservice_fetchbtshighways",
+      "source": "btsservice",
+      "target": "btsservice_fetchbtshighways",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "_src": "btsservice",
+      "_tgt": "btsservice_fetchbtsraillines",
+      "source": "btsservice",
+      "target": "btsservice_fetchbtsraillines",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L199",
+      "weight": 1.0,
+      "_src": "btsservice",
+      "_tgt": "btsservice_fetchbtsrailyards",
+      "source": "btsservice",
+      "target": "btsservice_fetchbtsrailyards",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_src": "btsservice_fetchbtshighways",
+      "_tgt": "btsservice_fetchallfeatures",
+      "source": "btsservice_fetchallfeatures",
+      "target": "btsservice_fetchbtshighways",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L169",
+      "weight": 1.0,
+      "_src": "btsservice_fetchbtsraillines",
+      "_tgt": "btsservice_fetchallfeatures",
+      "source": "btsservice_fetchallfeatures",
+      "target": "btsservice_fetchbtsraillines",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\btsService.ts",
+      "source_location": "L203",
+      "weight": 1.0,
+      "_src": "btsservice_fetchbtsrailyards",
+      "_tgt": "btsservice_fetchallfeatures",
+      "source": "btsservice_fetchallfeatures",
+      "target": "btsservice_fetchbtsrailyards",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "clusteringengine_test",
+      "_tgt": "clusteringengine",
+      "source": "clusteringengine_test",
+      "target": "clusteringengine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.test.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "clusteringengine_test",
+      "_tgt": "clusteringengine_test_makecounty",
+      "source": "clusteringengine_test",
+      "target": "clusteringengine_test_makecounty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "geo",
+      "source": "clusteringengine",
+      "target": "geo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_mergedboundary",
+      "source": "clusteringengine",
+      "target": "clusteringengine_mergedboundary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_convexhull",
+      "source": "clusteringengine",
+      "target": "clusteringengine_convexhull",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_areadjacent",
+      "source": "clusteringengine",
+      "target": "clusteringengine_areadjacent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L93",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_buildadjacencymap",
+      "source": "clusteringengine",
+      "target": "clusteringengine_buildadjacencymap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L112",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_iscontiguous",
+      "source": "clusteringengine",
+      "target": "clusteringengine_iscontiguous",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L138",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_clustercountiestoareas",
+      "source": "clusteringengine",
+      "target": "clusteringengine_clustercountiestoareas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L211",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_clusterareastoregions",
+      "source": "clusteringengine",
+      "target": "clusteringengine_clusterareastoregions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_src": "clusteringengine",
+      "_tgt": "clusteringengine_postprocess",
+      "source": "clusteringengine",
+      "target": "clusteringengine_postprocess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "clusteringengine_mergedboundary",
+      "_tgt": "clusteringengine_convexhull",
+      "source": "clusteringengine_mergedboundary",
+      "target": "clusteringengine_convexhull",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L198",
+      "weight": 1.0,
+      "_src": "clusteringengine_clustercountiestoareas",
+      "_tgt": "clusteringengine_mergedboundary",
+      "source": "clusteringengine_mergedboundary",
+      "target": "clusteringengine_clustercountiestoareas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L401",
+      "weight": 1.0,
+      "_src": "clusteringengine_postprocess",
+      "_tgt": "clusteringengine_mergedboundary",
+      "source": "clusteringengine_mergedboundary",
+      "target": "clusteringengine_postprocess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L267",
+      "weight": 1.0,
+      "_src": "clusteringengine_clusterareastoregions",
+      "_tgt": "clusteringengine_convexhull",
+      "source": "clusteringengine_convexhull",
+      "target": "clusteringengine_clusterareastoregions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_src": "clusteringengine_buildadjacencymap",
+      "_tgt": "clusteringengine_areadjacent",
+      "source": "clusteringengine_areadjacent",
+      "target": "clusteringengine_buildadjacencymap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\clusteringEngine.ts",
+      "source_location": "L297",
+      "weight": 1.0,
+      "_src": "clusteringengine_postprocess",
+      "_tgt": "clusteringengine_buildadjacencymap",
+      "source": "clusteringengine_buildadjacencymap",
+      "target": "clusteringengine_postprocess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "exportservice",
+      "_tgt": "exportservice_buildgeojson",
+      "source": "exportservice",
+      "target": "exportservice_buildgeojson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_src": "exportservice",
+      "_tgt": "exportservice_buildhubjson",
+      "source": "exportservice",
+      "target": "exportservice_buildhubjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L162",
+      "weight": 1.0,
+      "_src": "exportservice",
+      "_tgt": "exportservice_buildflowcsv",
+      "source": "exportservice",
+      "target": "exportservice_buildflowcsv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L189",
+      "weight": 1.0,
+      "_src": "exportservice",
+      "_tgt": "exportservice_csvquote",
+      "source": "exportservice",
+      "target": "exportservice_csvquote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L199",
+      "weight": 1.0,
+      "_src": "exportservice",
+      "_tgt": "exportservice_downloadfile",
+      "source": "exportservice",
+      "target": "exportservice_downloadfile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L215",
+      "weight": 1.0,
+      "_src": "exportservice",
+      "_tgt": "exportservice_capturemapaspng",
+      "source": "exportservice",
+      "target": "exportservice_capturemapaspng",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\exportService.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "_src": "exportservice_buildflowcsv",
+      "_tgt": "exportservice_csvquote",
+      "source": "exportservice_buildflowcsv",
+      "target": "exportservice_csvquote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "fafservice_test",
+      "_tgt": "fafservice",
+      "source": "fafservice_test",
+      "target": "fafservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_isvalidrecord",
+      "source": "fafservice",
+      "target": "fafservice_isvalidrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_isinseusa",
+      "source": "fafservice",
+      "target": "fafservice_isinseusa",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_fetchjson",
+      "source": "fafservice",
+      "target": "fafservice_fetchjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L101",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_buildfipscoordcache",
+      "source": "fafservice",
+      "target": "fafservice_buildfipscoordcache",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_filterbyterritorybbox",
+      "source": "fafservice",
+      "target": "fafservice_filterbyterritorybbox",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L155",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_loadfafdata",
+      "source": "fafservice",
+      "target": "fafservice_loadfafdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L271",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_getbycommod",
+      "source": "fafservice",
+      "target": "fafservice_getbycommod",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L284",
+      "weight": 1.0,
+      "_src": "fafservice",
+      "_tgt": "fafservice_estimatepeakdaily",
+      "source": "fafservice",
+      "target": "fafservice_estimatepeakdaily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L200",
+      "weight": 1.0,
+      "_src": "fafservice_loadfafdata",
+      "_tgt": "fafservice_isvalidrecord",
+      "source": "fafservice_isvalidrecord",
+      "target": "fafservice_loadfafdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L160",
+      "weight": 1.0,
+      "_src": "fafservice_loadfafdata",
+      "_tgt": "fafservice_isinseusa",
+      "source": "fafservice_isinseusa",
+      "target": "fafservice_loadfafdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "_src": "fafservice_loadfafdata",
+      "_tgt": "fafservice_fetchjson",
+      "source": "fafservice_fetchjson",
+      "target": "fafservice_loadfafdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\fafService.ts",
+      "source_location": "L222",
+      "weight": 1.0,
+      "_src": "fafservice_loadfafdata",
+      "_tgt": "fafservice_filterbyterritorybbox",
+      "source": "fafservice_filterbyterritorybbox",
+      "target": "fafservice_loadfafdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "infrastructureservice_test",
+      "_tgt": "infrastructureservice",
+      "source": "infrastructureservice_test",
+      "target": "infrastructureservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "infrastructureservice_test",
+      "_tgt": "infrastructureservice_test_makeoverpassway",
+      "source": "infrastructureservice_test",
+      "target": "infrastructureservice_test_makeoverpassway",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "infrastructureservice_test",
+      "_tgt": "infrastructureservice_test_makeoverpassnode",
+      "source": "infrastructureservice_test",
+      "target": "infrastructureservice_test_makeoverpassnode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_src": "infrastructureservice_test",
+      "_tgt": "infrastructureservice_test_mockfetchsuccess",
+      "source": "infrastructureservice_test",
+      "target": "infrastructureservice_test_mockfetchsuccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.test.ts",
+      "source_location": "L291",
+      "weight": 1.0,
+      "_src": "infrastructureservice_test",
+      "_tgt": "infrastructureservice_test_makesite",
+      "source": "infrastructureservice_test",
+      "target": "infrastructureservice_test_makesite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_buildinfraquery",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_buildinfraquery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_classifysitetype",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_classifysitetype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_estimatewayareasqft",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_estimatewayareasqft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_generatesitename",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_generatesitename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L140",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_elementtosite",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_elementtosite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L197",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_deduplicatesites",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_deduplicatesites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L233",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_splitbbox",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_splitbbox",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L272",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_findcandidatesites",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_findcandidatesites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L341",
+      "weight": 1.0,
+      "_src": "infrastructureservice",
+      "_tgt": "infrastructureservice_loadinfrastructuredata",
+      "source": "infrastructureservice",
+      "target": "infrastructureservice_loadinfrastructuredata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L300",
+      "weight": 1.0,
+      "_src": "infrastructureservice_findcandidatesites",
+      "_tgt": "infrastructureservice_buildinfraquery",
+      "source": "infrastructureservice_buildinfraquery",
+      "target": "infrastructureservice_findcandidatesites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L145",
+      "weight": 1.0,
+      "_src": "infrastructureservice_elementtosite",
+      "_tgt": "infrastructureservice_classifysitetype",
+      "source": "infrastructureservice_classifysitetype",
+      "target": "infrastructureservice_elementtosite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L165",
+      "weight": 1.0,
+      "_src": "infrastructureservice_elementtosite",
+      "_tgt": "infrastructureservice_estimatewayareasqft",
+      "source": "infrastructureservice_estimatewayareasqft",
+      "target": "infrastructureservice_elementtosite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_src": "infrastructureservice_elementtosite",
+      "_tgt": "infrastructureservice_generatesitename",
+      "source": "infrastructureservice_generatesitename",
+      "target": "infrastructureservice_elementtosite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L305",
+      "weight": 1.0,
+      "_src": "infrastructureservice_findcandidatesites",
+      "_tgt": "infrastructureservice_elementtosite",
+      "source": "infrastructureservice_elementtosite",
+      "target": "infrastructureservice_findcandidatesites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L350",
+      "weight": 1.0,
+      "_src": "infrastructureservice_loadinfrastructuredata",
+      "_tgt": "infrastructureservice_deduplicatesites",
+      "source": "infrastructureservice_deduplicatesites",
+      "target": "infrastructureservice_loadinfrastructuredata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L283",
+      "weight": 1.0,
+      "_src": "infrastructureservice_findcandidatesites",
+      "_tgt": "infrastructureservice_splitbbox",
+      "source": "infrastructureservice_splitbbox",
+      "target": "infrastructureservice_findcandidatesites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\infrastructureService.ts",
+      "source_location": "L347",
+      "weight": 1.0,
+      "_src": "infrastructureservice_loadinfrastructuredata",
+      "_tgt": "infrastructureservice_findcandidatesites",
+      "source": "infrastructureservice_findcandidatesites",
+      "target": "infrastructureservice_loadinfrastructuredata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_nexthubid",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_nexthubid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_resetidcounter",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_resetidcounter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_placeglobalhubs",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_placeglobalhubs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_placeregionalhubs",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_placeregionalhubs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L118",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_placegatewayhubs",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_placegatewayhubs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_edgetierfor",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_edgetierfor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L186",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_nextedgeid",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_nextedgeid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L190",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_generateedges",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_generateedges",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L307",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_generatenetwork",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_generatenetwork",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L343",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_buildadjacency",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_buildadjacency",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L355",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_bfspath",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_bfspath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L374",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_findnearesthub",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_findnearesthub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L387",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_routeflows",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_routeflows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L451",
+      "weight": 1.0,
+      "_src": "networkoptimizer",
+      "_tgt": "networkoptimizer_hashcode",
+      "source": "networkoptimizer",
+      "target": "networkoptimizer_hashcode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "networkoptimizer_placeregionalhubs",
+      "_tgt": "networkoptimizer_nexthubid",
+      "source": "networkoptimizer_nexthubid",
+      "target": "networkoptimizer_placeregionalhubs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L142",
+      "weight": 1.0,
+      "_src": "networkoptimizer_placegatewayhubs",
+      "_tgt": "networkoptimizer_nexthubid",
+      "source": "networkoptimizer_nexthubid",
+      "target": "networkoptimizer_placegatewayhubs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L313",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generatenetwork",
+      "_tgt": "networkoptimizer_resetidcounter",
+      "source": "networkoptimizer_resetidcounter",
+      "target": "networkoptimizer_generatenetwork",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L317",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generatenetwork",
+      "_tgt": "networkoptimizer_placeglobalhubs",
+      "source": "networkoptimizer_placeglobalhubs",
+      "target": "networkoptimizer_generatenetwork",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L321",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generatenetwork",
+      "_tgt": "networkoptimizer_placeregionalhubs",
+      "source": "networkoptimizer_placeregionalhubs",
+      "target": "networkoptimizer_generatenetwork",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L325",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generatenetwork",
+      "_tgt": "networkoptimizer_placegatewayhubs",
+      "source": "networkoptimizer_placegatewayhubs",
+      "target": "networkoptimizer_generatenetwork",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L210",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generateedges",
+      "_tgt": "networkoptimizer_edgetierfor",
+      "source": "networkoptimizer_edgetierfor",
+      "target": "networkoptimizer_generateedges",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L212",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generateedges",
+      "_tgt": "networkoptimizer_nextedgeid",
+      "source": "networkoptimizer_nextedgeid",
+      "target": "networkoptimizer_generateedges",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L331",
+      "weight": 1.0,
+      "_src": "networkoptimizer_generatenetwork",
+      "_tgt": "networkoptimizer_generateedges",
+      "source": "networkoptimizer_generateedges",
+      "target": "networkoptimizer_generatenetwork",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L396",
+      "weight": 1.0,
+      "_src": "networkoptimizer_routeflows",
+      "_tgt": "networkoptimizer_buildadjacency",
+      "source": "networkoptimizer_buildadjacency",
+      "target": "networkoptimizer_routeflows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\networkOptimizer.ts",
+      "source_location": "L435",
+      "weight": 1.0,
+      "_src": "networkoptimizer_routeflows",
+      "_tgt": "networkoptimizer_bfspath",
+      "source": "networkoptimizer_bfspath",
+      "target": "networkoptimizer_routeflows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "osmservice_test",
+      "_tgt": "osmservice",
+      "source": "osmservice_test",
+      "target": "osmservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "osmservice_test",
+      "_tgt": "osmservice_test_mockbtsresponse",
+      "source": "osmservice_test",
+      "target": "osmservice_test_mockbtsresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "osmservice_test",
+      "_tgt": "osmservice_test_makehighwayfeature",
+      "source": "osmservice_test",
+      "target": "osmservice_test_makehighwayfeature",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "osmservice_test",
+      "_tgt": "osmservice_test_makerailfeature",
+      "source": "osmservice_test",
+      "target": "osmservice_test_makerailfeature",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.test.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "osmservice_test",
+      "_tgt": "osmservice_test_makeyardfeature",
+      "source": "osmservice_test",
+      "target": "osmservice_test_makeyardfeature",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "osmservice",
+      "_tgt": "osmservice_estimateloadingtime",
+      "source": "osmservice",
+      "target": "osmservice_estimateloadingtime",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\osmService.ts",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_src": "osmservice",
+      "_tgt": "osmservice_loadosmdata",
+      "source": "osmservice",
+      "target": "osmservice_loadosmdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_onratelimit",
+      "source": "overpassclient",
+      "target": "overpassclient_onratelimit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_enqueue",
+      "source": "overpassclient",
+      "target": "overpassclient_enqueue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_findalivemirror",
+      "source": "overpassclient",
+      "target": "overpassclient_findalivemirror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L110",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_markmirrordead",
+      "source": "overpassclient",
+      "target": "overpassclient_markmirrordead",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_rotatemirror",
+      "source": "overpassclient",
+      "target": "overpassclient_rotatemirror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_queryoverpassdirect",
+      "source": "overpassclient",
+      "target": "overpassclient_queryoverpassdirect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L224",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_queryoverpass",
+      "source": "overpassclient",
+      "target": "overpassclient_queryoverpass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L232",
+      "weight": 1.0,
+      "_src": "overpassclient",
+      "_tgt": "overpassclient_delay",
+      "source": "overpassclient",
+      "target": "overpassclient_delay",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L225",
+      "weight": 1.0,
+      "_src": "overpassclient_queryoverpass",
+      "_tgt": "overpassclient_enqueue",
+      "source": "overpassclient_enqueue",
+      "target": "overpassclient_queryoverpass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L116",
+      "weight": 1.0,
+      "_src": "overpassclient_rotatemirror",
+      "_tgt": "overpassclient_findalivemirror",
+      "source": "overpassclient_findalivemirror",
+      "target": "overpassclient_rotatemirror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L131",
+      "weight": 1.0,
+      "_src": "overpassclient_queryoverpassdirect",
+      "_tgt": "overpassclient_findalivemirror",
+      "source": "overpassclient_findalivemirror",
+      "target": "overpassclient_queryoverpassdirect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L143",
+      "weight": 1.0,
+      "_src": "overpassclient_queryoverpassdirect",
+      "_tgt": "overpassclient_markmirrordead",
+      "source": "overpassclient_markmirrordead",
+      "target": "overpassclient_queryoverpassdirect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L149",
+      "weight": 1.0,
+      "_src": "overpassclient_queryoverpassdirect",
+      "_tgt": "overpassclient_rotatemirror",
+      "source": "overpassclient_rotatemirror",
+      "target": "overpassclient_queryoverpassdirect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\services\\overpassClient.ts",
+      "source_location": "L150",
+      "weight": 1.0,
+      "_src": "overpassclient_queryoverpassdirect",
+      "_tgt": "overpassclient_delay",
+      "source": "overpassclient_queryoverpassdirect",
+      "target": "overpassclient_delay",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\stores\\mapStore.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "mapstore",
+      "_tgt": "mapstore_loadpersistedtilestyle",
+      "source": "mapstore",
+      "target": "mapstore_loadpersistedtilestyle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\stores\\pipelineStore.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "pipelinestore_test",
+      "_tgt": "pipelinestore",
+      "source": "pipelinestore_test",
+      "target": "pipelinestore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\stores\\pipelineStore.ts",
+      "source_location": "L128",
+      "weight": 1.0,
+      "_src": "pipelinestore",
+      "_tgt": "pipelinestore_computeoverallprogress",
+      "source": "pipelinestore",
+      "target": "pipelinestore_computeoverallprogress",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\stores\\territoryStore.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "territorystore_test",
+      "_tgt": "territorystore",
+      "source": "territorystore_test",
+      "target": "territorystore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\format.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "format_test",
+      "_tgt": "format",
+      "source": "format_test",
+      "target": "format",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "format",
+      "_tgt": "format_formattonnage",
+      "source": "format",
+      "target": "format_formattonnage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "format",
+      "_tgt": "format_formatdistance",
+      "source": "format",
+      "target": "format_formatdistance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "format",
+      "_tgt": "format_formatpercent",
+      "source": "format",
+      "target": "format_formatpercent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\format.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "format",
+      "_tgt": "format_formatcount",
+      "source": "format",
+      "target": "format_formatcount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\geo.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "geo_test",
+      "_tgt": "geo",
+      "source": "geo_test",
+      "target": "geo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "geo",
+      "_tgt": "geo_toradians",
+      "source": "geo",
+      "target": "geo_toradians",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "geo",
+      "_tgt": "geo_haversine",
+      "source": "geo",
+      "target": "geo_haversine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "geo",
+      "_tgt": "geo_bboxfromcoordinates",
+      "source": "geo",
+      "target": "geo_bboxfromcoordinates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "geo",
+      "_tgt": "geo_centroid",
+      "source": "geo",
+      "target": "geo_centroid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\utils\\geo.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "geo_haversine",
+      "_tgt": "geo_toradians",
+      "source": "geo_toradians",
+      "target": "geo_haversine",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

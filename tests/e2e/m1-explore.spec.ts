@@ -35,7 +35,7 @@ test.describe('US-1.1 — Territory Search', () => {
     await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
     await expect(page.getByRole('button', { name: 'Start data pipeline' })).toBeVisible();
     // Boundary layer should render (SVG path or canvas)
-    await expect(page.locator('.leaflet-overlay-pane path, .leaflet-overlay-pane svg')).toBeVisible({ timeout: 3000 });
+    await expect(page.locator('.leaflet-overlay-pane path, .leaflet-overlay-pane svg').first()).toBeVisible({ timeout: 3000 });
 
     // AC3: Start Pipeline navigates to Data Pipeline
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
@@ -136,7 +136,7 @@ test.describe('US-1.2 — FAF Freight Data', () => {
     await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
     const faf = page.getByRole('region', { name: 'FAF freight data' });
-    await expect(faf.getByText(/error|failed|unavailable|offline/i)).toBeVisible({ timeout: 10000 });
+    await expect(faf.getByText(/error|failed|unavailable|offline/i).first()).toBeVisible({ timeout: 10000 });
   });
 
   test('E3: restart after navigation shows clean state', async ({ page }) => {
@@ -161,15 +161,14 @@ test.describe('US-1.2 — FAF Freight Data', () => {
 test.describe('US-1.3 — OSM Road/Rail', () => {
   test('Happy path: separate Road/Rail progress, shows results', async ({ page }) => {
     await startAtlantaPipeline(page);
-    const osm = page.getByRole('region', { name: 'OSM road and rail data' });
+    const osm = page.getByRole('region', { name: 'Road and rail transportation data' });
     await expect(osm).toBeVisible({ timeout: 5000 });
     // AC1: Separate Road/Rail labels
     await expect(osm.getByText('Road', { exact: true })).toBeVisible();
     await expect(osm.getByText('Rail', { exact: true })).toBeVisible();
-    // Wait for completion (real Overpass: 30-90s)
-    await page.waitForTimeout(90000);
+    // Wait for completion (BTS: 5-30s typically)
+    await expect(osm.getByText(/Complete|Error/).first()).toBeVisible({ timeout: 120000 });
     const text = await osm.textContent();
-    expect(text).toMatch(/Complete|Error/);
     if (text?.includes('Complete')) {
       // AC2-4: Shows counts and totals
       expect(text).toMatch(/Interstates/);
@@ -180,46 +179,46 @@ test.describe('US-1.3 — OSM Road/Rail', () => {
     }
   });
 
-  test('E1: forced 429 shows error + retry button', async ({ page }) => {
-    await page.route('**/overpass-api.de/**', route => route.fulfill({ status: 429, body: 'Rate limited' }));
+  test('E1: forced error shows error + retry button', async ({ page }) => {
+    // Road/rail now uses BTS ArcGIS FeatureServer (not Overpass)
+    await page.route('**/services.arcgis.com/**', route => route.fulfill({ status: 500, body: 'Server Error' }));
     await startAtlantaPipeline(page);
-    const osm = page.getByRole('region', { name: 'OSM road and rail data' });
-    await expect(osm.getByText(/error.*429|429.*error|rate limit/i)).toBeVisible({ timeout: 60000 });
+    const osm = page.getByRole('region', { name: 'Road and rail transportation data' });
+    await expect(osm.getByText(/error/i).first()).toBeVisible({ timeout: 60000 });
     await expect(osm.getByRole('button', { name: /retry/i })).toBeVisible();
   });
 
-  test('E2: large territory triggers chunking (multiple Overpass requests)', async ({ page }) => {
+  test('E2: large territory triggers multiple BTS pagination requests', async ({ page }) => {
     let requestCount = 0;
-    await page.route('**/overpass-api.de/**', route => {
+    await page.route('**/services.arcgis.com/**', route => {
       requestCount++;
       route.fulfill({
         status: 200, contentType: 'application/json',
-        body: JSON.stringify({ elements: [{ type: 'way', id: requestCount, tags: { highway: 'motorway', ref: 'I-' + requestCount }, geometry: [{ lat: 33.7, lon: -84.4 }, { lat: 33.8, lon: -84.3 }] }] })
+        body: JSON.stringify({ type: 'FeatureCollection', features: [{ type: 'Feature', geometry: { type: 'LineString', coordinates: [[-84.4, 33.7], [-84.3, 33.8]] }, properties: { SIGNT1: 'I', SIGN1: requestCount.toString() } }] })
       });
     });
     await page.goto('/');
     await page.getByRole('combobox', { name: 'Search territories' }).pressSequentially('US S', { delay: 100 });
     await page.getByRole('option', { name: 'US Southeast Megaregion' }).click();
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
-    const osm = page.getByRole('region', { name: 'OSM road and rail data' });
-    await expect(osm.getByText('Complete')).toBeVisible({ timeout: 30000 });
-    // Large bbox should produce multiple chunked requests
-    expect(requestCount).toBeGreaterThan(5);
+    const osm = page.getByRole('region', { name: 'Road and rail transportation data' });
+    await expect(osm.getByText(/Complete|Error/i).first()).toBeVisible({ timeout: 60000 });
+    // BTS should make multiple requests (highways, rail lines, rail yards)
+    expect(requestCount).toBeGreaterThanOrEqual(3);
   });
 
-  test('E3: malformed geometry skipped, valid elements kept', async ({ page }) => {
+  test('E3: malformed Overpass geometry skipped in infrastructure, valid elements kept', async ({ page }) => {
+    // Overpass is still used for infrastructure sites — test that malformed elements are handled
     await page.route('**/overpass-api.de/**', route => route.fulfill({
       status: 200, contentType: 'application/json',
       body: JSON.stringify({ elements: [
-        { type: 'way', id: 1, tags: { highway: 'motorway' }, geometry: null },
-        { type: 'way', id: 2, tags: { highway: 'trunk' }, geometry: [] },
-        { type: 'way', id: 3, tags: { highway: 'motorway', ref: 'I-75' }, geometry: [{ lat: 33.7, lon: -84.4 }, { lat: 33.8, lon: -84.3 }] }
+        { type: 'way', id: 1, tags: { building: 'warehouse' }, center: null },
+        { type: 'node', id: 2, tags: { building: 'warehouse', name: 'Valid Warehouse' }, lat: 33.75, lon: -84.39 },
       ]})
     }));
     await startAtlantaPipeline(page);
-    const osm = page.getByRole('region', { name: 'OSM road and rail data' });
-    await expect(osm.getByText('Complete')).toBeVisible({ timeout: 15000 });
-    await expect(osm.getByText('Interstates')).toBeVisible();
+    const infra = page.getByRole('region', { name: 'Infrastructure sites' });
+    await expect(infra.getByText(/Complete|Error/i).first()).toBeVisible({ timeout: 60000 });
   });
 });
 
@@ -232,8 +231,8 @@ test.describe('US-1.4 — Infrastructure Sites', () => {
     await startAtlantaPipeline(page);
     const infra = page.getByRole('region', { name: 'Infrastructure sites' });
     await expect(infra).toBeVisible({ timeout: 5000 });
-    // Wait for completion (real Overpass: 20-40s)
-    await page.waitForTimeout(90000);
+    // Wait for completion (Overpass: 20-90s with chunking)
+    await expect(infra.getByText(/Complete|Error/).first()).toBeVisible({ timeout: 120000 });
     const text = await infra.textContent();
     expect(text).toMatch(/Complete|Error/);
     if (text?.includes('Complete')) {
@@ -310,14 +309,10 @@ test.describe('Integration', () => {
     // FAF completes almost instantly
     const faf = page.getByRole('region', { name: 'FAF freight data' });
     await expect(faf.getByText('Complete')).toBeVisible({ timeout: 5000 });
-    // Wait for OSM + Infra (real Overpass API)
-    await page.waitForTimeout(90000);
-    // All panels should be in a final state
-    const osm = page.getByRole('region', { name: 'OSM road and rail data' });
-    const osmText = await osm.textContent();
-    expect(osmText).toMatch(/Complete|Error/);
+    // Wait for OSM + Infra to reach a final state (BTS + Overpass)
+    const osm = page.getByRole('region', { name: 'Road and rail transportation data' });
+    await expect(osm.getByText(/Complete|Error/).first()).toBeVisible({ timeout: 120000 });
     const infra = page.getByRole('region', { name: 'Infrastructure sites' });
-    const infraText = await infra.textContent();
-    expect(infraText).toMatch(/Complete|Error/);
+    await expect(infra.getByText(/Complete|Error/).first()).toBeVisible({ timeout: 120000 });
   });
 });

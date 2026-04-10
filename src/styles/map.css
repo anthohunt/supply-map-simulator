@@ -27,9 +27,10 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: var(--text-muted) !important;
-  font-size: 10px !important;
-  font-weight: 500 !important;
-  text-shadow: 0 0 3px var(--bg), 0 0 6px var(--bg) !important;
+  color: var(--text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 0 4px var(--bg), 0 0 8px var(--bg), 0 0 12px var(--bg) !important;
   white-space: nowrap !important;
+  letter-spacing: 0.5px !important;
 }

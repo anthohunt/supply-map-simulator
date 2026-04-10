@@ -1,18 +1,27 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useNetworkStore } from '@/stores/networkStore.ts'
 import { buildGeoJSON, downloadFile } from '@/services/exportService.ts'
 import { formatCount } from '@/utils/format.ts'
 import styles from './Export.module.css'
 
 const SIZE_WARNING_BYTES = 50 * 1024 * 1024 // 50MB
+const SIMPLIFIED_DECIMALS = 2
 
 export function GeoJSONExport() {
   const { hubs, edges, regions } = useNetworkStore()
+  const [simplified, setSimplified] = useState(false)
 
-  const result = useMemo(
+  const fullResult = useMemo(
     () => buildGeoJSON(hubs, edges, regions),
     [hubs, edges, regions],
   )
+
+  const simplifiedResult = useMemo(
+    () => buildGeoJSON(hubs, edges, regions, SIMPLIFIED_DECIMALS),
+    [hubs, edges, regions],
+  )
+
+  const result = simplified ? simplifiedResult : fullResult
 
   const previewText = useMemo(() => {
     const fc = result.geojson
@@ -51,12 +60,16 @@ export function GeoJSONExport() {
     return lines.join('\n')
   }, [result])
 
-  const sizeLabel = useMemo(() => {
-    const mb = result.sizeBytes / (1024 * 1024)
+  const formatSize = (bytes: number) => {
+    const mb = bytes / (1024 * 1024)
     if (mb >= 1) return `${mb.toFixed(1)} MB`
-    const kb = result.sizeBytes / 1024
+    const kb = bytes / 1024
     return `${kb.toFixed(0)} KB`
-  }, [result.sizeBytes])
+  }
+
+  const sizeLabel = formatSize(result.sizeBytes)
+  const fullSizeLabel = formatSize(fullResult.sizeBytes)
+  const simplifiedSizeLabel = formatSize(simplifiedResult.sizeBytes)
 
   const hubCount = result.geojson.features.filter(
     (f) => (f.properties as Record<string, unknown>).featureType === 'hub',
@@ -70,7 +83,8 @@ export function GeoJSONExport() {
 
   const handleDownload = () => {
     const json = JSON.stringify(result.geojson, null, 2)
-    downloadFile(json, 'supply-map-network.geojson', 'application/geo+json')
+    const filename = simplified ? 'supply-map-network-simplified.geojson' : 'supply-map-network.geojson'
+    downloadFile(json, filename, 'application/geo+json')
   }
 
   if (hubs.length === 0 && edges.length === 0 && regions.length === 0) {
@@ -107,10 +121,36 @@ export function GeoJSONExport() {
       )}
 
       {result.sizeBytes > SIZE_WARNING_BYTES && (
-        <div className={styles.warningBox} role="alert">
+        <div className={styles.warningBox} role="alert" data-testid="geojson-size-warning">
           <span className={styles.warningText}>
             File size is {sizeLabel}. Consider filtering to specific tiers to reduce size.
           </span>
+        </div>
+      )}
+
+      <div className={styles.precisionRow}>
+        <span className={styles.precisionLabel}>Coordinate Precision</span>
+        <div className={styles.precisionToggle}>
+          <button
+            className={`${styles.precisionBtn} ${!simplified ? styles.precisionBtnActive : ''}`}
+            onClick={() => setSimplified(false)}
+            aria-pressed={!simplified}
+          >
+            Full precision
+          </button>
+          <button
+            className={`${styles.precisionBtn} ${simplified ? styles.precisionBtnActive : ''}`}
+            onClick={() => setSimplified(true)}
+            aria-pressed={simplified}
+          >
+            Simplified (2 decimals)
+          </button>
+        </div>
+      </div>
+
+      {simplified && (
+        <div className={styles.info} data-testid="simplified-coords-note">
+          Coordinates simplified to 2 decimal places — reduced from {fullSizeLabel} to {simplifiedSizeLabel}
         </div>
       )}
 

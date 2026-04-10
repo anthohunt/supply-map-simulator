@@ -228,7 +228,42 @@ export function deduplicateSites(
 // ---------------------------------------------------------------------------
 
 /**
+ * Split a bbox into sub-region tiles if it spans more than `maxDeg` degrees.
+ */
+function splitBbox(
+  bbox: [number, number, number, number],
+  maxDeg: number
+): Array<[number, number, number, number]> {
+  const [west, south, east, north] = bbox
+  const width = east - west
+  const height = north - south
+
+  if (width <= maxDeg && height <= maxDeg) return [bbox]
+
+  const cols = Math.ceil(width / maxDeg)
+  const rows = Math.ceil(height / maxDeg)
+  const cellW = width / cols
+  const cellH = height / rows
+
+  const tiles: Array<[number, number, number, number]> = []
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      tiles.push([
+        west + c * cellW,
+        south + r * cellH,
+        west + (c + 1) * cellW,
+        south + (r + 1) * cellH,
+      ])
+    }
+  }
+  return tiles
+}
+
+const OVERALL_TIMEOUT_MS = 60_000
+
+/**
  * Query real logistics facilities from OpenStreetMap via Overpass API.
+ * Splits large territories into sub-region tiles (max 4 degrees per side).
  *
  * @param bbox Territory bbox in GeoJSON order: `[west, south, east, north]`.
  * @param minSqft Minimum square footage to include a site.
@@ -245,34 +280,51 @@ export async function findCandidateSites(
 }> {
   onProgress?.(5)
 
-  // Convert from GeoJSON [west, south, east, north] to Overpass [south, west, north, east]
-  const [west, south, east, north] = bbox
-  const bboxStr = `${south},${west},${north},${east}`
+  const tiles = splitBbox(bbox, 4)
+  const allSites: CandidateSite[] = []
+  let skippedCount = 0
 
   onProgress?.(10)
-  const query = buildInfraQuery(bboxStr)
-  const result = await queryOverpass(query)
-  onProgress?.(60)
 
-  let skippedCount = 0
-  const sites: CandidateSite[] = []
+  // Overall timeout guard
+  const deadline = Date.now() + OVERALL_TIMEOUT_MS
 
-  for (const el of result.elements) {
-    const site = elementToSite(el, minSqft)
-    if (site) {
-      sites.push(site)
-    } else {
-      skippedCount++
+  for (let i = 0; i < tiles.length; i++) {
+    if (Date.now() > deadline) {
+      console.warn('Infrastructure loading hit 60s overall timeout — returning partial results')
+      break
     }
+
+    const [w, s, e, n] = tiles[i]
+    const bboxStr = `${s},${w},${n},${e}`
+    const query = buildInfraQuery(bboxStr)
+
+    try {
+      const result = await queryOverpass(query)
+      for (const el of result.elements) {
+        const site = elementToSite(el, minSqft)
+        if (site) {
+          allSites.push(site)
+        } else {
+          skippedCount++
+        }
+      }
+    } catch (err) {
+      console.warn(`Infrastructure sub-query ${i + 1}/${tiles.length} failed:`, err)
+      // Continue with remaining tiles
+    }
+
+    const progress = 10 + Math.round(((i + 1) / tiles.length) * 80)
+    onProgress?.(progress)
   }
 
-  onProgress?.(90)
+  onProgress?.(95)
 
-  const fewSitesWarning = sites.length < FEW_SITES_THRESHOLD
+  const fewSitesWarning = allSites.length < FEW_SITES_THRESHOLD
 
   onProgress?.(100)
 
-  return { sites, skippedCount, fewSitesWarning }
+  return { sites: allSites, skippedCount, fewSitesWarning }
 }
 
 // ---------------------------------------------------------------------------

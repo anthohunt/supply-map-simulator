@@ -21,6 +21,28 @@ const MAX_DELAY_MS = 60_000
 const COOLDOWN_MS = 2_000
 const CIRCUIT_BREAKER_MS = 5 * 60_000 // 5 minutes
 
+export interface RateLimitEvent {
+  /** Timestamp (ms) when this rate limit started */
+  startedAt: number
+  /** How long to wait (ms) */
+  delayMs: number
+  /** Which mirror returned 429 */
+  mirror: string
+  /** Current attempt number */
+  attempt: number
+  /** Max attempts */
+  maxAttempts: number
+}
+
+export type RateLimitListener = (event: RateLimitEvent | null) => void
+
+let rateLimitListener: RateLimitListener | null = null
+
+/** Subscribe to rate-limit events. Pass null to clear. */
+export function onRateLimit(listener: RateLimitListener | null): void {
+  rateLimitListener = listener
+}
+
 /** Circuit breaker: track when each mirror was marked dead */
 const mirrorDeadUntil: number[] = OVERPASS_MIRRORS.map(() => 0)
 
@@ -130,6 +152,8 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
     }
 
     if (response.ok) {
+      // Clear rate-limit status on success
+      rateLimitListener?.(null)
       const contentType = response.headers.get('content-type') ?? ''
       if (!contentType.includes('json')) {
         consecutiveFailures++
@@ -170,6 +194,13 @@ async function queryOverpassDirect(query: string): Promise<OverpassResponse> {
         // Exponential backoff: 5s, 10s, 20s, 40s, 60s (capped)
         delayMs = Math.min(BASE_DELAY_MS * Math.pow(2, consecutiveFailures - 1), MAX_DELAY_MS)
       }
+      rateLimitListener?.({
+        startedAt: Date.now(),
+        delayMs,
+        mirror: mirrorUrl,
+        attempt,
+        maxAttempts: MAX_RETRIES,
+      })
       await delay(delayMs)
       continue
     }

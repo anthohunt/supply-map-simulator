@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import { useNetworkGeneration } from '@/hooks/useNetworkGeneration.ts'
 import { useNetworkStore } from '@/stores/networkStore.ts'
 import { useTerritoryStore } from '@/stores/territoryStore.ts'
@@ -8,25 +7,13 @@ export function NetworkGenerationOverlay() {
   const { pixelizationStatus, networkStatus } = useNetworkStore()
   const { setCurrentScreen } = useTerritoryStore()
   const { networkProgress, networkError, generateHubNetwork } = useNetworkGeneration()
-  const transitioned = useRef(false)
-
-  // Auto-transition to network-map screen when generation completes
-  useEffect(() => {
-    if (networkStatus === 'complete' && !transitioned.current) {
-      transitioned.current = true
-      setCurrentScreen('network-map')
-    }
-    if (networkStatus === 'idle') {
-      transitioned.current = false
-    }
-  }, [networkStatus, setCurrentScreen])
-
   // Only show after pixelization is complete and network not yet generated
   const showGenerateButton = pixelizationStatus === 'complete' && networkStatus === 'idle'
   const showProgress = networkStatus === 'running'
   const showError = networkStatus === 'error'
+  const showComplete = networkStatus === 'complete'
 
-  if (!showGenerateButton && !showProgress && !showError) return null
+  if (!showGenerateButton && !showProgress && !showError && !showComplete) return null
 
   return (
     <div className={styles.networkOverlay}>
@@ -69,6 +56,21 @@ export function NetworkGenerationOverlay() {
             onClick={generateHubNetwork}
           >
             Retry with defaults
+          </button>
+        </div>
+      )}
+
+      {showComplete && (
+        <div className={styles.networkGenerateCard}>
+          <p className={styles.networkGenerateHint}>
+            Network generated. View the hub-and-spoke network on the map.
+          </p>
+          <button
+            className={styles.generateBtn}
+            onClick={() => setCurrentScreen('network-map')}
+            aria-label="View the generated hub-and-spoke freight network"
+          >
+            View Network →
           </button>
         </div>
       )}

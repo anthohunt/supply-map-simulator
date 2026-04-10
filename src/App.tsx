@@ -3,6 +3,7 @@ import { useTerritoryStore } from '@/stores/territoryStore.ts'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { useNetworkStore } from '@/stores/networkStore.ts'
 import { useMapStore } from '@/stores/mapStore.ts'
+import { useFlowStore } from '@/stores/flowStore.ts'
 
 // Expose stores on window in dev mode for Playwright testing
 if (import.meta.env.DEV) {
@@ -12,6 +13,7 @@ if (import.meta.env.DEV) {
       pipeline: usePipelineStore,
       network: useNetworkStore,
       map: useMapStore,
+      flow: useFlowStore,
     },
   })
 }

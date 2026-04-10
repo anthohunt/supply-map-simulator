@@ -14,12 +14,10 @@ async function reachPixelization(page: import('@playwright/test').Page) {
   await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
   await page.getByRole('button', { name: 'Start data pipeline' }).click();
   await expect(page.getByRole('heading', { name: 'Data Pipeline' })).toBeVisible({ timeout: 3000 });
-  // Wait for all panels to complete (FAF instant, OSM/Infra use Overpass 10-90s)
-  await page.waitForTimeout(90000);
-  // Navigate to pixelization
-  const startPixBtn = page.getByRole('button', { name: /start pixelization/i });
-  await expect(startPixBtn).toBeVisible({ timeout: 5000 });
-  await startPixBtn.click();
+  // Wait for all pipeline stages to complete — the "Next: Demand Clustering" button appears when allComplete
+  const nextBtn = page.getByRole('button', { name: /proceed to demand clustering/i });
+  await expect(nextBtn).toBeVisible({ timeout: 150000 });
+  await nextBtn.click();
 }
 
 // ═══════════════════════════════════════════════════
@@ -63,10 +61,10 @@ test.describe('US-1.5 — Space Pixelization', () => {
     await page.getByRole('combobox', { name: 'Search territories' }).pressSequentially('Rural', { delay: 100 });
     await page.getByRole('option', { name: /Rural County/i }).click();
     await page.getByRole('button', { name: 'Start data pipeline' }).click();
-    await page.waitForTimeout(30000);
-    const startPixBtn = page.getByRole('button', { name: /start pixelization/i });
-    if (await startPixBtn.isVisible()) {
-      await startPixBtn.click();
+    const nextBtn = page.getByRole('button', { name: /proceed to demand clustering/i });
+    await expect(nextBtn).toBeVisible({ timeout: 60000 });
+    if (await nextBtn.isVisible()) {
+      await nextBtn.click();
       await page.waitForTimeout(5000);
       const text = await page.textContent('body');
       expect(text).toMatch(/Too few counties|error/i);

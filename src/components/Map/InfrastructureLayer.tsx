@@ -1,4 +1,6 @@
-import { Polyline, CircleMarker, Tooltip } from 'react-leaflet'
+import { useEffect, useRef } from 'react'
+import { useMap } from 'react-leaflet'
+import L from 'leaflet'
 import { usePipelineStore } from '@/stores/pipelineStore.ts'
 import { useLayerState } from '@/hooks/useLayerState.ts'
 import type { RoadSegment, RailSegment } from '@/services/osmService.ts'
@@ -15,148 +17,191 @@ const ROAD_WEIGHTS: Record<RoadSegment['type'], number> = {
   trunk: 1.5,
 }
 
-function RoadLine({ segment, opacity }: { segment: RoadSegment; opacity: number }) {
-  const coords = (segment.geometry.coordinates as [number, number][]).map(
-    ([lng, lat]) => [lat, lng] as [number, number]
-  )
-  return (
-    <Polyline
-      positions={coords}
-      pathOptions={{
-        color: ROAD_COLORS[segment.type],
-        weight: ROAD_WEIGHTS[segment.type],
-        opacity: opacity * 0.7,
-      }}
-    >
-      <Tooltip sticky>
-        <span>{segment.ref || segment.type} — {segment.lengthKm.toFixed(1)} km</span>
-      </Tooltip>
-    </Polyline>
-  )
-}
-
-function RailLine({ segment, opacity }: { segment: RailSegment; opacity: number }) {
-  if (segment.geometry.type === 'Point') return null
-  const coords = (segment.geometry.coordinates as [number, number][]).map(
-    ([lng, lat]) => [lat, lng] as [number, number]
-  )
-  return (
-    <Polyline
-      positions={coords}
-      pathOptions={{
-        color: '#AB47BC',
-        weight: 1.5,
-        opacity: opacity * 0.6,
-        dashArray: '4 4',
-      }}
-    >
-      <Tooltip sticky>
-        <span>Railroad{segment.operator ? ` — ${segment.operator}` : ''} — {segment.lengthKm.toFixed(1)} km</span>
-      </Tooltip>
-    </Polyline>
-  )
-}
-
-function RailYardMarker({ segment, opacity }: { segment: RailSegment; opacity: number }) {
-  if (segment.geometry.type !== 'Point') return null
-  const [lng, lat] = segment.geometry.coordinates as [number, number]
-  return (
-    <CircleMarker
-      center={[lat, lng]}
-      radius={4}
-      pathOptions={{
-        color: '#AB47BC',
-        fillColor: '#AB47BC',
-        fillOpacity: opacity * 0.7,
-        weight: 1,
-        opacity: opacity * 0.8,
-      }}
-    >
-      <Tooltip>
-        <span>Rail Yard{segment.operator ? ` — ${segment.operator}` : ''}</span>
-      </Tooltip>
-    </CircleMarker>
-  )
-}
+const canvasRenderer = L.canvas({ padding: 0.5 })
 
 export function InfrastructureLayer() {
   const { osm, infra } = usePipelineStore()
   const { infraLayers, infraOpacity } = useLayerState()
+  const map = useMap()
+  const layerRef = useRef<L.LayerGroup | null>(null)
 
-  if (osm.status !== 'complete' && osm.status !== 'partial') return null
+  useEffect(() => {
+    if (!layerRef.current) {
+      layerRef.current = L.layerGroup().addTo(map)
+    }
+    return () => {
+      if (layerRef.current) {
+        layerRef.current.remove()
+        layerRef.current = null
+      }
+    }
+  }, [map])
 
-  const opacity = infraOpacity / 100
+  useEffect(() => {
+    const group = layerRef.current
+    if (!group) return
 
-  const showHighways = infraLayers.highways
-  const showRailroads = infraLayers.railroads
-  const showPorts = infraLayers.ports
-  const showAirports = infraLayers.airports
+    group.clearLayers()
 
-  const hasNoRail = osm.railSegments.length === 0
-  const portSites = infra.status === 'complete' ? infra.sites.filter((s) => s.type === 'port') : []
-  const airportSites = infra.status === 'complete' ? infra.sites.filter((s) => s.type === 'airport') : []
+    if (osm.status !== 'complete' && osm.status !== 'partial') return
 
-  return (
-    <>
-      {showHighways &&
-        osm.roadSegments.map((seg) => (
-          <RoadLine key={seg.id} segment={seg} opacity={opacity} />
-        ))}
+    const opacity = infraOpacity / 100
 
-      {showRailroads && !hasNoRail &&
-        osm.railSegments.map((seg) =>
-          seg.geometry.type === 'Point' ? (
-            <RailYardMarker key={seg.id} segment={seg} opacity={opacity} />
-          ) : (
-            <RailLine key={seg.id} segment={seg} opacity={opacity} />
-          )
-        )}
+    // Highways
+    if (infraLayers.highways && osm.roadSegments.length > 0) {
+      const roadFeatures: GeoJSON.Feature[] = osm.roadSegments.map((seg) => ({
+        type: 'Feature' as const,
+        geometry: seg.geometry,
+        properties: { type: seg.type, ref: seg.ref, lengthKm: seg.lengthKm },
+      }))
 
-      {showPorts &&
-        portSites.map((site) => {
-          const [lng, lat] = site.position
-          return (
-            <CircleMarker
-              key={site.id}
-              center={[lat, lng]}
-              radius={6}
-              pathOptions={{
-                color: '#1FBAD6',
-                fillColor: '#1FBAD6',
-                fillOpacity: opacity * 0.8,
-                weight: 2,
-                opacity: opacity,
-              }}
-            >
-              <Tooltip>
-                <span>{site.name} (Port)</span>
-              </Tooltip>
-            </CircleMarker>
-          )
-        })}
+      const roadLayer = L.geoJSON(
+        { type: 'FeatureCollection', features: roadFeatures },
+        {
+          renderer: canvasRenderer,
+          style: (feature) => {
+            const t = feature?.properties?.type as RoadSegment['type']
+            return {
+              color: ROAD_COLORS[t] || '#B0BEC5',
+              weight: ROAD_WEIGHTS[t] || 1.5,
+              opacity: opacity * 0.7,
+            }
+          },
+          onEachFeature: (feature, layer) => {
+            const p = feature.properties
+            layer.bindTooltip(`${p.ref || p.type} — ${p.lengthKm.toFixed(1)} km`, { sticky: true })
+          },
+        }
+      )
+      group.addLayer(roadLayer)
+    }
 
-      {showAirports &&
-        airportSites.map((site) => {
-          const [lng, lat] = site.position
-          return (
-            <CircleMarker
-              key={site.id}
-              center={[lat, lng]}
-              radius={6}
-              pathOptions={{
-                color: '#66BB6A',
-                fillColor: '#66BB6A',
-                fillOpacity: opacity * 0.8,
-                weight: 2,
-                opacity: opacity,
-              }}
-            >
-              <Tooltip>
-                <span>{site.name} (Airport)</span>
-              </Tooltip>
-            </CircleMarker>
-          )
-        })}
-    </>
-  )
+    // Railroads
+    if (infraLayers.railroads && osm.railSegments.length > 0) {
+      const railLineFeatures: GeoJSON.Feature[] = []
+      const railYardFeatures: GeoJSON.Feature[] = []
+
+      for (const seg of osm.railSegments) {
+        if (seg.geometry.type === 'Point') {
+          railYardFeatures.push({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: seg.geometry.coordinates },
+            properties: { operator: seg.operator },
+          })
+        } else {
+          railLineFeatures.push({
+            type: 'Feature',
+            geometry: seg.geometry,
+            properties: { operator: seg.operator, lengthKm: seg.lengthKm },
+          })
+        }
+      }
+
+      if (railLineFeatures.length > 0) {
+        const railLineLayer = L.geoJSON(
+          { type: 'FeatureCollection', features: railLineFeatures },
+          {
+            renderer: canvasRenderer,
+            style: () => ({
+              color: '#AB47BC',
+              weight: 1.5,
+              opacity: opacity * 0.6,
+              dashArray: '4 4',
+            }),
+            onEachFeature: (feature, layer) => {
+              const p = feature.properties
+              layer.bindTooltip(
+                `Railroad${p.operator ? ` — ${p.operator}` : ''} — ${p.lengthKm.toFixed(1)} km`,
+                { sticky: true }
+              )
+            },
+          }
+        )
+        group.addLayer(railLineLayer)
+      }
+
+      if (railYardFeatures.length > 0) {
+        const yardLayer = L.geoJSON(
+          { type: 'FeatureCollection', features: railYardFeatures },
+          {
+            renderer: canvasRenderer,
+            pointToLayer: (_feature, latlng) =>
+              L.circleMarker(latlng, {
+                radius: 4,
+                color: '#AB47BC',
+                fillColor: '#AB47BC',
+                fillOpacity: opacity * 0.7,
+                weight: 1,
+                opacity: opacity * 0.8,
+              }),
+            onEachFeature: (feature, layer) => {
+              const p = feature.properties
+              layer.bindTooltip(`Rail Yard${p.operator ? ` — ${p.operator}` : ''}`)
+            },
+          }
+        )
+        group.addLayer(yardLayer)
+      }
+    }
+
+    // Ports
+    const portSites = infra.status === 'complete' ? infra.sites.filter((s) => s.type === 'port') : []
+    if (infraLayers.ports && portSites.length > 0) {
+      const portFeatures: GeoJSON.Feature[] = portSites.map((site) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: site.position },
+        properties: { name: site.name },
+      }))
+      const portLayer = L.geoJSON(
+        { type: 'FeatureCollection', features: portFeatures },
+        {
+          renderer: canvasRenderer,
+          pointToLayer: (_feature, latlng) =>
+            L.circleMarker(latlng, {
+              radius: 6,
+              color: '#1FBAD6',
+              fillColor: '#1FBAD6',
+              fillOpacity: opacity * 0.8,
+              weight: 2,
+              opacity: opacity,
+            }),
+          onEachFeature: (feature, layer) => {
+            layer.bindTooltip(`${feature.properties.name} (Port)`)
+          },
+        }
+      )
+      group.addLayer(portLayer)
+    }
+
+    // Airports
+    const airportSites = infra.status === 'complete' ? infra.sites.filter((s) => s.type === 'airport') : []
+    if (infraLayers.airports && airportSites.length > 0) {
+      const airportFeatures: GeoJSON.Feature[] = airportSites.map((site) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: site.position },
+        properties: { name: site.name },
+      }))
+      const airportLayer = L.geoJSON(
+        { type: 'FeatureCollection', features: airportFeatures },
+        {
+          renderer: canvasRenderer,
+          pointToLayer: (_feature, latlng) =>
+            L.circleMarker(latlng, {
+              radius: 6,
+              color: '#66BB6A',
+              fillColor: '#66BB6A',
+              fillOpacity: opacity * 0.8,
+              weight: 2,
+              opacity: opacity,
+            }),
+          onEachFeature: (feature, layer) => {
+            layer.bindTooltip(`${feature.properties.name} (Airport)`)
+          },
+        }
+      )
+      group.addLayer(airportLayer)
+    }
+  }, [osm, infra, infraLayers, infraOpacity, map])
+
+  return null
 }

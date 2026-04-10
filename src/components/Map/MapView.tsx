@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { MapContainer, useMapEvents } from 'react-leaflet'
+import { useFlowStore } from '@/stores/flowStore.ts'
 import { BoundaryLayer } from './BoundaryLayer.tsx'
 import { TerritoryBoundaryLayer } from './TerritoryBoundaryLayer.tsx'
 import { SiteMarkerLayer } from './SiteMarkerLayer.tsx'
@@ -38,12 +39,34 @@ export function MapView({ hoveredSiteId }: MapViewProps) {
   const leftMapRef = useRef<LeafletMap | null>(null)
   const { splitViewEnabled, setSplitViewEnabled, threeDEnabled, setThreeDEnabled } = useMapStore()
   const { networkStatus } = useNetworkStore()
+  const { flowsEnabled } = useFlowStore()
   const [isNarrow, setIsNarrow] = useState(window.innerWidth < 1024)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+  const splitDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [splitDebouncing, setSplitDebouncing] = useState(false)
+
+  const debouncedSetSplit = useCallback((value: boolean) => {
+    if (splitDebounceRef.current) clearTimeout(splitDebounceRef.current)
+    setSplitDebouncing(true)
+    splitDebounceRef.current = setTimeout(() => {
+      setSplitViewEnabled(value)
+      setSplitDebouncing(false)
+    }, 500)
+  }, [setSplitViewEnabled])
 
   useEffect(() => {
     const handleResize = () => setIsNarrow(window.innerWidth < 1024)
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
   }, [])
 
   const showMapControls = networkStatus === 'complete'
@@ -55,9 +78,9 @@ export function MapView({ hoveredSiteId }: MapViewProps) {
       <BoundaryLayer />
       <SiteMarkerLayer hoveredSiteId={hoveredSiteId} />
       <InfrastructureLayer />
-      <EdgeLayer />
+      {!threeDEnabled && <EdgeLayer />}
       <FlowAnimationLayer />
-      <HubMarkerLayer />
+      {!threeDEnabled && <HubMarkerLayer />}
       <MapClickHandler />
       <ThreeDProjection />
     </>
@@ -88,11 +111,17 @@ export function MapView({ hoveredSiteId }: MapViewProps) {
           center={US_CENTER}
           zoom={DEFAULT_ZOOM}
         />
+        {prefersReducedMotion && flowsEnabled && (
+          <div className={styles.reducedMotionBadge} aria-label="Reduced motion mode active">
+            REDUCED MOTION
+          </div>
+        )}
         {showMapControls && (
           <>
             <button
               className={`${styles.splitToggle} ${splitViewEnabled ? styles.splitToggleActive : ''}`}
-              onClick={() => setSplitViewEnabled(false)}
+              onClick={() => debouncedSetSplit(false)}
+              disabled={splitDebouncing}
               aria-label="Disable split view"
             >
               Exit Split
@@ -123,11 +152,17 @@ export function MapView({ hoveredSiteId }: MapViewProps) {
       </MapContainer>
       <TileStylePicker />
       <NetworkGenerationOverlay />
+      {prefersReducedMotion && flowsEnabled && (
+        <div className={styles.reducedMotionBadge} aria-label="Reduced motion mode active">
+          REDUCED MOTION
+        </div>
+      )}
       {showMapControls && (
         <>
           <button
             className={`${styles.splitToggle} ${splitViewEnabled ? styles.splitToggleActive : ''}`}
-            onClick={() => setSplitViewEnabled(true)}
+            onClick={() => debouncedSetSplit(true)}
+            disabled={splitDebouncing}
             aria-label="Enable split view"
           >
             Split View

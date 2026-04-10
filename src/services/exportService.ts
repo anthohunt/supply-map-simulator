@@ -31,15 +31,51 @@ export interface ExportedHub {
 }
 
 /**
+ * Round a coordinate value to the given number of decimal places.
+ * Used for coordinate simplification in GeoJSON export.
+ */
+function roundCoord(val: number, decimals: number): number {
+  const factor = Math.pow(10, decimals)
+  return Math.round(val * factor) / factor
+}
+
+function simplifyGeometry(geometry: GeoJSON.Geometry, decimals: number): GeoJSON.Geometry {
+  if (decimals === null || decimals === undefined) return geometry
+
+  function roundPos(pos: GeoJSON.Position): GeoJSON.Position {
+    return pos.map((v) => roundCoord(v, decimals)) as GeoJSON.Position
+  }
+
+  switch (geometry.type) {
+    case 'Point':
+      return { ...geometry, coordinates: roundPos(geometry.coordinates) }
+    case 'LineString':
+      return { ...geometry, coordinates: geometry.coordinates.map(roundPos) }
+    case 'Polygon':
+      return { ...geometry, coordinates: geometry.coordinates.map((ring) => ring.map(roundPos)) }
+    case 'MultiPolygon':
+      return { ...geometry, coordinates: geometry.coordinates.map((poly) => poly.map((ring) => ring.map(roundPos))) }
+    default:
+      return geometry
+  }
+}
+
+/**
  * Build a GeoJSON FeatureCollection from hubs, edges, and regions.
+ * Pass `coordinateDecimals` to round coordinates (e.g. 2 for simplified export).
  */
 export function buildGeoJSON(
   hubs: Hub[],
   edges: Edge[],
   regions: Region[],
+  coordinateDecimals?: number,
 ): GeoJSONExportResult {
   const warnings: string[] = []
   const features: GeoJSON.Feature[] = []
+
+  const applyPrecision = coordinateDecimals !== undefined
+    ? (geom: GeoJSON.Geometry) => simplifyGeometry(geom, coordinateDecimals)
+    : (geom: GeoJSON.Geometry) => geom
 
   // Hubs as Points
   for (const hub of hubs) {
@@ -49,10 +85,10 @@ export function buildGeoJSON(
     }
     features.push({
       type: 'Feature',
-      geometry: {
+      geometry: applyPrecision({
         type: 'Point',
         coordinates: [hub.position[0], hub.position[1]],
-      },
+      }),
       properties: {
         featureType: 'hub',
         id: hub.id,
@@ -79,13 +115,13 @@ export function buildGeoJSON(
     }
     features.push({
       type: 'Feature',
-      geometry: {
+      geometry: applyPrecision({
         type: 'LineString',
         coordinates: [
           [source.position[0], source.position[1]],
           [target.position[0], target.position[1]],
         ],
-      },
+      }),
       properties: {
         featureType: 'edge',
         id: edge.id,
@@ -107,7 +143,7 @@ export function buildGeoJSON(
     }
     features.push({
       type: 'Feature',
-      geometry: region.boundary,
+      geometry: applyPrecision(region.boundary),
       properties: {
         featureType: 'region',
         id: region.id,
@@ -209,21 +245,76 @@ export function downloadFile(content: string | Blob, filename: string, mimeType:
 }
 
 /**
- * Capture the map container as a PNG blob using html2canvas-style approach.
- * Uses the leaflet map's built-in canvas rendering.
+ * Capture the map container as a PNG blob.
+ * Composites all Leaflet panes: tile <img> elements, existing <canvas>, and SVG overlays.
  */
 export async function captureMapAsPNG(
   mapContainer: HTMLElement,
 ): Promise<Blob> {
-  const { default: html2canvas } = await import('html2canvas')
-  const canvas = await html2canvas(mapContainer, {
-    useCORS: true,
-    allowTaint: false,
-    backgroundColor: '#242730',
-    logging: false,
-  })
+  const rect = mapContainer.getBoundingClientRect()
+  const width = Math.round(rect.width)
+  const height = Math.round(rect.height)
+
+  const output = document.createElement('canvas')
+  output.width = width
+  output.height = height
+  const ctx = output.getContext('2d')!
+  ctx.fillStyle = '#242730'
+  ctx.fillRect(0, 0, width, height)
+
+  // Helper: load an image URL onto canvas at given offset
+  const drawImageFromURL = (url: string, x: number, y: number, w: number, h: number): Promise<void> => {
+    return new Promise<void>((resolve) => {
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.onload = () => { ctx.drawImage(img, x, y, w, h); resolve() }
+      img.onerror = () => resolve() // skip failed tiles silently
+      img.src = url
+    })
+  }
+
+  // 1. Draw tile <img> elements from the tile pane (Leaflet renders raster tiles as <img>)
+  const tileImgs = mapContainer.querySelectorAll<HTMLImageElement>('.leaflet-tile-pane img.leaflet-tile')
+  await Promise.all(Array.from(tileImgs).map(async (img) => {
+    if (!img.complete || !img.src) return
+    const cr = img.getBoundingClientRect()
+    if (cr.width === 0 || cr.height === 0) return
+    await drawImageFromURL(img.src, cr.left - rect.left, cr.top - rect.top, cr.width, cr.height)
+  }))
+
+  // 2. Draw any existing <canvas> elements (canvas tile renderers, WebGL layers)
+  const canvases = mapContainer.querySelectorAll<HTMLCanvasElement>('canvas')
+  for (const c of canvases) {
+    if (c.width === 0 || c.height === 0) continue
+    const cr = c.getBoundingClientRect()
+    ctx.drawImage(c, cr.left - rect.left, cr.top - rect.top, cr.width, cr.height)
+  }
+
+  // 3. Serialize and draw SVG overlay panes (hubs, edges, boundaries, flow lines)
+  const svgs = mapContainer.querySelectorAll<SVGSVGElement>('svg')
+  await Promise.all(Array.from(svgs).map(async (svg) => {
+    const cr = svg.getBoundingClientRect()
+    if (cr.width === 0 || cr.height === 0) return
+    // Skip the attribution flag icon (tiny decorative SVG)
+    if (svg.classList.contains('leaflet-attribution-flag')) return
+    const serializer = new XMLSerializer()
+    const svgStr = serializer.serializeToString(svg)
+    const svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
+    const url = URL.createObjectURL(svgBlob)
+    await new Promise<void>((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        ctx.drawImage(img, cr.left - rect.left, cr.top - rect.top, cr.width, cr.height)
+        URL.revokeObjectURL(url)
+        resolve()
+      }
+      img.onerror = () => { URL.revokeObjectURL(url); resolve() }
+      img.src = url
+    })
+  }))
+
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
+    output.toBlob((blob) => {
       if (blob) resolve(blob)
       else reject(new Error('Failed to create PNG blob'))
     }, 'image/png')
