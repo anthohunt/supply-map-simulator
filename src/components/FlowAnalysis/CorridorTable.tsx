@@ -9,7 +9,7 @@ export function CorridorTable() {
   const { setSelectedCorridorId } = useFlowStore()
   const { corridors, selectedCorridor, selectedCorridorId, flows } = useFlows()
 
-  if (networkStatus !== 'complete' || flows.length === 0) {
+  if (networkStatus !== 'complete') {
     return (
       <div className={styles.corridorContainer}>
         <h3 className={styles.sectionTitle}>Corridor Analysis</h3>
@@ -24,6 +24,17 @@ export function CorridorTable() {
           >
             Go to Pipeline
           </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (flows.length === 0) {
+    return (
+      <div className={styles.corridorContainer}>
+        <h3 className={styles.sectionTitle}>Corridor Analysis</h3>
+        <div className={styles.noMatchMessage} data-testid="corridors-empty">
+          No corridors to display. No flow data is available for this network.
         </div>
       </div>
     )

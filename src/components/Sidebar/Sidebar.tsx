@@ -8,6 +8,7 @@ import styles from './Sidebar.module.css'
 interface SidebarProps {
   onHoverSite?: (siteId: string | null) => void
   onExportClick?: () => void
+  hidden?: boolean
 }
 
 const STEPS = [
@@ -24,12 +25,17 @@ const SCREEN_ORDER: Record<string, number> = {
   'network-map': 3,
 }
 
-export function Sidebar({ onHoverSite, onExportClick }: SidebarProps) {
+export function Sidebar({ onHoverSite, onExportClick, hidden }: SidebarProps) {
   const { currentScreen } = useTerritoryStore()
   const currentIndex = SCREEN_ORDER[currentScreen] ?? 0
 
   return (
-    <aside className={styles.sidebar} role="complementary" aria-label="Control sidebar">
+    <aside
+      className={`${styles.sidebar} ${hidden ? styles.sidebarHidden : ''}`}
+      role="complementary"
+      aria-label="Control sidebar"
+      aria-hidden={hidden}
+    >
       <div className={styles.header}>
         <h1 className={styles.logo}>Supply Map</h1>
       </div>

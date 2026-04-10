@@ -112,12 +112,15 @@ export function FlowAnimationLayer() {
     particlesRef.current = []
     cancelAnimationFrame(animationRef.current)
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     if (!flowsEnabled || networkStatus !== 'complete' || filteredFlows.length === 0) return
 
     const hubMap = new Map(hubs.map((h) => [h.id, h]))
 
     // Filter flows by visible tiers
     const visibleFlows = filteredFlows.filter((flow) => {
+      if (!flow.routeHubIds?.length) return false
       return flow.routeHubIds.every((hubId) => {
         const hub = hubMap.get(hubId)
         return hub && visibleTiers.has(hub.tier)
@@ -178,6 +181,9 @@ export function FlowAnimationLayer() {
 
       group.addLayer(line)
     }
+
+    // Skip particle animation if user prefers reduced motion
+    if (prefersReducedMotion) return
 
     // Animate particles along flow edges
     const PARTICLE_COUNT = Math.min(aggregated.length * 2, 200)

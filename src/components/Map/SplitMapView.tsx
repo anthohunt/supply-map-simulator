@@ -2,8 +2,6 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import { BoundaryLayer } from './BoundaryLayer.tsx'
 import { HubMarkerLayer } from './HubMarkerLayer.tsx'
-import { EdgeLayer } from './EdgeLayer.tsx'
-import { InfrastructureLayer } from './InfrastructureLayer.tsx'
 import { SplitPanelProvider, useSplitPanelContext } from '@/contexts/SplitPanelContext.tsx'
 import { useMapStore, type TileStyle } from '@/stores/mapStore.ts'
 import { useNetworkStore } from '@/stores/networkStore.ts'
@@ -183,9 +181,7 @@ export function SplitMapView({ leftMapRef, center, zoom }: SplitMapViewProps) {
         >
           <RightTileLayer tileStyle={rightTileStyle} />
           <BoundaryLayer />
-          <EdgeLayer />
           <HubMarkerLayer />
-          <InfrastructureLayer />
           <SyncToLeft leftMapRef={leftMapRef} />
           <RightMapClickHandler />
         </MapContainer>

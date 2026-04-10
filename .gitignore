@@ -24,3 +24,11 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Test artifacts
+test-results/
+playwright-report/
+
+# Ephemeral tool output
+graphify-out/
+src/graphify-out/

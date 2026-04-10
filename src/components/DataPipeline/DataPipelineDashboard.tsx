@@ -24,6 +24,13 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
     }
   }, [selectedTerritory, startPipeline])
 
+  // H9: Reset hasStarted when territory changes so pipeline can re-run
+  useEffect(() => {
+    if (!selectedTerritory) {
+      hasStarted.current = false
+    }
+  }, [selectedTerritory])
+
   const isDone = (s: string) => s === 'complete' || s === 'partial'
   const allComplete = isDone(faf.status) && isDone(osm.status) && isDone(infra.status)
 
@@ -135,6 +142,7 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
           fewSitesWarning={infra.fewSitesWarning}
           errorMessage={infra.errorMessage}
           sites={infra.sites}
+          rateLimitInfo={infra.rateLimitInfo}
           onHoverSite={onHoverSite}
         />
       </div>
@@ -156,7 +164,10 @@ export function DataPipelineDashboard({ onHoverSite }: DataPipelineDashboardProp
 
       <button
         className={styles.changeTerritoryButton}
-        onClick={clearTerritory}
+        onClick={() => {
+          usePipelineStore.getState().resetPipeline()
+          clearTerritory()
+        }}
         aria-label="Change territory"
       >
         Change Territory

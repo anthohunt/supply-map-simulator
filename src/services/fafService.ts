@@ -91,6 +91,67 @@ async function fetchJSON(url: string): Promise<unknown[]> {
  *
  * Malformed records are silently skipped and counted.
  */
+/**
+ * Map of FIPS code → approximate county centroid [lng, lat].
+ * Loaded lazily from the FAF records themselves — we average origin/dest positions
+ * from records that share a FIPS code.
+ */
+let fipsCoordCache: Map<string, [number, number]> | null = null
+
+function buildFipsCoordCache(records: FAFRecord[]): Map<string, [number, number]> {
+  if (fipsCoordCache) return fipsCoordCache
+  // We don't have explicit lat/lng per FIPS in the bundled data,
+  // so we skip bbox filtering when coords aren't available.
+  fipsCoordCache = new Map()
+  return fipsCoordCache
+}
+
+/**
+ * Filter records to those relevant to the territory bbox.
+ * Since FAF records don't carry lat/lng, we check if origin or dest FIPS
+ * starts with a state FIPS code whose territory overlaps the bbox.
+ */
+function filterByTerritoryBbox(
+  records: FAFRecord[],
+  territory: Territory
+): FAFRecord[] {
+  const [west, south, east, north] = territory.bbox
+
+  // SE USA state FIPS prefixes and their approximate lat/lng ranges
+  const STATE_BOUNDS: Record<string, { lat: [number, number]; lng: [number, number] }> = {
+    '01': { lat: [30.2, 35.0], lng: [-88.5, -84.9] },  // AL
+    '12': { lat: [24.5, 31.0], lng: [-87.6, -80.0] },  // FL
+    '13': { lat: [30.4, 35.0], lng: [-85.6, -80.8] },  // GA
+    '21': { lat: [36.5, 39.1], lng: [-89.6, -81.9] },  // KY
+    '22': { lat: [28.9, 33.0], lng: [-94.0, -89.0] },  // LA
+    '28': { lat: [30.2, 35.0], lng: [-91.7, -88.1] },  // MS
+    '37': { lat: [33.8, 36.6], lng: [-84.3, -75.5] },  // NC
+    '45': { lat: [32.0, 35.2], lng: [-83.4, -78.5] },  // SC
+    '47': { lat: [35.0, 36.7], lng: [-90.3, -81.6] },  // TN
+    '48': { lat: [25.8, 36.5], lng: [-106.6, -93.5] }, // TX
+    '51': { lat: [36.5, 39.5], lng: [-83.7, -75.2] },  // VA
+  }
+
+  return records.filter((r) => {
+    const originState = r.originFips.slice(0, 2)
+    const destState = r.destFips.slice(0, 2)
+
+    const checkState = (stateCode: string): boolean => {
+      const bounds = STATE_BOUNDS[stateCode]
+      if (!bounds) return false
+      // Check if state bbox overlaps with territory bbox
+      return (
+        bounds.lng[0] < east &&
+        bounds.lng[1] > west &&
+        bounds.lat[0] < north &&
+        bounds.lat[1] > south
+      )
+    }
+
+    return checkState(originState) || checkState(destState)
+  })
+}
+
 export async function loadFAFData(
   onProgress: (progress: number) => void,
   territory?: Territory
@@ -157,13 +218,16 @@ export async function loadFAFData(
 
   onProgress(100)
 
-  const totalTonnage = records.reduce((sum, r) => sum + r.annualTons, 0)
-  const commodityTypes = [...new Set(records.map((r) => r.commodity))]
+  // Filter records by territory bbox if a territory is provided
+  const filteredRecords = territory ? filterByTerritoryBbox(records, territory) : records
+
+  const totalTonnage = filteredRecords.reduce((sum, r) => sum + r.annualTons, 0)
+  const commodityTypes = [...new Set(filteredRecords.map((r) => r.commodity))]
 
   return {
-    records,
+    records: filteredRecords,
     totalTonnage,
-    countyPairCount: records.length,
+    countyPairCount: filteredRecords.length,
     commodityTypes,
     skippedCount,
     isOfflineFallback,

@@ -1,8 +1,33 @@
-import type { DataSourceStatus } from '@/stores/pipelineStore.ts'
+import { useEffect, useState } from 'react'
+import type { DataSourceStatus, RateLimitInfo } from '@/stores/pipelineStore.ts'
 import type { CandidateSite } from '@/types/site.ts'
 import { useElapsedTimer, formatElapsed } from '@/hooks/useElapsedTimer.ts'
 import { formatCount } from '@/utils/format.ts'
 import styles from './DataPipeline.module.css'
+
+function RateLimitCountdown({ info }: { info: RateLimitInfo }) {
+  const [remaining, setRemaining] = useState(() => {
+    const elapsed = Date.now() - info.startedAt
+    return Math.max(0, Math.ceil((info.delayMs - elapsed) / 1000))
+  })
+
+  useEffect(() => {
+    const tick = () => {
+      const elapsed = Date.now() - info.startedAt
+      const secs = Math.max(0, Math.ceil((info.delayMs - elapsed) / 1000))
+      setRemaining(secs)
+    }
+    tick()
+    const id = setInterval(tick, 500)
+    return () => clearInterval(id)
+  }, [info.startedAt, info.delayMs])
+
+  return (
+    <div className={styles.warningMessage} role="alert" aria-live="polite" data-testid="rate-limit-countdown">
+      Rate limited — retrying in {remaining}s (attempt {info.attempt}/{info.maxAttempts})
+    </div>
+  )
+}
 
 interface InfraPanelProps {
   status: DataSourceStatus
@@ -20,6 +45,7 @@ interface InfraPanelProps {
   fewSitesWarning: boolean
   errorMessage: string | null
   sites: CandidateSite[]
+  rateLimitInfo?: RateLimitInfo | null
   onHoverSite?: (siteId: string | null) => void
 }
 
@@ -61,6 +87,7 @@ export function InfraPanel({
   fewSitesWarning,
   errorMessage,
   sites,
+  rateLimitInfo,
   onHoverSite,
 }: InfraPanelProps) {
   const elapsed = useElapsedTimer(status === 'loading')
@@ -85,15 +112,18 @@ export function InfraPanel({
       )}
 
       {status === 'loading' && (
-        <div
-          className={styles.panelDescription}
-          role="status"
-          aria-live="polite"
-          aria-label={`Scanning for infrastructure sites, ${formatElapsed(elapsed)} elapsed`}
-        >
-          Scanning for warehouses, ports, airports, and rail yards...
-          <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
-        </div>
+        <>
+          <div
+            className={styles.panelDescription}
+            role="status"
+            aria-live="polite"
+            aria-label={`Scanning for infrastructure sites, ${formatElapsed(elapsed)} elapsed`}
+          >
+            Scanning for warehouses, ports, airports, and rail yards...
+            <span className={styles.elapsedTime}>{formatElapsed(elapsed)} elapsed</span>
+          </div>
+          {rateLimitInfo && <RateLimitCountdown info={rateLimitInfo} />}
+        </>
       )}
 
       {(status === 'loading' || status === 'complete' || status === 'partial') && (

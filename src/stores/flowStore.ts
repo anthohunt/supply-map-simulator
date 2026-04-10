@@ -24,6 +24,8 @@ interface FlowState {
   filters: FlowFilters
   selectedCorridorId: string | null
   corridors: Corridor[]
+  /** When true, auto-generation is suppressed (set by clearFlows, reset by computeFlows) */
+  flowsCleared: boolean
 
   setFlows: (flows: FreightFlow[]) => void
   setFlowsEnabled: (enabled: boolean) => void
@@ -31,6 +33,7 @@ interface FlowState {
   clearFilters: () => void
   setSelectedCorridorId: (id: string | null) => void
   setCorridors: (corridors: Corridor[]) => void
+  clearFlows: () => void
   resetFlows: () => void
 }
 
@@ -47,14 +50,21 @@ export const useFlowStore = create<FlowState>((set) => ({
   filters: defaultFilters,
   selectedCorridorId: null,
   corridors: [],
+  flowsCleared: false,
 
-  setFlows: (flows) => set({ flows }),
+  setFlows: (flows) => set({ flows, flowsCleared: false }),
   setFlowsEnabled: (flowsEnabled) => set({ flowsEnabled }),
   setFilter: (filter) =>
     set((state) => ({ filters: { ...state.filters, ...filter } })),
   clearFilters: () => set({ filters: defaultFilters }),
   setSelectedCorridorId: (selectedCorridorId) => set({ selectedCorridorId }),
   setCorridors: (corridors) => set({ corridors }),
+  clearFlows: () =>
+    set({
+      flows: [],
+      corridors: [],
+      flowsCleared: true,
+    }),
   resetFlows: () =>
     set({
       flows: [],
@@ -62,6 +72,7 @@ export const useFlowStore = create<FlowState>((set) => ({
       filters: defaultFilters,
       selectedCorridorId: null,
       corridors: [],
+      flowsCleared: false,
     }),
 }))
 

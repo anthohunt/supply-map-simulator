@@ -72,7 +72,7 @@ export function CSVExport() {
 
   if (flows.length === 0) {
     return (
-      <div className={styles.emptyMessage}>
+      <div className={styles.emptyMessage} data-testid="csv-no-flows">
         No flow data to export. Enable flow analysis first.
       </div>
     )

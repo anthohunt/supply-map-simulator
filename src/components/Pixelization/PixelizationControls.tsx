@@ -48,16 +48,28 @@ function StepIndicator({ state, label }: { state: StepState; label: string }) {
   )
 }
 
-function validateParams(targetRegions: number, weights: number[], countyCount?: number): string | null {
-  if (targetRegions < 2) return 'Minimum 2 regions required'
+interface ValidationResult {
+  error: string | null
+  warning: string | null
+}
+
+function validateParams(targetRegions: number, weights: number[], countyCount?: number): ValidationResult {
+  if (targetRegions < 2) return { error: 'Minimum 2 regions required', warning: null }
   if (countyCount && targetRegions > countyCount) {
-    return `Maximum ${countyCount} regions (limited by county count)`
+    return { error: `Maximum ${countyCount} regions (limited by county count)`, warning: null }
   }
-  if (targetRegions > 50) return 'Maximum 50 regions'
+  if (targetRegions > 50) return { error: 'Maximum 50 regions', warning: null }
   for (const w of weights) {
-    if (w < 0 || w > 1) return 'Weights must be between 0 and 1'
+    if (w < 0 || w > 1) return { error: 'Weights must be between 0 and 1', warning: null }
   }
-  return null
+
+  // Conflicting constraints warning (not a blocker)
+  const [, contiguityWeight, compactnessWeight] = weights
+  if (contiguityWeight > 0.8 && compactnessWeight > 0.8) {
+    return { error: null, warning: 'High contiguity and compactness weights may conflict — try relaxing one for better results.' }
+  }
+
+  return { error: null, warning: null }
 }
 
 export function PixelizationControls() {
@@ -76,11 +88,11 @@ export function PixelizationControls() {
   const { setParams } = useNetworkStore()
   const { setCurrentScreen } = useTerritoryStore()
   const hasAutoStarted = useRef(false)
-  const [validationError, setValidationError] = useState<string | null>(null)
+  const [validation, setValidation] = useState<ValidationResult>({ error: null, warning: null })
 
   // Sync validation with current params
   useEffect(() => {
-    setValidationError(validateParams(params.targetRegions, [
+    setValidation(validateParams(params.targetRegions, [
       params.demandBalanceWeight,
       params.contiguityWeight,
       params.compactnessWeight,
@@ -218,7 +230,7 @@ export function PixelizationControls() {
                 onChange={(e) => {
                   const val = parseInt(e.target.value, 10)
                   setParams({ targetRegions: val })
-                  setValidationError(validateParams(val, [
+                  setValidation(validateParams(val, [
                     params.demandBalanceWeight,
                     params.contiguityWeight,
                     params.compactnessWeight,
@@ -246,7 +258,7 @@ export function PixelizationControls() {
                 onChange={(e) => {
                   const val = parseFloat(e.target.value)
                   setParams({ demandBalanceWeight: val })
-                  setValidationError(validateParams(params.targetRegions, [
+                  setValidation(validateParams(params.targetRegions, [
                     val, params.contiguityWeight, params.compactnessWeight,
                   ]))
                 }}
@@ -272,7 +284,7 @@ export function PixelizationControls() {
                 onChange={(e) => {
                   const val = parseFloat(e.target.value)
                   setParams({ contiguityWeight: val })
-                  setValidationError(validateParams(params.targetRegions, [
+                  setValidation(validateParams(params.targetRegions, [
                     params.demandBalanceWeight, val, params.compactnessWeight,
                   ]))
                 }}
@@ -298,7 +310,7 @@ export function PixelizationControls() {
                 onChange={(e) => {
                   const val = parseFloat(e.target.value)
                   setParams({ compactnessWeight: val })
-                  setValidationError(validateParams(params.targetRegions, [
+                  setValidation(validateParams(params.targetRegions, [
                     params.demandBalanceWeight, params.contiguityWeight, val,
                   ]))
                 }}
@@ -309,8 +321,11 @@ export function PixelizationControls() {
             </div>
           </div>
 
-          {validationError && (
-            <div className={styles.warningMessage}>{validationError}</div>
+          {validation.error && (
+            <div className={styles.errorMessage} role="alert">{validation.error}</div>
+          )}
+          {validation.warning && !validation.error && (
+            <div className={styles.warningMessage} role="status">{validation.warning}</div>
           )}
         </div>
       )}
@@ -338,7 +353,7 @@ export function PixelizationControls() {
           <button
             className={styles.runButton}
             onClick={runPixelization}
-            disabled={validationError !== null}
+            disabled={validation.error !== null}
             aria-label="Re-run clustering with current parameters"
           >
             Re-run Clustering

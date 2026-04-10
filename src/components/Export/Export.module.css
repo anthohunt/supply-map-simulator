@@ -277,3 +277,48 @@
   border-color: var(--accent);
   color: var(--accent);
 }
+
+/* Coordinate precision toggle */
+.precisionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+}
+
+.precisionLabel {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.precisionToggle {
+  display: flex;
+  gap: 4px;
+}
+
+.precisionBtn {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-family);
+  font-size: var(--font-xs);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.precisionBtn:hover {
+  background: var(--surface-elevated);
+}
+
+.precisionBtnActive {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+  color: var(--accent);
+}

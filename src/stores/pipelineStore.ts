@@ -39,6 +39,16 @@ interface OSMState {
   railSegments: RailSegment[]
 }
 
+export interface RateLimitInfo {
+  /** When the rate limit wait started (Date.now() ms) */
+  startedAt: number
+  /** Total delay in ms */
+  delayMs: number
+  /** Current attempt / max attempts */
+  attempt: number
+  maxAttempts: number
+}
+
 interface InfraState {
   status: DataSourceStatus
   progress: number
@@ -53,6 +63,7 @@ interface InfraState {
   duplicatesRemoved: number
   fewSitesWarning: boolean
   errorMessage: string | null
+  rateLimitInfo: RateLimitInfo | null
 }
 
 interface PipelineState {
@@ -111,6 +122,7 @@ const initialInfra: InfraState = {
   duplicatesRemoved: 0,
   fewSitesWarning: false,
   errorMessage: null,
+  rateLimitInfo: null,
 }
 
 function computeOverallProgress(faf: FAFState, osm: OSMState, infra: InfraState): number {

@@ -49,7 +49,7 @@ export function TerritoryInput() {
   const listRef = useRef<HTMLUListElement>(null)
 
   const filtered = useMemo(() => {
-    if (searchQuery.length < 2) return []
+    if (searchQuery.length < 3) return []
     try {
       const query = searchQuery.toLowerCase()
       const results = TERRITORIES.filter(
@@ -69,7 +69,7 @@ export function TerritoryInput() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
       setSearchQuery(value)
-      setIsOpen(value.length >= 2)
+      setIsOpen(value.length >= 3)
       setHighlightedIndex(-1)
       if (selectedTerritory) {
         setSelectedTerritory(null)
@@ -161,7 +161,7 @@ export function TerritoryInput() {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={() => {
-            if (searchQuery.length >= 2 && !selectedTerritory) {
+            if (searchQuery.length >= 3 && !selectedTerritory) {
               setIsOpen(true)
             }
           }}
@@ -203,7 +203,7 @@ export function TerritoryInput() {
           </ul>
         )}
 
-        {isOpen && searchQuery.length >= 2 && filtered.length === 0 && !searchError && (
+        {isOpen && searchQuery.length >= 3 && filtered.length === 0 && !searchError && (
           <div className={styles.noResults}>
             No territories found. Try &quot;Southeast&quot; or &quot;France&quot;.
           </div>

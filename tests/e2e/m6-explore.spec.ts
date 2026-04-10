@@ -17,16 +17,14 @@ async function reachNetworkMap(page: import('@playwright/test').Page) {
   await page.getByRole('option', { name: 'Atlanta Metro State' }).click();
   await page.getByRole('button', { name: 'Start data pipeline' }).click();
   await expect(page.getByRole('heading', { name: 'Data Pipeline' })).toBeVisible({ timeout: 3000 });
-  // Wait for all pipeline stages (FAF instant, OSM/Infra use Overpass 10-120s)
-  await page.waitForTimeout(120000);
-  // Start pixelization
-  const startPixBtn = page.getByRole('button', { name: /start pixelization/i });
-  await expect(startPixBtn).toBeVisible({ timeout: 10000 });
-  await startPixBtn.click();
+  // Wait for all pipeline stages to complete — "Next: Demand Clustering" button appears when allComplete
+  const nextBtn = page.getByRole('button', { name: /proceed to demand clustering/i });
+  await expect(nextBtn).toBeVisible({ timeout: 150000 });
+  await nextBtn.click();
   await expect(page.getByText('Complete')).toBeVisible({ timeout: 30000 });
   // Generate network
-  await expect(page.getByRole('button', { name: 'Generate hub network' })).toBeVisible({ timeout: 5000 });
-  await page.getByRole('button', { name: 'Generate hub network' }).click();
+  await expect(page.getByRole('button', { name: /generate network/i })).toBeVisible({ timeout: 5000 });
+  await page.getByRole('button', { name: /generate network/i }).click();
   await expect(page.getByText('Hub Tiers')).toBeVisible({ timeout: 5000 });
 }
 
