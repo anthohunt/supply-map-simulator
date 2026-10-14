@@ -4,10 +4,10 @@ import styles from './Map.module.css'
 
 /** Static tile thumbnails — zoom 4, tile coords covering SE US (Atlanta area) */
 const TILE_THUMBNAILS: Record<TileStyle, string> = {
-  dark: 'https://a.basemaps.cartocdn.com/dark_all/4/4/6.png',
-  light: 'https://a.basemaps.cartocdn.com/light_all/4/4/6.png',
+  dark: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/4/6/4',
+  light: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/4/6/4',
   satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/4/6/4',
-  terrain: 'https://tiles.stadiamaps.com/tiles/stamen_terrain/4/4/6.png',
+  terrain: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/4/6/4',
 }
 
 const TILE_OPTIONS: { id: TileStyle; label: string }[] = [
